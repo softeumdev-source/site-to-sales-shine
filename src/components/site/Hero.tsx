@@ -194,8 +194,8 @@ export const Hero = () => {
           <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
             O que você ganha com a Softeum
           </p>
-          <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
-            <div className="flex w-max animate-marquee items-center gap-10 opacity-90">
+          <div className="group relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+            <div className="flex w-max animate-marquee items-center gap-10 opacity-90 [animation-duration:30s] group-hover:[animation-duration:120s]">
               {[...Array(2)].map((_, k) =>
                 [
                   "+98% de tempo economizado",
