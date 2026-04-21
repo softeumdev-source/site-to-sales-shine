@@ -195,7 +195,7 @@ export const Hero = () => {
             O que você ganha com a Softeum
           </p>
           <div className="group relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
-            <div className="flex w-max animate-marquee items-center gap-10 opacity-90 [animation-duration:30s] group-hover:[animation-duration:120s]">
+            <div className="flex w-max animate-marquee items-center gap-10 opacity-90 [animation-duration:60s] group-hover:[animation-duration:180s]">
               {[...Array(2)].map((_, k) =>
                 [
                   { main: "+98% de tempo economizado", alt: "Sua equipe de volta ao que importa" },
@@ -211,17 +211,17 @@ export const Hero = () => {
                 ].map((n, idx) => (
                   <span
                     key={`${k}-${idx}`}
-                    className="group/item flex items-center gap-3 whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground"
+                    className="group/item flex cursor-default items-center gap-3 whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground transition-all duration-300 hover:scale-110 hover:text-foreground hover:drop-shadow-[0_0_12px_hsl(var(--brand-coral)/0.6)]"
                   >
                     <span className="relative inline-block">
-                      <span className="block transition-opacity duration-300 group-hover/item:opacity-0">
+                      <span className="block transition-all duration-300 group-hover/item:opacity-0 group-hover/item:-translate-y-1">
                         {n.main}
                       </span>
-                      <span className="absolute inset-0 block opacity-0 transition-opacity duration-300 group-hover/item:opacity-100">
+                      <span className="absolute inset-0 block translate-y-1 bg-gradient-brand bg-clip-text text-transparent opacity-0 transition-all duration-300 group-hover/item:translate-y-0 group-hover/item:opacity-100">
                         {n.alt}
                       </span>
                     </span>
-                    <span className="h-1.5 w-1.5 rounded-full bg-gradient-brand" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-gradient-brand transition-all duration-300 group-hover/item:scale-150 group-hover/item:shadow-glow" />
                   </span>
                 ))
               )}
