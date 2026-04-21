@@ -1,18 +1,40 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2, Sparkles, Mail, Brain, Database, Zap } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, MouseEvent } from "react";
 import heroImage from "@/assets/hero-dashboard.jpg";
 import { useCounter } from "@/hooks/use-counter";
+import { MagneticButton } from "./MagneticButton";
 
 export const Hero = () => {
   const orders = useCounter(1284, true, 1800);
   const time = useCounter(98, true, 1600);
   const [step, setStep] = useState(0);
+  const imgWrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const id = setInterval(() => setStep((s) => (s + 1) % 3), 2200);
     return () => clearInterval(id);
   }, []);
+
+  const onImgMove = (e: MouseEvent<HTMLDivElement>) => {
+    const el = imgWrapRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.setProperty("--rx", `${py * -6}deg`);
+    el.style.setProperty("--ry", `${px * 8}deg`);
+    el.style.setProperty("--tx", `${px * 10}px`);
+    el.style.setProperty("--ty", `${py * 10}px`);
+  };
+  const onImgLeave = () => {
+    const el = imgWrapRef.current;
+    if (!el) return;
+    el.style.setProperty("--rx", `0deg`);
+    el.style.setProperty("--ry", `0deg`);
+    el.style.setProperty("--tx", `0px`);
+    el.style.setProperty("--ty", `0px`);
+  };
 
   const steps = [
     { icon: Mail, label: "E-mail recebido", color: "bg-secondary" },
@@ -22,14 +44,33 @@ export const Hero = () => {
 
   return (
     <section id="top" className="relative overflow-hidden bg-gradient-hero">
+      {/* Subtle animated grid */}
+      <div className="pointer-events-none absolute inset-0 bg-grid bg-grid-fade opacity-40" />
+
       {/* Decorative animated blobs */}
       <div className="pointer-events-none absolute -top-32 -right-20 h-[500px] w-[500px] animate-blob rounded-full bg-secondary/25 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-32 -left-20 h-[500px] w-[500px] animate-blob rounded-full bg-accent/25 blur-3xl [animation-delay:3s]" />
       <div className="pointer-events-none absolute top-1/3 left-1/2 h-[400px] w-[400px] animate-blob rounded-full bg-primary/5 blur-3xl [animation-delay:6s]" />
 
+      {/* Floating particles */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {[...Array(12)].map((_, i) => (
+          <span
+            key={i}
+            className="absolute block h-1.5 w-1.5 animate-float rounded-full bg-gradient-brand opacity-50"
+            style={{
+              top: `${(i * 53) % 90 + 5}%`,
+              left: `${(i * 37) % 90 + 5}%`,
+              animationDelay: `${(i * 0.4) % 6}s`,
+              animationDuration: `${6 + (i % 4)}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <div className="container relative grid gap-12 py-20 md:py-28 lg:grid-cols-2 lg:items-center lg:py-32">
         <div className="animate-fade-up space-y-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-4 py-1.5 text-xs font-medium text-foreground/80 backdrop-blur transition-all hover:border-secondary/40 hover:shadow-glow">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-4 py-1.5 text-xs font-medium text-foreground/80 backdrop-blur transition-all hover:scale-105 hover:border-secondary/40 hover:shadow-glow">
             <Sparkles className="h-3.5 w-3.5 animate-pulse-soft text-secondary" />
             Pedidos do e-mail integrados direto ao ERP
           </div>
@@ -37,7 +78,7 @@ export const Hero = () => {
           <h1 className="font-display text-4xl font-extrabold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
             Automatize seus{" "}
             <span className="relative inline-block">
-              <span className="text-gradient-brand">pedidos com IA</span>
+              <span className="text-gradient-animated">pedidos com IA</span>
               <span className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-brand opacity-60" />
             </span>
           </h1>
@@ -49,7 +90,11 @@ export const Hero = () => {
 
           <ul className="grid gap-2.5 text-sm md:grid-cols-2">
             {["Zero digitação manual", "Redução de até 95% nos erros", "Integra com seu ERP atual", "Piloto gratuito de 15 dias"].map((b, i) => (
-              <li key={b} className="flex animate-fade-in items-center gap-2" style={{ animationDelay: `${300 + i * 100}ms` }}>
+              <li
+                key={b}
+                className="flex animate-fade-in items-center gap-2 transition-transform hover:translate-x-1"
+                style={{ animationDelay: `${300 + i * 100}ms` }}
+              >
                 <CheckCircle2 className="h-4 w-4 text-secondary" />
                 <span className="text-foreground/80">{b}</span>
               </li>
@@ -57,15 +102,19 @@ export const Hero = () => {
           </ul>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button asChild variant="hero" size="xl">
-              <a href="#demo">
-                Agende uma demo gratuita
-                <ArrowRight className="ml-1 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </a>
-            </Button>
-            <Button asChild variant="outline" size="xl">
-              <a href="#funcionalidades">Ver funcionalidades</a>
-            </Button>
+            <MagneticButton>
+              <Button asChild variant="hero" size="xl" className="group">
+                <a href="#demo">
+                  Agende uma demo gratuita
+                  <ArrowRight className="ml-1 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </a>
+              </Button>
+            </MagneticButton>
+            <MagneticButton strength={0.15}>
+              <Button asChild variant="outline" size="xl">
+                <a href="#funcionalidades">Ver funcionalidades</a>
+              </Button>
+            </MagneticButton>
           </div>
 
           <p className="text-xs text-muted-foreground">
@@ -73,59 +122,86 @@ export const Hero = () => {
           </p>
         </div>
 
-        <div className="relative animate-fade-up [animation-delay:200ms]">
+        <div
+          ref={imgWrapRef}
+          onMouseMove={onImgMove}
+          onMouseLeave={onImgLeave}
+          className="group relative animate-fade-up [animation-delay:200ms] [perspective:1200px]"
+        >
           <div className="absolute -inset-6 animate-pulse-soft rounded-[2rem] bg-gradient-brand opacity-20 blur-2xl" />
-          <img
-            src={heroImage}
-            alt="Plataforma Softeum: pedidos por e-mail processados por IA e enviados ao ERP"
-            width={1536}
-            height={1024}
-            className="relative w-full rounded-3xl border border-border/60 shadow-elegant transition-transform hover:scale-[1.01]"
-          />
 
-          {/* Floating stat cards */}
-          <div className="absolute -left-4 top-10 hidden animate-float rounded-2xl border border-border/60 bg-background/95 p-4 shadow-soft backdrop-blur md:block">
-            <div className="text-xs text-muted-foreground">Pedidos processados hoje</div>
-            <div className="font-display text-2xl font-bold tabular-nums">+{orders.toLocaleString("pt-BR")}</div>
-          </div>
-          <div className="absolute -right-2 bottom-8 hidden animate-float [animation-delay:1.5s] rounded-2xl border border-border/60 bg-background/95 p-4 shadow-soft backdrop-blur md:block">
-            <div className="text-xs text-muted-foreground">Tempo economizado</div>
-            <div className="font-display text-2xl font-bold tabular-nums text-gradient-brand">{time}%</div>
-          </div>
+          <div
+            className="relative transition-transform duration-300 ease-out will-change-transform"
+            style={{
+              transform:
+                "rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translate3d(var(--tx,0), var(--ty,0), 0)",
+              transformStyle: "preserve-3d",
+            }}
+          >
+            <img
+              src={heroImage}
+              alt="Plataforma Softeum: pedidos por e-mail processados por IA e enviados ao ERP"
+              width={1536}
+              height={1024}
+              className="relative w-full rounded-3xl border border-border/60 shadow-elegant"
+            />
 
-          {/* Live processing pill */}
-          <div className="absolute -bottom-5 left-1/2 hidden -translate-x-1/2 items-center gap-3 rounded-full border border-border/60 bg-background/95 px-4 py-2 shadow-elegant backdrop-blur md:flex">
-            {steps.map((s, i) => {
-              const isActive = i === step;
-              return (
-                <div key={s.label} className="flex items-center gap-2">
-                  <div
-                    className={`flex h-7 w-7 items-center justify-center rounded-full text-white transition-all ${
-                      isActive ? `${s.color} scale-110 shadow-glow` : "bg-muted-foreground/30"
-                    }`}
-                  >
-                    <s.icon className="h-3.5 w-3.5" />
+            {/* Floating stat cards (parallax-stacked) */}
+            <div
+              className="absolute -left-4 top-10 hidden animate-float rounded-2xl border border-border/60 bg-background/95 p-4 shadow-soft backdrop-blur md:block"
+              style={{ transform: "translateZ(60px)" }}
+            >
+              <div className="text-xs text-muted-foreground">Pedidos processados hoje</div>
+              <div className="font-display text-2xl font-bold tabular-nums">+{orders.toLocaleString("pt-BR")}</div>
+            </div>
+            <div
+              className="absolute -right-2 bottom-8 hidden animate-float [animation-delay:1.5s] rounded-2xl border border-border/60 bg-background/95 p-4 shadow-soft backdrop-blur md:block"
+              style={{ transform: "translateZ(80px)" }}
+            >
+              <div className="text-xs text-muted-foreground">Tempo economizado</div>
+              <div className="font-display text-2xl font-bold tabular-nums text-gradient-brand">{time}%</div>
+            </div>
+
+            {/* Live processing pill */}
+            <div
+              className="absolute -bottom-5 left-1/2 hidden -translate-x-1/2 items-center gap-3 rounded-full border border-border/60 bg-background/95 px-4 py-2 shadow-elegant backdrop-blur md:flex"
+              style={{ transform: "translate(-50%, 0) translateZ(100px)" }}
+            >
+              {steps.map((s, i) => {
+                const isActive = i === step;
+                return (
+                  <div key={s.label} className="flex items-center gap-2">
+                    <div
+                      className={`flex h-7 w-7 items-center justify-center rounded-full text-white transition-all ${
+                        isActive ? `${s.color} scale-110 shadow-glow` : "bg-muted-foreground/30"
+                      }`}
+                    >
+                      <s.icon className="h-3.5 w-3.5" />
+                    </div>
+                    {i < steps.length - 1 && <Zap className="h-3 w-3 text-muted-foreground/40" />}
                   </div>
-                  {i < steps.length - 1 && <Zap className="h-3 w-3 text-muted-foreground/40" />}
-                </div>
-              );
-            })}
-            <span className="ml-1 text-xs font-medium">{steps[step].label}</span>
+                );
+              })}
+              <span className="ml-1 text-xs font-medium">{steps[step].label}</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Logos / trust strip with marquee */}
+      {/* Logos / trust strip with dual marquee */}
       <div className="border-y border-border/40 bg-background/40 backdrop-blur">
         <div className="container py-6">
           <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
             Empresas que confiam na Softeum
           </p>
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
             <div className="flex w-max animate-marquee items-center gap-12 opacity-70">
               {[...Array(2)].map((_, k) =>
                 ["Acme Corp", "TechFlow", "DistribMax", "OrderPro", "ERPCloud", "LogiBase", "ProSales", "FastShip"].map((n) => (
-                  <span key={`${k}-${n}`} className="font-display text-lg font-bold tracking-tight text-muted-foreground whitespace-nowrap">
+                  <span
+                    key={`${k}-${n}`}
+                    className="whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground transition-colors hover:text-foreground"
+                  >
                     {n}
                   </span>
                 ))
