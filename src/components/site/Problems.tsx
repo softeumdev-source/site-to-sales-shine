@@ -1,4 +1,6 @@
 import { AlertTriangle, Clock, FileX, TrendingDown } from "lucide-react";
+import { useReveal } from "@/hooks/use-reveal";
+import { cn } from "@/lib/utils";
 
 const problems = [
   { icon: Clock, title: "Excesso de digitação manual", desc: "Sua equipe gasta horas todo dia copiando pedidos do e-mail para o ERP." },
@@ -8,6 +10,7 @@ const problems = [
 ];
 
 export const Problems = () => {
+  const { ref, shown } = useReveal<HTMLDivElement>();
   return (
     <section id="problemas" className="py-20 md:py-28">
       <div className="container">
@@ -25,13 +28,18 @@ export const Problems = () => {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {problems.map((p) => (
+        <div ref={ref} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {problems.map((p, i) => (
             <div
               key={p.title}
-              className="group rounded-2xl border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-elegant"
+              className={cn(
+                "group relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant",
+                shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}
+              style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10 text-secondary transition-colors group-hover:bg-secondary group-hover:text-secondary-foreground">
+              <div className="absolute inset-x-0 -top-1 h-1 origin-left scale-x-0 bg-gradient-brand transition-transform duration-500 group-hover:scale-x-100" />
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10 text-secondary transition-all group-hover:scale-110 group-hover:bg-secondary group-hover:text-secondary-foreground">
                 <p.icon className="h-6 w-6" />
               </div>
               <h3 className="mb-2 font-display text-lg font-bold">{p.title}</h3>

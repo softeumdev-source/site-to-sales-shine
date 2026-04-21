@@ -1,4 +1,6 @@
-import { Mail, Brain, Database } from "lucide-react";
+import { Mail, Brain, Database, ArrowRight } from "lucide-react";
+import { useReveal } from "@/hooks/use-reveal";
+import { cn } from "@/lib/utils";
 
 const steps = [
   {
@@ -22,6 +24,8 @@ const steps = [
 ];
 
 export const HowItWorks = () => {
+  const { ref, shown } = useReveal<HTMLDivElement>();
+
   return (
     <section id="como-funciona" className="relative bg-muted/40 py-20 md:py-28">
       <div className="container">
@@ -38,26 +42,41 @@ export const HowItWorks = () => {
           </p>
         </div>
 
-        <div className="relative grid gap-8 md:grid-cols-3">
-          {/* Connecting line */}
-          <div className="pointer-events-none absolute left-0 right-0 top-12 hidden h-px bg-gradient-to-r from-transparent via-border to-transparent md:block" />
+        <div ref={ref} className="relative grid gap-8 md:grid-cols-3">
+          {/* Animated connecting line */}
+          <div className="pointer-events-none absolute left-0 right-0 top-12 hidden h-px bg-gradient-to-r from-transparent via-border to-transparent md:block">
+            <div
+              className={cn(
+                "h-full bg-gradient-to-r from-secondary via-accent to-primary transition-all duration-1000",
+                shown ? "w-full" : "w-0"
+              )}
+            />
+          </div>
 
           {steps.map((s, i) => (
             <div
               key={s.n}
-              className="relative animate-fade-up rounded-2xl border border-border bg-card p-8 shadow-card"
-              style={{ animationDelay: `${i * 120}ms` }}
+              className={cn(
+                "group relative rounded-2xl border border-border bg-card p-8 shadow-card transition-all duration-700 hover:-translate-y-2 hover:shadow-elegant",
+                shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}
+              style={{ transitionDelay: `${i * 150}ms` }}
             >
               <div className="mb-6 flex items-center justify-between">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-glow">
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-glow transition-transform group-hover:scale-110 group-hover:rotate-3">
                   <s.icon className="h-7 w-7" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-brand opacity-0 blur-xl transition-opacity group-hover:opacity-60" />
                 </div>
-                <span className="font-display text-5xl font-extrabold text-muted-foreground/20">
+                <span className="font-display text-5xl font-extrabold text-muted-foreground/20 transition-colors group-hover:text-gradient-brand">
                   {s.n}
                 </span>
               </div>
               <h3 className="mb-3 font-display text-xl font-bold">{s.title}</h3>
               <p className="text-muted-foreground">{s.desc}</p>
+
+              {i < steps.length - 1 && (
+                <ArrowRight className="absolute -right-4 top-1/2 hidden h-6 w-6 -translate-y-1/2 text-accent md:block" />
+              )}
             </div>
           ))}
         </div>
