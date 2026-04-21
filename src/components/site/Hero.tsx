@@ -211,7 +211,7 @@ export const Hero = () => {
                 ].map((n) => (
                   <span
                     key={`${k}-${n}`}
-                    className="flex items-center gap-3 whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground transition-colors hover:text-foreground"
+                    className="flex items-center gap-3 whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground"
                   >
                     {n}
                     <span className="h-1.5 w-1.5 rounded-full bg-gradient-brand" />
