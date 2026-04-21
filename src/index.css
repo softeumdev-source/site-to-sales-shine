@@ -120,6 +120,38 @@
   .animate-fade-up { animation: fade-up 0.8s var(--transition-smooth) both; }
   .animate-pulse-soft { animation: pulse-soft 3s ease-in-out infinite; }
   .animate-marquee { animation: marquee 30s linear infinite; }
+
+  .text-gradient-animated {
+    background: linear-gradient(90deg, hsl(var(--brand-coral)), hsl(var(--brand-blue)), hsl(var(--brand-pink)), hsl(var(--brand-coral)));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-x 6s ease infinite;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.6) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .bg-grid-fade {
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .spotlight { position: relative; overflow: hidden; }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(400px circle at var(--x, 50%) var(--y, 50%), hsl(var(--brand-coral) / 0.14), transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .spotlight:hover::before { opacity: 1; }
 }
 
 @keyframes float {
