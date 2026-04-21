@@ -188,26 +188,26 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Carrossel de pilares e diferenciais */}
+      {/* Carrossel de ganhos da solução */}
       <div className="border-y border-border/40 bg-background/40 backdrop-blur">
         <div className="container py-6">
           <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
-            O que move a Softeum
+            O que você ganha com a Softeum
           </p>
           <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
-            <div className="flex w-max animate-marquee items-center gap-10 opacity-80">
+            <div className="flex w-max animate-marquee items-center gap-10 opacity-90">
               {[...Array(2)].map((_, k) =>
                 [
-                  "IA Proprietária",
-                  "Zero Digitação",
-                  "Integra com Qualquer ERP",
-                  "LGPD Compliant",
-                  "Dados Criptografados",
-                  "Setup em Dias",
-                  "Suporte Humano",
-                  "Piloto Gratuito 15 Dias",
-                  "Processamento 24/7",
-                  "ROI no 1º Mês",
+                  "+98% de tempo economizado",
+                  "−95% de erros nos pedidos",
+                  "Pedidos faturados no mesmo dia",
+                  "10x mais capacidade sem contratar",
+                  "Equipe focada em vender, não digitar",
+                  "Clientes recebendo no prazo",
+                  "Operação rodando 24/7 sem parar",
+                  "Margem maior, retrabalho zero",
+                  "Escalabilidade sem aumentar custo",
+                  "ROI já no primeiro mês",
                 ].map((n) => (
                   <span
                     key={`${k}-${n}`}
