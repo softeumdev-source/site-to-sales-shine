@@ -8,6 +8,7 @@ import { Testimonials } from "@/components/site/Testimonials";
 import { FAQ } from "@/components/site/FAQ";
 import { CTA } from "@/components/site/CTA";
 import { Footer } from "@/components/site/Footer";
+import { FloatingCTA } from "@/components/site/FloatingCTA";
 
 const Index = () => {
   const orgJsonLd = {
@@ -37,6 +38,7 @@ const Index = () => {
       <FAQ />
       <CTA />
       <Footer />
+      <FloatingCTA />
     </main>
   );
 };
