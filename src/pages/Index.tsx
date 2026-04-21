@@ -10,7 +10,6 @@ import { CTA } from "@/components/site/CTA";
 import { Footer } from "@/components/site/Footer";
 import { FloatingCTA } from "@/components/site/FloatingCTA";
 import { ScrollProgress } from "@/components/site/ScrollProgress";
-import { CursorGlow } from "@/components/site/CursorGlow";
 
 const Index = () => {
   const orgJsonLd = {
@@ -31,7 +30,6 @@ const Index = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
       />
       <ScrollProgress />
-      <CursorGlow />
       <Navbar />
       <Hero />
       <Problems />
