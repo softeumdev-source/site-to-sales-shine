@@ -106,6 +106,18 @@ export default {
           "60%": { transform: "scale(1.2)" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        "gradient-x": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "marquee-reverse": {
+          from: { transform: "translateX(-50%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "bounce-soft": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -117,6 +129,9 @@ export default {
         "blob": "blob 12s ease-in-out infinite",
         "spin-slow": "spin-slow 20s linear infinite",
         "tick": "tick 0.4s cubic-bezier(0.34,1.56,0.64,1) both",
+        "gradient-x": "gradient-x 6s ease infinite",
+        "marquee-reverse": "marquee-reverse 30s linear infinite",
+        "bounce-soft": "bounce-soft 2.5s ease-in-out infinite",
       },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',
