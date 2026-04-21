@@ -188,29 +188,25 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Trust strip — pillars de credibilidade */}
+      {/* Logos / trust strip with marquee */}
       <div className="border-y border-border/40 bg-background/40 backdrop-blur">
         <div className="container py-6">
-          <p className="mb-5 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
-            Por que escolher a Softeum
+          <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            Empresas que confiam na Softeum
           </p>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
-            {[
-              { icon: Cpu, label: "IA proprietária" },
-              { icon: ShieldCheck, label: "LGPD compliant" },
-              { icon: Plug, label: "Integra qualquer ERP" },
-              { icon: Lock, label: "Dados criptografados" },
-              { icon: Headphones, label: "Suporte humano" },
-              { icon: Sparkles, label: "Setup em dias" },
-            ].map((p) => (
-              <div
-                key={p.label}
-                className="group flex items-center justify-center gap-2 rounded-xl border border-border/50 bg-background/60 px-3 py-2.5 text-xs font-medium text-muted-foreground transition-all hover:-translate-y-0.5 hover:border-secondary/40 hover:text-foreground hover:shadow-soft"
-              >
-                <p.icon className="h-4 w-4 text-secondary transition-transform group-hover:scale-110" />
-                <span className="whitespace-nowrap">{p.label}</span>
-              </div>
-            ))}
+          <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+            <div className="flex w-max animate-marquee items-center gap-12 opacity-70">
+              {[...Array(2)].map((_, k) =>
+                ["Acme Corp", "TechFlow", "DistribMax", "OrderPro", "ERPCloud", "LogiBase", "ProSales", "FastShip"].map((n) => (
+                  <span
+                    key={`${k}-${n}`}
+                    className="whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {n}
+                  </span>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
