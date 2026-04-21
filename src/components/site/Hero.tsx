@@ -188,21 +188,33 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Logos / trust strip with marquee */}
+      {/* Carrossel de pilares e diferenciais */}
       <div className="border-y border-border/40 bg-background/40 backdrop-blur">
         <div className="container py-6">
           <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
-            Empresas que confiam na Softeum
+            O que move a Softeum
           </p>
           <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
-            <div className="flex w-max animate-marquee items-center gap-12 opacity-70">
+            <div className="flex w-max animate-marquee items-center gap-10 opacity-80">
               {[...Array(2)].map((_, k) =>
-                ["Acme Corp", "TechFlow", "DistribMax", "OrderPro", "ERPCloud", "LogiBase", "ProSales", "FastShip"].map((n) => (
+                [
+                  "IA Proprietária",
+                  "Zero Digitação",
+                  "Integra com Qualquer ERP",
+                  "LGPD Compliant",
+                  "Dados Criptografados",
+                  "Setup em Dias",
+                  "Suporte Humano",
+                  "Piloto Gratuito 15 Dias",
+                  "Processamento 24/7",
+                  "ROI no 1º Mês",
+                ].map((n) => (
                   <span
                     key={`${k}-${n}`}
-                    className="whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground transition-colors hover:text-foreground"
+                    className="flex items-center gap-3 whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {n}
+                    <span className="h-1.5 w-1.5 rounded-full bg-gradient-brand" />
                   </span>
                 ))
               )}
