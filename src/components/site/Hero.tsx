@@ -198,22 +198,29 @@ export const Hero = () => {
             <div className="flex w-max animate-marquee items-center gap-10 opacity-90 [animation-duration:30s] group-hover:[animation-duration:120s]">
               {[...Array(2)].map((_, k) =>
                 [
-                  "+98% de tempo economizado",
-                  "−95% de erros nos pedidos",
-                  "Pedidos faturados no mesmo dia",
-                  "10x mais capacidade sem contratar",
-                  "Equipe focada em vender, não digitar",
-                  "Clientes recebendo no prazo",
-                  "Operação rodando 24/7 sem parar",
-                  "Margem maior, retrabalho zero",
-                  "Escalabilidade sem aumentar custo",
-                  "ROI já no primeiro mês",
-                ].map((n) => (
+                  { main: "+98% de tempo economizado", alt: "Sua equipe de volta ao que importa" },
+                  { main: "−95% de erros nos pedidos", alt: "Adeus retrabalho e cliente irritado" },
+                  { main: "Pedidos faturados no mesmo dia", alt: "Receita entrando mais rápido" },
+                  { main: "10x mais capacidade sem contratar", alt: "Cresça sem inflar a folha" },
+                  { main: "Equipe focada em vender, não digitar", alt: "Pessoas gerando receita, não custo" },
+                  { main: "Clientes recebendo no prazo", alt: "Reputação que vende sozinha" },
+                  { main: "Operação rodando 24/7 sem parar", alt: "Pedidos entram até de madrugada" },
+                  { main: "Margem maior, retrabalho zero", alt: "Mais lucro em cada pedido" },
+                  { main: "Escalabilidade sem aumentar custo", alt: "Dobre o volume com a mesma equipe" },
+                  { main: "ROI já no primeiro mês", alt: "Se paga antes da próxima fatura" },
+                ].map((n, idx) => (
                   <span
-                    key={`${k}-${n}`}
-                    className="flex items-center gap-3 whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground"
+                    key={`${k}-${idx}`}
+                    className="group/item flex items-center gap-3 whitespace-nowrap font-display text-lg font-bold tracking-tight text-muted-foreground"
                   >
-                    {n}
+                    <span className="relative inline-block">
+                      <span className="block transition-opacity duration-300 group-hover/item:opacity-0">
+                        {n.main}
+                      </span>
+                      <span className="absolute inset-0 block opacity-0 transition-opacity duration-300 group-hover/item:opacity-100">
+                        {n.alt}
+                      </span>
+                    </span>
                     <span className="h-1.5 w-1.5 rounded-full bg-gradient-brand" />
                   </span>
                 ))
