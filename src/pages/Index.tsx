@@ -9,6 +9,8 @@ import { FAQ } from "@/components/site/FAQ";
 import { CTA } from "@/components/site/CTA";
 import { Footer } from "@/components/site/Footer";
 import { FloatingCTA } from "@/components/site/FloatingCTA";
+import { ScrollProgress } from "@/components/site/ScrollProgress";
+import { CursorGlow } from "@/components/site/CursorGlow";
 
 const Index = () => {
   const orgJsonLd = {
@@ -28,6 +30,8 @@ const Index = () => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
       />
+      <ScrollProgress />
+      <CursorGlow />
       <Navbar />
       <Hero />
       <Problems />

@@ -32,14 +32,19 @@ export const Problems = () => {
           {problems.map((p, i) => (
             <div
               key={p.title}
+              onMouseMove={(e) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                e.currentTarget.style.setProperty("--x", `${e.clientX - r.left}px`);
+                e.currentTarget.style.setProperty("--y", `${e.clientY - r.top}px`);
+              }}
               className={cn(
-                "group relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant",
+                "spotlight group relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-2 hover:border-secondary/40 hover:shadow-elegant",
                 shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               <div className="absolute inset-x-0 -top-1 h-1 origin-left scale-x-0 bg-gradient-brand transition-transform duration-500 group-hover:scale-x-100" />
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10 text-secondary transition-all group-hover:scale-110 group-hover:bg-secondary group-hover:text-secondary-foreground">
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10 text-secondary transition-all duration-300 group-hover:rotate-6 group-hover:scale-110 group-hover:bg-secondary group-hover:text-secondary-foreground group-hover:shadow-glow">
                 <p.icon className="h-6 w-6" />
               </div>
               <h3 className="mb-2 font-display text-lg font-bold">{p.title}</h3>

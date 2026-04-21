@@ -56,18 +56,23 @@ export const HowItWorks = () => {
           {steps.map((s, i) => (
             <div
               key={s.n}
+              onMouseMove={(e) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                e.currentTarget.style.setProperty("--x", `${e.clientX - r.left}px`);
+                e.currentTarget.style.setProperty("--y", `${e.clientY - r.top}px`);
+              }}
               className={cn(
-                "group relative rounded-2xl border border-border bg-card p-8 shadow-card transition-all duration-700 hover:-translate-y-2 hover:shadow-elegant",
+                "spotlight group relative rounded-2xl border border-border bg-card p-8 shadow-card transition-all duration-700 hover:-translate-y-2 hover:border-accent/40 hover:shadow-elegant",
                 shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
               style={{ transitionDelay: `${i * 150}ms` }}
             >
               <div className="mb-6 flex items-center justify-between">
-                <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-glow transition-transform group-hover:scale-110 group-hover:rotate-3">
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-glow transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
                   <s.icon className="h-7 w-7" />
                   <div className="absolute inset-0 rounded-2xl bg-gradient-brand opacity-0 blur-xl transition-opacity group-hover:opacity-60" />
                 </div>
-                <span className="font-display text-5xl font-extrabold text-muted-foreground/20 transition-colors group-hover:text-gradient-brand">
+                <span className="font-display text-5xl font-extrabold text-muted-foreground/20 transition-all duration-500 group-hover:scale-110 group-hover:text-gradient-brand">
                   {s.n}
                 </span>
               </div>
@@ -75,7 +80,7 @@ export const HowItWorks = () => {
               <p className="text-muted-foreground">{s.desc}</p>
 
               {i < steps.length - 1 && (
-                <ArrowRight className="absolute -right-4 top-1/2 hidden h-6 w-6 -translate-y-1/2 text-accent md:block" />
+                <ArrowRight className="absolute -right-4 top-1/2 hidden h-6 w-6 -translate-y-1/2 animate-bounce-soft text-accent md:block" />
               )}
             </div>
           ))}
