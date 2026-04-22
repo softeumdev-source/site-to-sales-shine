@@ -283,33 +283,68 @@ const ReportsPreview = () => (
 );
 
 const ErpPreview = () => (
-  <div className="rounded-xl border border-border bg-background/80 p-4">
-    <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-      Destino do pedido
-    </div>
-    <div className="flex items-center justify-between gap-3">
-      <div className="flex flex-1 items-center gap-2 rounded-lg border-2 border-accent/40 bg-accent/5 p-3">
-        <div className="h-8 w-8 rounded-lg bg-gradient-brand" />
-        <div>
-          <div className="text-xs font-bold">Softeum</div>
-          <div className="text-[10px] text-muted-foreground">Pedido validado</div>
+  <div className="space-y-3">
+    <div className="rounded-xl border border-border bg-background/80 p-4">
+      <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        Destino do pedido
+      </div>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-1 items-center gap-2 rounded-lg border-2 border-accent/40 bg-accent/5 p-3">
+          <div className="h-8 w-8 rounded-lg bg-gradient-brand" />
+          <div>
+            <div className="text-xs font-bold">Softeum</div>
+            <div className="text-[10px] text-muted-foreground">Pedido validado</div>
+          </div>
+        </div>
+        <ArrowRight className="h-5 w-5 shrink-0 text-accent" />
+        <div className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-background p-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-[10px] font-bold">
+            ERP
+          </div>
+          <div>
+            <div className="text-xs font-bold">SAP / TOTVS</div>
+            <div className="text-[10px] text-muted-foreground">Lançado em 2s</div>
+          </div>
         </div>
       </div>
-      <ArrowRight className="h-5 w-5 shrink-0 text-accent" />
-      <div className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-background p-3">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-[10px] font-bold">
-          ERP
-        </div>
-        <div>
-          <div className="text-xs font-bold">SAP / TOTVS</div>
-          <div className="text-[10px] text-muted-foreground">Lançado em 2s</div>
-        </div>
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {["SAP", "TOTVS", "Sankhya", "Bling", "Omie", "Senior"].map((e) => (
+          <span key={e} className="rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium">{e}</span>
+        ))}
       </div>
     </div>
-    <div className="mt-3 flex flex-wrap gap-1.5">
-      {["SAP", "TOTVS", "Sankhya", "Bling", "Omie", "Senior"].map((e) => (
-        <span key={e} className="rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium">{e}</span>
-      ))}
+
+    <div className="rounded-xl border border-border bg-background/80 p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Importação direta por arquivo
+        </span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-bold text-accent">
+          <Check className="h-3 w-3" /> pronto
+        </span>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {[
+          { fmt: "CSV", desc: "Obrigatório", color: "from-secondary to-accent" },
+          { fmt: "XML", desc: "Integração robusta", color: "from-accent to-primary" },
+          { fmt: "JSON", desc: "API / futuro", color: "from-primary to-secondary" },
+          { fmt: "TXT", desc: "Legado", color: "from-secondary/80 to-primary/80" },
+        ].map((f) => (
+          <div
+            key={f.fmt}
+            className="flex items-center gap-2 rounded-lg border border-border bg-background p-2"
+          >
+            <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-gradient-to-br text-[10px] font-bold text-white", f.color)}>
+              {f.fmt}
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-bold">.{f.fmt.toLowerCase()}</div>
+              <div className="truncate text-[10px] text-muted-foreground">{f.desc}</div>
+            </div>
+            <Check className="ml-auto h-3.5 w-3.5 shrink-0 text-accent" />
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 );
@@ -445,10 +480,12 @@ const groups: FeatureGroup[] = [
     id: "erp",
     emoji: "⚙️",
     icon: Plug,
-    title: "Integração com ERP",
-    pitch: "Envie pedidos direto para seu sistema.",
+    title: "Integração com ERP + Importação por arquivo",
+    pitch: "Envie pedidos direto para seu sistema — via API ou importando arquivos.",
     bullets: [
-      "Integração com ERPs (SAP, TOTVS, Sankhya, Bling, Omie...)",
+      "Integração nativa com ERPs (SAP, TOTVS, Sankhya, Bling, Omie, Senior...)",
+      "Importação direta por arquivo: CSV, XML, JSON e TXT",
+      "CSV obrigatório, XML para integrações robustas, JSON para API e TXT para sistemas legados",
       "Definição do destino antes da aprovação",
     ],
     preview: ErpPreview,
