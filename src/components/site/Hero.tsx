@@ -89,7 +89,7 @@ export const Hero = () => {
           </p>
 
           <ul className="grid gap-2.5 text-sm md:grid-cols-2">
-            {["Zero digitação manual", "Redução de até 95% nos erros", "Integra com seu ERP atual", "Piloto gratuito de 15 dias"].map((b, i) => (
+            {["Zero digitação manual", "Redução de até 95% nos erros", "Integra com seu ERP atual", "Sistema rodando em até 48 horas"].map((b, i) => (
               <li
                 key={b}
                 className="flex animate-fade-in items-center gap-2 transition-transform hover:translate-x-1"
@@ -118,7 +118,7 @@ export const Hero = () => {
           </div>
 
           <p className="text-xs text-muted-foreground">
-            Sem cartão de crédito • Setup em dias, não meses
+            Sistema rodando em sua operação em até 48 horas
           </p>
         </div>
 

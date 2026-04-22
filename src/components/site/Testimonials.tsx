@@ -12,7 +12,7 @@ const testimonials = [
     img: t1,
   },
   {
-    quote: "Em 15 dias de piloto a Softeum já tinha pago o ano inteiro. A redução de erros nos pedidos foi o que mais impressionou nossa diretoria.",
+    quote: "Com a Softeum rodando em 48 horas, a redução de erros nos pedidos foi imediata e impressionou nossa diretoria — o ROI veio já no primeiro mês.",
     name: "Carolina Mendes",
     role: "Gerente de Operações",
     img: t2,

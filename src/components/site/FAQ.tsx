@@ -7,20 +7,16 @@ import {
 
 const faqs = [
   {
-    q: "Como funciona o piloto de 15 dias?",
-    a: "Em até 7 dias úteis configuramos a Softeum com seu e-mail e ERP usando layouts reais de pedidos. Nos 15 dias seguintes você acompanha os pedidos sendo lançados automaticamente, sem custo. Se aprovar, seguimos no plano contratado.",
+    q: "Em quanto tempo o sistema entra em operação?",
+    a: "Em até 48 horas a Softeum já está rodando na sua operação, conectada ao seu e-mail e ao seu ERP, processando pedidos reais automaticamente.",
   },
   {
     q: "Funciona com qual ERP?",
-    a: "A Softeum integra com qualquer ERP que disponibilize API ou web service — incluindo TOTVS Protheus, RM, Sankhya, SAP, Bling, Omie, Tiny e sistemas próprios. Na implantação validamos a conexão com o seu.",
+    a: "A Softeum integra com qualquer ERP que disponibilize API ou web service — incluindo TOTVS Protheus, RM, Sankhya, SAP, Bling, Omie, Tiny e sistemas próprios. Validamos a conexão com o seu antes de ativar.",
   },
   {
     q: "E se o pedido vier em um layout diferente?",
     a: "Nossa IA é treinada para interpretar layouts variados. Para clientes recorrentes que usam um modelo específico, criamos um perfil dedicado que aumenta a precisão para próximo de 100%.",
-  },
-  {
-    q: "Quanto tempo dura a implantação?",
-    a: "Entre 5 e 15 dias úteis, dependendo da complexidade do ERP. Você só precisa do layout dos pedidos típicos e do acesso à API do sistema.",
   },
   {
     q: "Os pedidos com erro são lançados mesmo assim?",
