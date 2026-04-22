@@ -20,7 +20,7 @@ const Index = () => {
     operatingSystem: "Web",
     description:
       "Plataforma SaaS que utiliza IA para ler pedidos em PDF recebidos por e-mail e lançá-los automaticamente no ERP.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", description: "Piloto gratuito de 15 dias" },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", description: "Demo gratuita — sistema rodando em até 48 horas" },
   };
 
   return (
