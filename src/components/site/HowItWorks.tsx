@@ -19,7 +19,7 @@ const steps = [
     n: "03",
     icon: Database,
     title: "Lançado direto no ERP",
-    desc: "Em segundos, o pedido aparece no seu ERP pronto para faturar. Sem digitação, sem erro.",
+    desc: "Em segundos, o pedido aparece no seu ERP pronto para faturar — via integração nativa ou importação por arquivo (CSV, XML, JSON, TXT).",
   },
 ];
 
