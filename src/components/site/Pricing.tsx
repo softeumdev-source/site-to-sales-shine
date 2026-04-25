@@ -84,6 +84,8 @@ const plans = [
 
 export const Pricing = () => {
   const [selectedPlan, setSelectedPlan] = useState("Business");
+  const [hoveredRow, setHoveredRow] = useState<string | null>(null);
+  const activePlan = plans.find((plan) => plan.name === selectedPlan)!;
 
   return (
     <section id="planos" className="py-20 md:py-28">
@@ -98,6 +100,35 @@ export const Pricing = () => {
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
             Comparação direta dos planos, com os 4 lado a lado em um modelo mais tradicional.
+          </p>
+        </div>
+
+        <div className="mx-auto mb-8 flex max-w-4xl flex-wrap items-center justify-center gap-2 rounded-2xl border border-border bg-card p-2 shadow-soft">
+          {plans.map((plan) => {
+            const isSelected = selectedPlan === plan.name;
+
+            return (
+              <button
+                key={`${plan.name}-selector`}
+                type="button"
+                onClick={() => setSelectedPlan(plan.name)}
+                className={cn(
+                  "rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  isSelected
+                    ? "bg-gradient-brand text-primary-foreground shadow-glow"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                )}
+              >
+                {plan.name}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mx-auto mb-6 max-w-3xl rounded-2xl border border-accent/30 bg-accent/10 p-4 text-center shadow-soft transition-all duration-300 animate-fade-in">
+          <p className="text-sm text-muted-foreground">Plano selecionado</p>
+          <p className="mt-1 font-display text-2xl font-extrabold text-gradient-brand">
+            {activePlan.name} — {activePlan.values.access}
           </p>
         </div>
 
@@ -125,8 +156,8 @@ export const Pricing = () => {
                       if (e.key === "Enter" || e.key === " ") setSelectedPlan(plan.name);
                     }}
                     className={cn(
-                      "relative border-b border-l border-border p-6 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                      isSelected ? "bg-muted/50" : "bg-background/30 hover:bg-muted/30"
+                      "relative border-b border-l border-border p-6 text-left transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      isSelected ? "bg-muted/50 shadow-soft" : "bg-background/30 hover:bg-muted/30"
                     )}
                   >
                     <div className={cn("absolute inset-x-0 top-0 h-1 bg-gradient-brand transition-opacity", isSelected ? "opacity-100" : "opacity-0")} />
@@ -146,7 +177,15 @@ export const Pricing = () => {
 
               {featureRows.map((row) => (
                 <>
-                  <div key={`${row.key}-label`} className="border-b border-border bg-muted/30 p-4 text-sm font-medium text-foreground/80">
+                  <div
+                    key={`${row.key}-label`}
+                    onMouseEnter={() => setHoveredRow(row.key)}
+                    onMouseLeave={() => setHoveredRow(null)}
+                    className={cn(
+                      "border-b border-border p-4 text-sm font-medium text-foreground/80 transition-colors duration-300",
+                      hoveredRow === row.key ? "bg-muted/60" : "bg-muted/30"
+                    )}
+                  >
                     {row.label}
                   </div>
                   {plans.map((plan) => {
@@ -156,9 +195,17 @@ export const Pricing = () => {
                     return (
                       <div
                         key={`${plan.name}-${row.key}`}
+                        onMouseEnter={() => setHoveredRow(row.key)}
+                        onMouseLeave={() => setHoveredRow(null)}
                         className={cn(
-                          "flex items-center justify-center border-b border-l border-border p-4 text-center transition-colors duration-300",
-                          isSelected ? "bg-muted/40" : "bg-background"
+                          "flex items-center justify-center border-b border-l border-border p-4 text-center transition-all duration-300",
+                          isSelected && hoveredRow === row.key
+                            ? "bg-accent/15"
+                            : isSelected
+                              ? "bg-muted/40"
+                              : hoveredRow === row.key
+                                ? "bg-muted/50"
+                                : "bg-background"
                         )}
                       >
                         {typeof value === "boolean" ? (
