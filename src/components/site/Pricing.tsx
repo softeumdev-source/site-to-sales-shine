@@ -135,6 +135,9 @@ export const Pricing = () => {
           <p className="mt-1 font-display text-2xl font-extrabold text-gradient-brand">
             {activePlan.name} — {activePlan.values.access}
           </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Solução customizada para a operação do cliente.
+          </p>
         </div>
 
         <div className="overflow-x-auto">
@@ -190,7 +193,7 @@ export const Pricing = () => {
                     onMouseEnter={() => setHoveredRow(row.key)}
                     onMouseLeave={() => setHoveredRow(null)}
                     className={cn(
-                      "border-b border-border p-4 text-sm font-medium text-foreground/80 transition-colors duration-300",
+                      "flex min-h-14 items-center border-b border-border p-4 text-sm font-medium text-foreground/80 transition-colors duration-300",
                       hoveredRow === row.key ? "bg-muted/60" : "bg-muted/30"
                     )}
                   >
@@ -206,7 +209,7 @@ export const Pricing = () => {
                         onMouseEnter={() => setHoveredRow(row.key)}
                         onMouseLeave={() => setHoveredRow(null)}
                         className={cn(
-                          "flex items-center justify-center border-b border-l border-border p-4 text-center transition-all duration-300",
+                          "flex min-h-14 items-center justify-center border-b border-l border-border p-4 text-center transition-all duration-300",
                           isSelected && hoveredRow === row.key
                             ? "bg-accent/15"
                             : isSelected
