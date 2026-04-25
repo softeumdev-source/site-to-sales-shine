@@ -53,7 +53,7 @@ export const Pricing = () => {
           </p>
         </div>
 
-        <div className="flex gap-6 overflow-x-auto px-1 pb-4 pt-4 xl:overflow-visible">
+        <div className="grid grid-cols-2 gap-4 pt-4 lg:gap-6 xl:grid-cols-4">
           {plans.map((plan) => {
             const isSelected = selectedPlan === plan.name;
 
@@ -67,7 +67,7 @@ export const Pricing = () => {
                 if (e.key === "Enter" || e.key === " ") setSelectedPlan(plan.name);
               }}
               className={cn(
-                "group relative flex min-w-[300px] flex-1 cursor-pointer rounded-2xl border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring xl:min-w-0",
+                "group relative flex cursor-pointer rounded-2xl border bg-card p-4 shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:p-5 lg:p-6",
                 isSelected
                   ? "border-accent/60 shadow-elegant"
                   : plan.featured
@@ -84,7 +84,7 @@ export const Pricing = () => {
               <div className="flex w-full flex-col">
                 <div className="border-b border-border pb-5">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-2xl font-extrabold leading-tight">{plan.name}</h3>
+                    <h3 className="font-display text-xl font-extrabold leading-tight sm:text-2xl">{plan.name}</h3>
                     <span
                       className={cn(
                         "mt-1 h-4 w-4 shrink-0 rounded-full border transition-all duration-300",
@@ -97,7 +97,7 @@ export const Pricing = () => {
                     <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                       Inclui
                     </span>
-                    <span className="mt-1 block break-words font-display text-3xl font-extrabold leading-tight text-gradient-brand">
+                    <span className="mt-1 block break-words font-display text-2xl font-extrabold leading-tight text-gradient-brand sm:text-3xl">
                       {plan.access}
                     </span>
                   </div>
@@ -105,7 +105,7 @@ export const Pricing = () => {
 
                 <ul className="mt-6 flex-1 space-y-3">
                   {plan.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-foreground/85">
+                    <li key={item} className="flex items-start gap-2 text-xs text-foreground/85 sm:gap-2.5 sm:text-sm">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                       <span>{item}</span>
                     </li>
