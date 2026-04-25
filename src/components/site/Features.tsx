@@ -328,7 +328,7 @@ const ErpPreview = () => (
           { fmt: "CSV", desc: "Obrigatório", color: "from-secondary to-accent" },
           { fmt: "XML", desc: "Integração robusta", color: "from-accent to-primary" },
           { fmt: "JSON", desc: "API / futuro", color: "from-primary to-secondary" },
-          { fmt: "TXT", desc: "Legado", color: "from-secondary/80 to-primary/80" },
+          { fmt: "XLSX", desc: "Planilhas ERP", color: "from-secondary/80 to-primary/80" },
         ].map((f) => (
           <div
             key={f.fmt}
@@ -468,11 +468,11 @@ const groups: FeatureGroup[] = [
     emoji: "📈",
     icon: BarChart3,
     title: "Relatórios e insights",
-    pitch: "Entenda seu negócio e tome decisões melhores.",
+    pitch: "Acompanhe volume, valores, aprovações e performance por período.",
     bullets: [
-      "Vendas por período",
-      "Ranking de clientes",
-      "Ticket médio e taxa de aprovação",
+      "Volume de pedidos e valor processado",
+      "Taxa de aprovação, produtos mais vendidos e ranking de clientes",
+      "Relatórios visuais por período para tomada de decisão",
     ],
     preview: ReportsPreview,
   },
@@ -495,10 +495,37 @@ const groups: FeatureGroup[] = [
     emoji: "🔒",
     icon: Lock,
     title: "Segurança e controle",
-    pitch: "Acesso seguro e controlado.",
+    pitch: "Dados isolados por cliente, controle de acesso por empresa e rastreabilidade total.",
     bullets: [
-      "Login protegido com autenticação forte",
-      "Controle de usuários internos e permissões",
+      "Sessão única por usuário e controle de acesso por empresa",
+      "Cada empresa visualiza apenas suas próprias informações",
+      "Histórico detalhado: quem mudou o quê e quando",
+    ],
+    preview: SecurityPreview,
+  },
+  {
+    id: "multiempresa",
+    emoji: "🏢",
+    icon: Filter,
+    title: "Multi-empresa",
+    pitch: "Atenda múltiplas indústrias e distribuidores na mesma plataforma.",
+    bullets: [
+      "Configurações separadas por empresa",
+      "E-mails, layouts de ERP e equipes independentes",
+      "Operação organizada para diferentes unidades ou clientes",
+    ],
+    preview: DashboardPreview,
+  },
+  {
+    id: "equipe",
+    emoji: "👥",
+    icon: ShieldCheck,
+    title: "Gestão de equipe",
+    pitch: "Adicione membros com diferentes níveis de acesso e controle aprovações.",
+    bullets: [
+      "Perfis de administrador e operador",
+      "Controle de quem pode aprovar pedidos",
+      "Acesso seguro para times comerciais, fiscais e operacionais",
     ],
     preview: SecurityPreview,
   },
@@ -526,7 +553,7 @@ export const Features = () => {
             <span className="text-gradient-brand">vender mais e melhor</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            10 capacidades trabalhando juntas — do e-mail ao ERP, com IA, regras
+            Capacidades trabalhando juntas — do e-mail ao ERP, com IA, regras
             de aprovação e visibilidade total.
           </p>
         </div>
