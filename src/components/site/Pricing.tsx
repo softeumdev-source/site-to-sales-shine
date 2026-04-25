@@ -104,7 +104,7 @@ export const Pricing = () => {
             <span className="text-gradient-brand">sua operação</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Comparação direta dos planos, com os 4 lado a lado em um modelo mais tradicional.
+            Todos os planos são customizados de acordo com cada cliente. O que muda é a quantidade de usuários.
           </p>
         </div>
 
@@ -139,8 +139,8 @@ export const Pricing = () => {
 
         <div className="overflow-x-auto">
           <div className="min-w-[980px] overflow-hidden rounded-3xl border border-border bg-card shadow-card">
-            <div className="grid grid-cols-[220px_repeat(4,minmax(0,1fr))]">
-              <div className="border-b border-border bg-muted/40 p-6">
+            <div className="grid grid-cols-[240px_repeat(4,minmax(0,1fr))]">
+              <div className="flex min-h-[190px] flex-col justify-center border-b border-border bg-muted/40 p-6">
                 <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
                   Comparativo
                 </p>
@@ -173,7 +173,10 @@ export const Pricing = () => {
                     )}
                     <h4 className="font-display text-2xl font-extrabold leading-tight">{plan.name}</h4>
                     <p className="mt-1 min-h-10 text-sm text-muted-foreground">{plan.subtitle}</p>
-                    <div className="mt-4 text-3xl font-extrabold leading-tight text-foreground">
+                    <p className="mt-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                      Usuários
+                    </p>
+                    <div className="mt-1 text-3xl font-extrabold leading-tight text-gradient-brand">
                       {plan.values.access}
                     </div>
                   </div>
