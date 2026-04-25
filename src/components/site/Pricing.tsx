@@ -3,34 +3,82 @@ import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+const featureRows = [
+  { label: "Acessos", key: "access" },
+  { label: "Processamento automático", key: "processing" },
+  { label: "Leitura de PDF por IA", key: "pdf" },
+  { label: "Exportação para ERP", key: "erp" },
+  { label: "Gestão de equipe", key: "team" },
+  { label: "Aprovação automática", key: "approval" },
+  { label: "Multi-empresa", key: "multi" },
+  { label: "Relatórios e análises", key: "reports" },
+  { label: "Operação sob medida", key: "custom" },
+] as const;
+
 const plans = [
   {
     name: "Starter",
     subtitle: "Inicial, básico",
-    access: "1 acesso",
     featured: false,
-    items: ["Processamento automático de pedidos", "Leitura de PDF por IA", "Exportação para ERP"],
+    values: {
+      access: "1 acesso",
+      processing: true,
+      pdf: true,
+      erp: true,
+      team: false,
+      approval: false,
+      multi: false,
+      reports: false,
+      custom: false,
+    },
   },
   {
     name: "Business",
     subtitle: "Pequenas e médias empresas",
-    access: "3 acessos",
     featured: true,
-    items: ["Tudo do Starter", "Gestão de equipe", "Aprovação manual ou automática"],
+    values: {
+      access: "3 acessos",
+      processing: true,
+      pdf: true,
+      erp: true,
+      team: true,
+      approval: true,
+      multi: false,
+      reports: false,
+      custom: false,
+    },
   },
   {
     name: "Corporate",
     subtitle: "Empresas maiores",
-    access: "6 acessos",
     featured: false,
-    items: ["Tudo do Business", "Multi-empresa", "Relatórios e análises"],
+    values: {
+      access: "6 acessos",
+      processing: true,
+      pdf: true,
+      erp: true,
+      team: true,
+      approval: true,
+      multi: true,
+      reports: true,
+      custom: false,
+    },
   },
   {
     name: "Enterprise",
     subtitle: "Grandes organizações",
-    access: "Ilimitado",
     featured: false,
-    items: ["Tudo do Corporate", "Operação sob medida", "Controle avançado de acesso"],
+    values: {
+      access: "Ilimitado",
+      processing: true,
+      pdf: true,
+      erp: true,
+      team: true,
+      approval: true,
+      multi: true,
+      reports: true,
+      custom: true,
+    },
   },
 ];
 
@@ -49,76 +97,105 @@ export const Pricing = () => {
             <span className="text-gradient-brand">sua operação</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Comece com o número de acessos que sua equipe precisa e evolua conforme o volume de pedidos crescer.
+            Comparação direta dos planos, com os 4 lado a lado em um modelo mais tradicional.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 pt-4 lg:gap-6 xl:grid-cols-4">
-          {plans.map((plan) => {
-            const isSelected = selectedPlan === plan.name;
-
-            return (
-            <div
-              key={plan.name}
-              role="button"
-              tabIndex={0}
-              onClick={() => setSelectedPlan(plan.name)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") setSelectedPlan(plan.name);
-              }}
-              className={cn(
-                "group relative flex cursor-pointer rounded-2xl border bg-card p-4 shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:p-5 lg:p-6",
-                isSelected
-                  ? "border-accent/60 shadow-elegant"
-                  : plan.featured
-                    ? "border-accent/40"
-                    : "border-border hover:border-secondary/40"
-              )}
-            >
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-gradient-brand transition-transform duration-500 group-hover:scale-x-100" />
-              {plan.featured && (
-                <div className="absolute -top-3 left-6 rounded-full bg-gradient-brand px-3 py-1 text-xs font-semibold text-primary-foreground shadow-glow">
-                  Mais escolhido
-                </div>
-              )}
-              <div className="flex w-full flex-col">
-                <div className="border-b border-border pb-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-xl font-extrabold leading-tight sm:text-2xl">{plan.name}</h3>
-                    <span
-                      className={cn(
-                        "mt-1 h-4 w-4 shrink-0 rounded-full border transition-all duration-300",
-                        isSelected ? "border-accent bg-accent shadow-glow" : "border-border group-hover:border-accent"
-                      )}
-                    />
-                  </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{plan.subtitle}</p>
-                  <div className="mt-5 rounded-xl bg-muted/50 p-4">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                      Inclui
-                    </span>
-                    <span className="mt-1 block break-words font-display text-2xl font-extrabold leading-tight text-gradient-brand sm:text-3xl">
-                      {plan.access}
-                    </span>
-                  </div>
-                </div>
-
-                <ul className="mt-6 flex-1 space-y-3">
-                  {plan.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-xs text-foreground/85 sm:gap-2.5 sm:text-sm">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Button asChild variant={isSelected ? "hero" : "outline"} size="lg" className="mt-7 w-full">
-                  <a href="#demo">{isSelected ? "Plano selecionado" : "Escolher plano"}</a>
-                </Button>
+        <div className="overflow-x-auto">
+          <div className="min-w-[980px] overflow-hidden rounded-3xl border border-border bg-card shadow-card">
+            <div className="grid grid-cols-[220px_repeat(4,minmax(0,1fr))]">
+              <div className="border-b border-border bg-muted/40 p-6">
+                <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+                  Comparativo
+                </p>
+                <h3 className="mt-2 font-display text-2xl font-bold">Recursos por plano</h3>
               </div>
+
+              {plans.map((plan) => {
+                const isSelected = selectedPlan === plan.name;
+
+                return (
+                  <div
+                    key={plan.name}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={isSelected}
+                    onClick={() => setSelectedPlan(plan.name)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") setSelectedPlan(plan.name);
+                    }}
+                    className={cn(
+                      "relative border-b border-l border-border p-6 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      isSelected ? "bg-muted/50" : "bg-background/30 hover:bg-muted/30"
+                    )}
+                  >
+                    <div className={cn("absolute inset-x-0 top-0 h-1 bg-gradient-brand transition-opacity", isSelected ? "opacity-100" : "opacity-0")} />
+                    {plan.featured && (
+                      <span className="mb-3 inline-flex rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold text-accent">
+                        Mais escolhido
+                      </span>
+                    )}
+                    <h4 className="font-display text-2xl font-extrabold leading-tight">{plan.name}</h4>
+                    <p className="mt-1 min-h-10 text-sm text-muted-foreground">{plan.subtitle}</p>
+                    <div className="mt-4 text-3xl font-extrabold leading-tight text-foreground">
+                      {plan.values.access}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {featureRows.map((row) => (
+                <>
+                  <div key={`${row.key}-label`} className="border-b border-border bg-muted/30 p-4 text-sm font-medium text-foreground/80">
+                    {row.label}
+                  </div>
+                  {plans.map((plan) => {
+                    const isSelected = selectedPlan === plan.name;
+                    const value = plan.values[row.key];
+
+                    return (
+                      <div
+                        key={`${plan.name}-${row.key}`}
+                        className={cn(
+                          "flex items-center justify-center border-b border-l border-border p-4 text-center transition-colors duration-300",
+                          isSelected ? "bg-muted/40" : "bg-background"
+                        )}
+                      >
+                        {typeof value === "boolean" ? (
+                          value ? (
+                            <CheckCircle2 className="h-5 w-5 text-accent" />
+                          ) : (
+                            <span className="text-sm text-muted-foreground">—</span>
+                          )
+                        ) : (
+                          <span className="text-sm font-semibold text-foreground">{value}</span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </>
+              ))}
+
+              <div className="bg-muted/40 p-4" />
+              {plans.map((plan) => {
+                const isSelected = selectedPlan === plan.name;
+
+                return (
+                  <div
+                    key={`${plan.name}-cta`}
+                    className={cn(
+                      "border-l border-border p-4",
+                      isSelected ? "bg-muted/50" : "bg-background"
+                    )}
+                  >
+                    <Button asChild variant={isSelected ? "hero" : "outline"} className="w-full">
+                      <a href="#demo">{isSelected ? "Plano selecionado" : "Escolher plano"}</a>
+                    </Button>
+                  </div>
+                );
+              })}
             </div>
-            );
-          })}
+          </div>
         </div>
       </div>
     </section>
