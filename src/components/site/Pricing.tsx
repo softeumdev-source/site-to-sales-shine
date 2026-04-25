@@ -50,12 +50,12 @@ export const Pricing = () => {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="flex gap-6 overflow-x-auto pb-4 xl:overflow-visible">
           {plans.map((plan) => (
             <div
               key={plan.name}
               className={cn(
-                "relative flex rounded-2xl border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-elegant",
+                "relative flex min-w-[260px] flex-1 rounded-2xl border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-elegant",
                 plan.featured ? "border-accent/50" : "border-border hover:border-secondary/40"
               )}
             >
