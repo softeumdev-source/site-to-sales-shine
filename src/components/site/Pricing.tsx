@@ -1,4 +1,4 @@
-import { CheckCircle2, Crown, Rocket, Building2, Infinity } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -7,7 +7,6 @@ const plans = [
     name: "Starter",
     subtitle: "Inicial, básico",
     access: "1 acesso",
-    icon: Rocket,
     featured: false,
     items: ["Processamento automático de pedidos", "Leitura de PDF por IA", "Exportação para ERP"],
   },
@@ -15,7 +14,6 @@ const plans = [
     name: "Business",
     subtitle: "Pequenas e médias empresas",
     access: "3 acessos",
-    icon: Building2,
     featured: true,
     items: ["Tudo do Starter", "Gestão de equipe", "Aprovação manual ou automática"],
   },
@@ -23,7 +21,6 @@ const plans = [
     name: "Corporate",
     subtitle: "Empresas maiores",
     access: "6 acessos",
-    icon: Crown,
     featured: false,
     items: ["Tudo do Business", "Multi-empresa", "Relatórios e análises"],
   },
@@ -31,7 +28,6 @@ const plans = [
     name: "Enterprise",
     subtitle: "Grandes organizações",
     access: "Acessos ilimitados",
-    icon: Infinity,
     featured: false,
     items: ["Tudo do Corporate", "Operação sob medida", "Controle avançado de acesso"],
   },
@@ -59,7 +55,7 @@ export const Pricing = () => {
             <div
               key={plan.name}
               className={cn(
-                "group relative rounded-2xl border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant",
+                "relative flex rounded-2xl border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-elegant",
                 plan.featured ? "border-accent/50" : "border-border hover:border-secondary/40"
               )}
             >
@@ -68,30 +64,30 @@ export const Pricing = () => {
                   Mais escolhido
                 </div>
               )}
-              <div className="mb-5 flex items-center justify-between gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-brand text-primary-foreground shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
-                  <plan.icon className="h-6 w-6" />
+              <div className="flex w-full flex-col">
+                <div className="border-b border-border pb-5">
+                  <h3 className="font-display text-2xl font-extrabold">{plan.name}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{plan.subtitle}</p>
+                  <div className="mt-5">
+                    <span className="font-display text-4xl font-extrabold tracking-tight text-gradient-brand">
+                      {plan.access}
+                    </span>
+                  </div>
                 </div>
-                <span className="rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground">
-                  {plan.access}
-                </span>
+
+                <ul className="mt-6 flex-1 space-y-3">
+                  {plan.items.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-foreground/85">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button asChild variant={plan.featured ? "hero" : "outline"} size="lg" className="mt-7 w-full">
+                  <a href="#demo">Escolher plano</a>
+                </Button>
               </div>
-
-              <h3 className="font-display text-2xl font-extrabold">{plan.name}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{plan.subtitle}</p>
-
-              <ul className="mt-6 space-y-3">
-                {plan.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-foreground/85">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Button asChild variant={plan.featured ? "hero" : "outline"} size="lg" className="mt-7 w-full">
-                <a href="#demo">Falar sobre este plano</a>
-              </Button>
             </div>
           ))}
         </div>
