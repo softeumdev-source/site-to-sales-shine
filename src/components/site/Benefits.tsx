@@ -7,19 +7,19 @@ import { MagneticButton } from "./MagneticButton";
 import { cn } from "@/lib/utils";
 
 const benefits: Array<{ value: number; suffix: string; label: string }> = [
-  { value: 98, suffix: "%", label: "menos tempo gasto digitando pedidos" },
-  { value: 95, suffix: "%", label: "redução de erros operacionais" },
+  { value: 90, suffix: "%", label: "redução no tempo de processamento" },
+  { value: 95, suffix: "%", label: "de precisão na leitura dos PDFs" },
+  { value: 0, suffix: "", label: "digitação manual na operação" },
   { value: 24, suffix: "/7", label: "processando pedidos sem parar" },
-  { value: 10, suffix: "x", label: "mais capacidade sem contratar" },
 ];
 
 const items = [
-  "Mais produtividade no dia a dia da equipe",
-  "Escalabilidade sem aumentar custo de pessoal",
-  "Pedidos faturados no mesmo dia",
-  "Clientes mais satisfeitos com prazos cumpridos",
-  "Funciona com qualquer ERP que tenha API",
-  "Reconhece layouts variados de pedido em PDF",
+  "Indústrias que recebem pedidos de distribuidores e varejistas por e-mail",
+  "Distribuidoras que processam grandes volumes manualmente",
+  "Empresas que perdem tempo digitando pedidos no ERP",
+  "Negócios que querem eliminar erros e atrasos no processamento",
+  "Pedidos processados em minutos, não horas",
+  "Operação com mais produtividade e rastreabilidade",
 ];
 
 const StatCard = ({ b, i, shown }: { b: typeof benefits[number]; i: number; shown: boolean }) => {
@@ -84,15 +84,15 @@ export const Benefits = () => {
             )}
           >
             <span className="text-sm font-semibold uppercase tracking-widest text-secondary">
-              Por que a Softeum
+              Para quem é o Softeum
             </span>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">
-              Enquanto a Softeum cuida dos pedidos,{" "}
-              <span className="text-gradient-animated">você cuida do negócio</span>
+              Resultados que seus clientes podem alcançar{" "}
+              <span className="text-gradient-animated">sem digitação manual</span>
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Tecnologia com IA que lê, entende e organiza pedidos automaticamente.
-              Sua operação ganha velocidade, sua equipe ganha tempo, e seu negócio ganha escala.
+              A Softeum foi criada para operações que recebem pedidos por e-mail e precisam transformar PDFs
+              em pedidos prontos para o ERP com velocidade, precisão e controle.
             </p>
 
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">

@@ -4,6 +4,7 @@ import { Problems } from "@/components/site/Problems";
 import { HowItWorks } from "@/components/site/HowItWorks";
 import { Benefits } from "@/components/site/Benefits";
 import { Features } from "@/components/site/Features";
+import { Pricing } from "@/components/site/Pricing";
 import { Testimonials } from "@/components/site/Testimonials";
 import { FAQ } from "@/components/site/FAQ";
 import { CTA } from "@/components/site/CTA";
@@ -19,7 +20,7 @@ const Index = () => {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     description:
-      "Plataforma SaaS que utiliza IA para ler pedidos em PDF recebidos por e-mail e lançá-los automaticamente no ERP.",
+      "Softeum transforma e-mails com PDF em pedidos prontos para o ERP em minutos, com IA, exportação e controle operacional.",
     offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", description: "Demo gratuita — sistema rodando em até 48 horas" },
   };
 
@@ -36,6 +37,7 @@ const Index = () => {
       <HowItWorks />
       <Benefits />
       <Features />
+      <Pricing />
       <Testimonials />
       <FAQ />
       <CTA />

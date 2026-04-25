@@ -72,11 +72,11 @@ export const Hero = () => {
         <div className="animate-fade-up space-y-7">
           <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-4 py-1.5 text-xs font-medium text-foreground/80 backdrop-blur transition-all hover:scale-105 hover:border-secondary/40 hover:shadow-glow">
             <Sparkles className="h-3.5 w-3.5 animate-pulse-soft text-secondary" />
-            Pedidos do e-mail integrados direto ao ERP
+            Processamento automático de pedidos
           </div>
 
           <h1 className="font-display text-4xl font-extrabold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
-            Automatize seus{" "}
+            Softeum — automatize seus{" "}
             <span className="relative inline-block">
               <span className="text-gradient-animated">pedidos com IA</span>
               <span className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-brand opacity-60" />
@@ -84,12 +84,12 @@ export const Hero = () => {
           </h1>
 
           <p className="max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-            A Softeum lê os pedidos em PDF do seu e-mail e lança automaticamente no ERP.
-            Sem digitação, sem retrabalho, sem erros — sua equipe focada no que faz o negócio crescer.
+            Chega de digitar pedidos manualmente. A Softeum transforma e-mails com PDF em pedidos prontos
+            para o seu ERP em minutos, com zero esforço humano.
           </p>
 
           <ul className="grid gap-2.5 text-sm md:grid-cols-2">
-            {["Zero digitação manual", "Redução de até 95% nos erros", "Integra com seu ERP atual", "Sistema rodando em até 48 horas"].map((b, i) => (
+            {["Zero digitação manual", "Até 95% de precisão na leitura", "Integração ou exportação para ERP", "Pedidos processados em minutos"].map((b, i) => (
               <li
                 key={b}
                 className="flex animate-fade-in items-center gap-2 transition-transform hover:translate-x-1"
@@ -118,7 +118,7 @@ export const Hero = () => {
           </div>
 
           <p className="text-xs text-muted-foreground">
-            Sistema rodando em sua operação em até 48 horas
+            Seu cliente envia o pedido por e-mail com PDF em anexo. O Softeum lê, interpreta e processa automaticamente.
           </p>
         </div>
 

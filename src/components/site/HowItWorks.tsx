@@ -6,20 +6,20 @@ const steps = [
   {
     n: "01",
     icon: Mail,
-    title: "Pedido chega no e-mail",
-    desc: "Seu cliente envia o pedido em PDF para a caixa de e-mail de sempre. Nada muda para ele.",
+    title: "Cliente envia o pedido",
+    desc: "Seu cliente envia o pedido por e-mail com o PDF em anexo, usando o fluxo que já existe hoje.",
   },
   {
     n: "02",
     icon: Brain,
     title: "IA lê e interpreta tudo",
-    desc: "Nossa IA identifica produtos, códigos, quantidades, condições e cliente — mesmo em layouts diferentes.",
+    desc: "A Softeum lê qualquer PDF de pedido, entende o layout e extrai empresa, CNPJ, produtos, quantidades, preços e entrega.",
   },
   {
     n: "03",
     icon: Database,
-    title: "Lançado direto no ERP",
-    desc: "Em segundos, o pedido aparece no seu ERP pronto para faturar — via integração nativa ou importação por arquivo (CSV, XML, JSON, TXT).",
+    title: "Pedido pronto para o ERP",
+    desc: "O pedido fica pronto em minutos para integração ou exportação no formato do seu ERP — CSV, XML, JSON ou XLSX.",
   },
 ];
 
@@ -38,7 +38,7 @@ export const HowItWorks = () => {
             <span className="text-gradient-brand">3 passos</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Conecte uma vez. A Softeum cuida do resto, 24/7.
+            O Softeum lê, interpreta e processa automaticamente — sem você precisar fazer nada.
           </p>
         </div>
 
