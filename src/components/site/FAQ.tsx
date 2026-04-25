@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: "Funciona com qual ERP?",
-    a: "A Softeum integra com qualquer ERP que disponibilize API ou web service — incluindo TOTVS Protheus, RM, Sankhya, SAP, Bling, Omie, Tiny e sistemas próprios. Validamos a conexão com o seu antes de ativar.",
+    a: "A Softeum pode integrar com ERPs via API ou gerar arquivos exatamente no formato aceito pelo seu sistema, como CSV, XML, JSON ou XLSX.",
   },
   {
     q: "E se o pedido vier em um layout diferente?",
@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: "Quanto custa?",
-    a: "O preço varia por volume de pedidos processados. Após a demo enviamos uma proposta sob medida — geralmente o ROI acontece já no primeiro mês.",
+    a: "A Softeum possui planos Starter, Business, Corporate e Enterprise, variando conforme número de acessos, volume de pedidos e necessidade da operação.",
   },
 ];
 
