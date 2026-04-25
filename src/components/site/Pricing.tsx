@@ -19,7 +19,7 @@ export const Pricing = () => {
   return (
     <section id="planos" className="py-20 md:py-28">
       <div className="container">
-        <div className="mx-auto mb-10 max-w-2xl text-center">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
           <span className="text-sm font-semibold uppercase tracking-widest text-secondary">
             Planos
           </span>
@@ -32,7 +32,13 @@ export const Pricing = () => {
           </p>
         </div>
 
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-card">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-border bg-card shadow-elegant">
+          <div className="border-b border-border bg-muted/30 px-6 py-5 text-center md:px-10">
+            <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+              Escolha pela quantidade de usuários
+            </p>
+          </div>
+
           <div className="grid gap-0 md:grid-cols-4">
             {plans.map((plan) => {
               const isSelected = selectedPlan === plan.name;
@@ -43,14 +49,18 @@ export const Pricing = () => {
                   type="button"
                   onClick={() => setSelectedPlan(plan.name)}
                   className={cn(
-                    "group relative border-b border-border p-5 text-left transition-all duration-300 hover:bg-muted/40 md:border-b-0 md:border-r md:last:border-r-0",
-                    isSelected ? "bg-muted/50" : "bg-background"
+                    "group relative min-h-[220px] border-b border-border p-7 text-left transition-all duration-300 hover:bg-muted/40 md:border-b-0 md:border-r md:p-8 md:last:border-r-0",
+                    isSelected ? "bg-muted/60" : "bg-background"
                   )}
                 >
-                  <span className={cn("absolute inset-x-0 top-0 h-1 bg-gradient-brand transition-opacity", isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-60")} />
-                  <span className="font-display text-xl font-extrabold">{plan.name}</span>
-                  <span className="mt-1 block text-sm text-muted-foreground">{plan.subtitle}</span>
-                  <span className="mt-4 block font-display text-3xl font-extrabold text-gradient-brand">
+                  <span className={cn("absolute inset-x-0 top-0 h-1.5 bg-gradient-brand transition-opacity", isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-60")} />
+                  <span className={cn("mb-5 flex h-5 w-5 rounded-full border transition-all", isSelected ? "border-accent bg-accent shadow-glow" : "border-border group-hover:border-accent")} />
+                  <span className="font-display text-3xl font-extrabold leading-tight">{plan.name}</span>
+                  <span className="mt-2 block min-h-10 text-base text-muted-foreground">{plan.subtitle}</span>
+                  <span className="mt-8 block text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    Usuários
+                  </span>
+                  <span className="mt-1 block font-display text-4xl font-extrabold leading-tight text-gradient-brand">
                     {plan.users}
                   </span>
                 </button>
@@ -58,25 +68,28 @@ export const Pricing = () => {
             })}
           </div>
 
-          <div className="grid gap-6 border-t border-border bg-muted/30 p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="grid gap-8 border-t border-border bg-gradient-soft p-7 md:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
                 Selecionado
               </p>
-              <h3 className="mt-1 font-display text-2xl font-extrabold">
+              <h3 className="mt-2 font-display text-3xl font-extrabold md:text-4xl">
                 {activePlan.name} — {activePlan.users}
               </h3>
-              <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+              <p className="mt-3 max-w-2xl text-base text-muted-foreground">
+                A solução é configurada para o seu ERP, fluxo de pedidos, equipe e regras de aprovação.
+              </p>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
                 {included.map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm text-foreground/85">
-                    <CheckCircle2 className="h-4 w-4 text-accent" />
+                  <li key={item} className="flex items-center gap-2.5 text-base text-foreground/85">
+                    <CheckCircle2 className="h-5 w-5 text-accent" />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <Button asChild variant="hero" size="lg" className="w-full lg:w-auto">
+            <Button asChild variant="hero" size="xl" className="w-full lg:w-auto">
               <a href="#demo">Falar sobre este plano</a>
             </Button>
           </div>
