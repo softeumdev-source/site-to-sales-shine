@@ -1,20 +1,26 @@
 import { useState } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const plans = [
-  { name: "Starter", users: "1 acesso", subtitle: "Inicial, básico" },
-  { name: "Business", users: "3 acessos", subtitle: "Pequenas e médias empresas" },
-  { name: "Corporate", users: "6 acessos", subtitle: "Empresas maiores" },
-  { name: "Enterprise", users: "Ilimitado", subtitle: "Grandes organizações" },
+  { name: "Starter", users: "1 acesso", subtitle: "Para iniciar a automação" },
+  { name: "Business", users: "3 acessos", subtitle: "Para equipes pequenas e médias" },
+  { name: "Corporate", users: "6 acessos", subtitle: "Para operações maiores" },
+  { name: "Enterprise", users: "Ilimitado", subtitle: "Para grandes organizações" },
 ];
 
-const included = ["Plano customizado", "IA para PDFs", "Exportação para ERP", "Aprovação e relatórios"];
+const included = [
+  "Plano customizado para cada cliente",
+  "Leitura automática de PDF por IA",
+  "Exportação ou integração com ERP",
+  "Aprovação, relatórios e controle de equipe",
+];
 
 export const Pricing = () => {
   const [selectedPlan, setSelectedPlan] = useState("Business");
-  const activePlan = plans.find((plan) => plan.name === selectedPlan)!;
+  const activeIndex = plans.findIndex((plan) => plan.name === selectedPlan);
+  const activePlan = plans[activeIndex];
 
   return (
     <section id="planos" className="py-20 md:py-28">
@@ -24,74 +30,95 @@ export const Pricing = () => {
             Planos
           </span>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-5xl">
-            Planos customizados por{" "}
-            <span className="text-gradient-brand">quantidade de usuários</span>
+            Um plano customizado para{" "}
+            <span className="text-gradient-brand">cada tamanho de equipe</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Todos os planos são adaptados para cada cliente. O que muda é a quantidade de acessos da equipe.
+            Todos os planos são personalizados para a operação do cliente. O que muda é a quantidade de usuários.
           </p>
         </div>
 
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-border bg-card shadow-elegant">
-          <div className="border-b border-border bg-muted/30 px-6 py-5 text-center md:px-10">
-            <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-              Escolha pela quantidade de usuários
-            </p>
-          </div>
-
-          <div className="grid gap-0 md:grid-cols-4">
-            {plans.map((plan) => {
-              const isSelected = selectedPlan === plan.name;
-
-              return (
-                <button
-                  key={plan.name}
-                  type="button"
-                  onClick={() => setSelectedPlan(plan.name)}
-                  className={cn(
-                    "group relative min-h-[220px] border-b border-border p-7 text-left transition-all duration-300 hover:bg-muted/40 md:border-b-0 md:border-r md:p-8 md:last:border-r-0",
-                    isSelected ? "bg-muted/60" : "bg-background"
-                  )}
-                >
-                  <span className={cn("absolute inset-x-0 top-0 h-1.5 bg-gradient-brand transition-opacity", isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-60")} />
-                  <span className={cn("mb-5 flex h-5 w-5 rounded-full border transition-all", isSelected ? "border-accent bg-accent shadow-glow" : "border-border group-hover:border-accent")} />
-                  <span className="font-display text-3xl font-extrabold leading-tight">{plan.name}</span>
-                  <span className="mt-2 block min-h-10 text-base text-muted-foreground">{plan.subtitle}</span>
-                  <span className="mt-8 block text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                    Usuários
-                  </span>
-                  <span className="mt-1 block font-display text-4xl font-extrabold leading-tight text-gradient-brand">
-                    {plan.users}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="grid gap-8 border-t border-border bg-gradient-soft p-7 md:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div className="mx-auto max-w-6xl rounded-3xl border border-border bg-card p-6 shadow-elegant md:p-10">
+          <div className="grid gap-10 lg:grid-cols-[1fr_360px] lg:items-center">
             <div>
+              <div className="mb-8 flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-brand text-primary-foreground shadow-glow">
+                  <Users className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+                    Selecione o volume de usuários
+                  </p>
+                  <p className="font-display text-2xl font-extrabold">{activePlan.name}</p>
+                </div>
+              </div>
+
+              <div className="relative px-2 pb-10 pt-6">
+                <div className="absolute left-6 right-6 top-12 h-1 rounded-full bg-muted" />
+                <div
+                  className="absolute left-6 top-12 h-1 rounded-full bg-gradient-brand transition-all duration-500"
+                  style={{ width: `calc(${(activeIndex / (plans.length - 1)) * 100}% - 0px)` }}
+                />
+
+                <div className="relative grid grid-cols-4 gap-3">
+                  {plans.map((plan, index) => {
+                    const isSelected = selectedPlan === plan.name;
+                    const isPast = index <= activeIndex;
+
+                    return (
+                      <button
+                        key={plan.name}
+                        type="button"
+                        onClick={() => setSelectedPlan(plan.name)}
+                        className="group flex flex-col items-center text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        <span
+                          className={cn(
+                            "z-10 flex h-12 w-12 items-center justify-center rounded-full border text-sm font-bold transition-all duration-300 group-hover:scale-110",
+                            isSelected
+                              ? "border-accent bg-gradient-brand text-primary-foreground shadow-glow"
+                              : isPast
+                                ? "border-accent bg-accent/15 text-accent"
+                                : "border-border bg-background text-muted-foreground"
+                          )}
+                        >
+                          {index + 1}
+                        </span>
+                        <span className="mt-4 font-display text-lg font-bold leading-tight">{plan.name}</span>
+                        <span className="mt-1 text-sm font-semibold text-gradient-brand">{plan.users}</span>
+                        <span className="mt-1 hidden max-w-[130px] text-xs text-muted-foreground sm:block">
+                          {plan.subtitle}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-border bg-background p-6 shadow-soft">
               <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-                Selecionado
+                Plano selecionado
               </p>
-              <h3 className="mt-2 font-display text-3xl font-extrabold md:text-4xl">
-                {activePlan.name} — {activePlan.users}
+              <h3 className="mt-2 font-display text-4xl font-extrabold text-gradient-brand">
+                {activePlan.name}
               </h3>
-              <p className="mt-3 max-w-2xl text-base text-muted-foreground">
-                A solução é configurada para o seu ERP, fluxo de pedidos, equipe e regras de aprovação.
-              </p>
-              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              <p className="mt-2 text-xl font-bold">{activePlan.users}</p>
+              <p className="mt-3 text-sm text-muted-foreground">{activePlan.subtitle}</p>
+
+              <ul className="mt-6 space-y-3">
                 {included.map((item) => (
-                  <li key={item} className="flex items-center gap-2.5 text-base text-foreground/85">
-                    <CheckCircle2 className="h-5 w-5 text-accent" />
-                    {item}
+                  <li key={item} className="flex items-start gap-2.5 text-sm text-foreground/85">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
-            </div>
 
-            <Button asChild variant="hero" size="xl" className="w-full lg:w-auto">
-              <a href="#demo">Falar sobre este plano</a>
-            </Button>
+              <Button asChild variant="hero" size="lg" className="mt-7 w-full">
+                <a href="#demo">Falar sobre este plano</a>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
