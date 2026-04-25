@@ -27,7 +27,7 @@ const plans = [
   {
     name: "Enterprise",
     subtitle: "Grandes organizações",
-    access: "Acessos ilimitados",
+    access: "Ilimitado",
     featured: false,
     items: ["Tudo do Corporate", "Operação sob medida", "Controle avançado de acesso"],
   },
@@ -50,12 +50,12 @@ export const Pricing = () => {
           </p>
         </div>
 
-        <div className="flex gap-6 overflow-x-auto pb-4 xl:overflow-visible">
+        <div className="flex gap-6 overflow-x-auto px-1 pb-4 pt-4 xl:overflow-visible">
           {plans.map((plan) => (
             <div
               key={plan.name}
               className={cn(
-                "relative flex min-w-[260px] flex-1 rounded-2xl border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-elegant",
+                "relative flex min-w-[300px] flex-1 rounded-2xl border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-elegant xl:min-w-0",
                 plan.featured ? "border-accent/50" : "border-border hover:border-secondary/40"
               )}
             >
@@ -66,10 +66,13 @@ export const Pricing = () => {
               )}
               <div className="flex w-full flex-col">
                 <div className="border-b border-border pb-5">
-                  <h3 className="font-display text-2xl font-extrabold">{plan.name}</h3>
+                  <h3 className="font-display text-2xl font-extrabold leading-tight">{plan.name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{plan.subtitle}</p>
-                  <div className="mt-5">
-                    <span className="font-display text-4xl font-extrabold tracking-tight text-gradient-brand">
+                  <div className="mt-5 rounded-xl bg-muted/50 p-4">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                      Inclui
+                    </span>
+                    <span className="mt-1 block break-words font-display text-3xl font-extrabold leading-tight text-gradient-brand">
                       {plan.access}
                     </span>
                   </div>
