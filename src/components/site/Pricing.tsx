@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -34,6 +35,8 @@ const plans = [
 ];
 
 export const Pricing = () => {
+  const [selectedPlan, setSelectedPlan] = useState("Business");
+
   return (
     <section id="planos" className="py-20 md:py-28">
       <div className="container">
@@ -51,14 +54,28 @@ export const Pricing = () => {
         </div>
 
         <div className="flex gap-6 overflow-x-auto px-1 pb-4 pt-4 xl:overflow-visible">
-          {plans.map((plan) => (
+          {plans.map((plan) => {
+            const isSelected = selectedPlan === plan.name;
+
+            return (
             <div
               key={plan.name}
+              role="button"
+              tabIndex={0}
+              onClick={() => setSelectedPlan(plan.name)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") setSelectedPlan(plan.name);
+              }}
               className={cn(
-                "relative flex min-w-[300px] flex-1 rounded-2xl border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-elegant xl:min-w-0",
-                plan.featured ? "border-accent/50" : "border-border hover:border-secondary/40"
+                "group relative flex min-w-[300px] flex-1 cursor-pointer rounded-2xl border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring xl:min-w-0",
+                isSelected
+                  ? "border-accent/60 shadow-elegant"
+                  : plan.featured
+                    ? "border-accent/40"
+                    : "border-border hover:border-secondary/40"
               )}
             >
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-gradient-brand transition-transform duration-500 group-hover:scale-x-100" />
               {plan.featured && (
                 <div className="absolute -top-3 left-6 rounded-full bg-gradient-brand px-3 py-1 text-xs font-semibold text-primary-foreground shadow-glow">
                   Mais escolhido
@@ -66,7 +83,15 @@ export const Pricing = () => {
               )}
               <div className="flex w-full flex-col">
                 <div className="border-b border-border pb-5">
-                  <h3 className="font-display text-2xl font-extrabold leading-tight">{plan.name}</h3>
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-display text-2xl font-extrabold leading-tight">{plan.name}</h3>
+                    <span
+                      className={cn(
+                        "mt-1 h-4 w-4 shrink-0 rounded-full border transition-all duration-300",
+                        isSelected ? "border-accent bg-accent shadow-glow" : "border-border group-hover:border-accent"
+                      )}
+                    />
+                  </div>
                   <p className="mt-1 text-sm text-muted-foreground">{plan.subtitle}</p>
                   <div className="mt-5 rounded-xl bg-muted/50 p-4">
                     <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -87,12 +112,13 @@ export const Pricing = () => {
                   ))}
                 </ul>
 
-                <Button asChild variant={plan.featured ? "hero" : "outline"} size="lg" className="mt-7 w-full">
-                  <a href="#demo">Escolher plano</a>
+                <Button asChild variant={isSelected ? "hero" : "outline"} size="lg" className="mt-7 w-full">
+                  <a href="#demo">{isSelected ? "Plano selecionado" : "Escolher plano"}</a>
                 </Button>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
