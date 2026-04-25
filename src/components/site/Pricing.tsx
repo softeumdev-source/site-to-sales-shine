@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 const featureRows = [
   { label: "Acessos", key: "access" },
+  { label: "Plano customizado", key: "customized" },
   { label: "Processamento automático", key: "processing" },
   { label: "Leitura de PDF por IA", key: "pdf" },
   { label: "Exportação para ERP", key: "erp" },
@@ -22,30 +23,32 @@ const plans = [
     featured: false,
     values: {
       access: "1 acesso",
-      processing: true,
-      pdf: true,
-      erp: true,
-      team: false,
-      approval: false,
-      multi: false,
-      reports: false,
-      custom: false,
-    },
-  },
-  {
-    name: "Business",
-    subtitle: "Pequenas e médias empresas",
-    featured: true,
-    values: {
-      access: "3 acessos",
+      customized: true,
       processing: true,
       pdf: true,
       erp: true,
       team: true,
       approval: true,
-      multi: false,
-      reports: false,
-      custom: false,
+      multi: true,
+      reports: true,
+      custom: true,
+    },
+  },
+  {
+    name: "Business",
+    subtitle: "Pequenas e médias empresas",
+    featured: false,
+    values: {
+      access: "3 acessos",
+      customized: true,
+      processing: true,
+      pdf: true,
+      erp: true,
+      team: true,
+      approval: true,
+      multi: true,
+      reports: true,
+      custom: true,
     },
   },
   {
@@ -54,6 +57,7 @@ const plans = [
     featured: false,
     values: {
       access: "6 acessos",
+      customized: true,
       processing: true,
       pdf: true,
       erp: true,
@@ -70,6 +74,7 @@ const plans = [
     featured: false,
     values: {
       access: "Ilimitado",
+      customized: true,
       processing: true,
       pdf: true,
       erp: true,
@@ -99,7 +104,7 @@ export const Pricing = () => {
             <span className="text-gradient-brand">sua operação</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Comparação direta dos planos, com os 4 lado a lado em um modelo mais tradicional.
+            Todos os planos são customizados de acordo com cada cliente. O que muda é a quantidade de usuários.
           </p>
         </div>
 
@@ -130,12 +135,15 @@ export const Pricing = () => {
           <p className="mt-1 font-display text-2xl font-extrabold text-gradient-brand">
             {activePlan.name} — {activePlan.values.access}
           </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Solução customizada para a operação do cliente.
+          </p>
         </div>
 
         <div className="overflow-x-auto">
           <div className="min-w-[980px] overflow-hidden rounded-3xl border border-border bg-card shadow-card">
-            <div className="grid grid-cols-[220px_repeat(4,minmax(0,1fr))]">
-              <div className="border-b border-border bg-muted/40 p-6">
+            <div className="grid grid-cols-[240px_repeat(4,minmax(0,1fr))]">
+              <div className="flex min-h-[190px] flex-col justify-center border-b border-border bg-muted/40 p-6">
                 <p className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
                   Comparativo
                 </p>
@@ -168,7 +176,10 @@ export const Pricing = () => {
                     )}
                     <h4 className="font-display text-2xl font-extrabold leading-tight">{plan.name}</h4>
                     <p className="mt-1 min-h-10 text-sm text-muted-foreground">{plan.subtitle}</p>
-                    <div className="mt-4 text-3xl font-extrabold leading-tight text-foreground">
+                    <p className="mt-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                      Usuários
+                    </p>
+                    <div className="mt-1 text-3xl font-extrabold leading-tight text-gradient-brand">
                       {plan.values.access}
                     </div>
                   </div>
@@ -182,7 +193,7 @@ export const Pricing = () => {
                     onMouseEnter={() => setHoveredRow(row.key)}
                     onMouseLeave={() => setHoveredRow(null)}
                     className={cn(
-                      "border-b border-border p-4 text-sm font-medium text-foreground/80 transition-colors duration-300",
+                      "flex min-h-14 items-center border-b border-border p-4 text-sm font-medium text-foreground/80 transition-colors duration-300",
                       hoveredRow === row.key ? "bg-muted/60" : "bg-muted/30"
                     )}
                   >
@@ -198,7 +209,7 @@ export const Pricing = () => {
                         onMouseEnter={() => setHoveredRow(row.key)}
                         onMouseLeave={() => setHoveredRow(null)}
                         className={cn(
-                          "flex items-center justify-center border-b border-l border-border p-4 text-center transition-all duration-300",
+                          "flex min-h-14 items-center justify-center border-b border-l border-border p-4 text-center transition-all duration-300",
                           isSelected && hoveredRow === row.key
                             ? "bg-accent/15"
                             : isSelected
