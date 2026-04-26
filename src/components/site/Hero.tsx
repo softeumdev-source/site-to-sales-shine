@@ -76,7 +76,7 @@ export const Hero = () => {
           </div>
 
           <h1 className="font-display text-4xl font-extrabold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
-            Softeum — automatize seus{" "}
+            Automatize seus{" "}
             <span className="relative inline-block">
               <span className="text-gradient-animated">pedidos com IA</span>
               <span className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-brand opacity-60" />
