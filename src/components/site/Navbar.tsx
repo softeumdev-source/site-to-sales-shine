@@ -9,7 +9,6 @@ const links = [
   { href: "#funcionalidades", label: "Funcionalidades" },
   { href: "#beneficios", label: "Benefícios" },
   { href: "#planos", label: "Planos" },
-  { href: "#depoimentos", label: "Clientes" },
   { href: "#faq", label: "FAQ" },
 ];
 
