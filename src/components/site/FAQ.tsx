@@ -8,7 +8,7 @@ import {
 const faqs = [
   {
     q: "Em quanto tempo o sistema entra em operação?",
-    a: "Em até 48 horas a Softeum já está rodando na sua operação, conectada ao seu e-mail e ao seu ERP, processando pedidos reais automaticamente.",
+    a: "Em até 3 dias úteis a Softeum já está rodando na sua operação, conectada ao seu e-mail e ao seu ERP, processando pedidos reais automaticamente.",
   },
   {
     q: "Funciona com qual ERP?",
