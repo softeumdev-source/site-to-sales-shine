@@ -113,8 +113,8 @@ export const Benefits = () => {
               ))}
             </ul>
 
-            <MagneticButton>
-              <Button asChild variant="hero" size="lg" className="mt-8">
+            <MagneticButton className="mt-8 w-full sm:w-auto">
+              <Button asChild variant="hero" size="lg" className="w-full sm:w-auto">
                 <a href="#demo">Quero conhecer a Softeum</a>
               </Button>
             </MagneticButton>
