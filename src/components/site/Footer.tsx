@@ -29,7 +29,7 @@ export const Footer = () => {
           <div>
             <h4 className="mb-3 font-display text-sm font-bold uppercase tracking-wider">Contato</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="mailto:contato@softeum.com.br" className="hover:text-foreground">contato@softeum.com.br</a></li>
+              <li><a href="mailto:comercial@softeum.com.br" className="hover:text-foreground">comercial@softeum.com.br</a></li>
               <li><a href="#demo" className="hover:text-foreground">Agendar demo</a></li>
             </ul>
           </div>
