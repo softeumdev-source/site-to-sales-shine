@@ -48,9 +48,9 @@ export const Hero = () => {
       <div className="pointer-events-none absolute inset-0 bg-grid bg-grid-fade opacity-40" />
 
       {/* Decorative animated blobs */}
-      <div className="pointer-events-none absolute -top-32 -right-20 h-[500px] w-[500px] animate-blob rounded-full bg-secondary/25 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-32 -left-20 h-[500px] w-[500px] animate-blob rounded-full bg-accent/25 blur-3xl [animation-delay:3s]" />
-      <div className="pointer-events-none absolute top-1/3 left-1/2 h-[400px] w-[400px] animate-blob rounded-full bg-primary/5 blur-3xl [animation-delay:6s]" />
+      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 animate-blob rounded-full bg-secondary/25 blur-3xl md:-top-32 md:h-[500px] md:w-[500px]" />
+      <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 animate-blob rounded-full bg-accent/25 blur-3xl [animation-delay:3s] md:-bottom-32 md:h-[500px] md:w-[500px]" />
+      <div className="pointer-events-none absolute left-1/3 top-1/3 h-64 w-64 animate-blob rounded-full bg-primary/5 blur-3xl [animation-delay:6s] md:left-1/2 md:h-[400px] md:w-[400px]" />
 
       {/* Floating particles */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -68,14 +68,14 @@ export const Hero = () => {
         ))}
       </div>
 
-      <div className="container relative grid gap-12 py-20 md:py-28 lg:grid-cols-2 lg:items-center lg:py-32">
-        <div className="animate-fade-up space-y-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-4 py-1.5 text-xs font-medium text-foreground/80 backdrop-blur transition-all hover:scale-105 hover:border-secondary/40 hover:shadow-glow">
+      <div className="container relative grid gap-10 py-14 md:py-28 lg:grid-cols-2 lg:items-center lg:py-32">
+        <div className="animate-fade-up space-y-6 text-center sm:text-left md:space-y-7">
+          <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1.5 text-xs font-medium text-foreground/80 backdrop-blur transition-all hover:scale-105 hover:border-secondary/40 hover:shadow-glow sm:px-4">
             <Sparkles className="h-3.5 w-3.5 animate-pulse-soft text-secondary" />
-            Processamento automático de pedidos
+            <span className="truncate">Processamento automático de pedidos</span>
           </div>
 
-          <h1 className="font-display text-4xl font-extrabold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
+          <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             Automatize seus{" "}
             <span className="relative inline-block">
               <span className="text-gradient-animated">pedidos com IA</span>
@@ -83,12 +83,12 @@ export const Hero = () => {
             </span>
           </h1>
 
-          <p className="max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground sm:mx-0 md:text-xl">
             Chega de digitar pedidos manualmente. A Softeum transforma e-mails com PDF em pedidos prontos
             para o seu ERP em minutos, com zero esforço humano.
           </p>
 
-          <ul className="grid gap-2.5 text-sm md:grid-cols-2">
+          <ul className="grid gap-2.5 text-left text-sm md:grid-cols-2">
             {["Zero digitação manual", "Até 95% de precisão na leitura", "Integração ou exportação para ERP", "Pedidos processados em minutos"].map((b, i) => (
               <li
                 key={b}
@@ -102,16 +102,16 @@ export const Hero = () => {
           </ul>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <MagneticButton>
-              <Button asChild variant="hero" size="xl" className="group">
+            <MagneticButton className="w-full sm:w-auto">
+              <Button asChild variant="hero" size="xl" className="group w-full sm:w-auto">
                 <a href="#demo">
                   Agende uma demo gratuita
                   <ArrowRight className="ml-1 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </a>
               </Button>
             </MagneticButton>
-            <MagneticButton strength={0.15}>
-              <Button asChild variant="outline" size="xl">
+            <MagneticButton strength={0.15} className="w-full sm:w-auto">
+              <Button asChild variant="outline" size="xl" className="w-full sm:w-auto">
                 <a href="#funcionalidades">Ver funcionalidades</a>
               </Button>
             </MagneticButton>

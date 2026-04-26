@@ -24,15 +24,15 @@ export const CTA = () => {
   };
 
   return (
-    <section id="demo" className="relative overflow-hidden py-20 md:py-28">
+    <section id="demo" className="relative overflow-hidden py-16 md:py-28">
       <div className="pointer-events-none absolute inset-0 bg-gradient-soft" />
 
       <div className="container relative">
-        <div className="mx-auto grid max-w-6xl gap-10 overflow-hidden rounded-3xl border border-border bg-gradient-cta p-8 text-primary-foreground shadow-elegant md:p-12 lg:grid-cols-2 lg:gap-16">
+        <div className="mx-auto grid max-w-6xl gap-8 overflow-hidden rounded-3xl border border-border bg-gradient-cta p-5 text-primary-foreground shadow-elegant sm:p-8 md:p-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
+            <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
               <Sparkles className="h-3.5 w-3.5" />
-              Sistema rodando em até 3 dias úteis
+              <span className="truncate">Sistema rodando em até 3 dias úteis</span>
             </div>
 
             <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight md:text-5xl">
@@ -60,7 +60,7 @@ export const CTA = () => {
           <form
             onSubmit={onSubmit}
             id="contato"
-            className="rounded-2xl border border-white/10 bg-background p-6 text-foreground shadow-soft md:p-8"
+            className="rounded-2xl border border-white/10 bg-background p-5 text-foreground shadow-soft sm:p-6 md:p-8"
           >
             <h3 className="font-display text-xl font-bold">Agende sua demo</h3>
             <p className="mb-6 mt-1 text-sm text-muted-foreground">Preencha e nosso time entra em contato.</p>
@@ -89,7 +89,7 @@ export const CTA = () => {
                 <Textarea id="msg" name="msg" rows={3} placeholder="Ex.: ~500 pedidos / mês, ERP Protheus..." />
               </div>
 
-              <Button type="submit" variant="hero" size="lg" disabled={loading} className="mt-2">
+              <Button type="submit" variant="hero" size="lg" disabled={loading} className="mt-2 h-auto min-h-11 whitespace-normal px-4 text-center">
                 {loading ? "Enviando..." : "Quero agendar minha demo"}
               </Button>
               <p className="text-center text-xs text-muted-foreground">
