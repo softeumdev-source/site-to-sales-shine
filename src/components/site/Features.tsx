@@ -558,9 +558,9 @@ export const Features = () => {
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[320px_1fr]">
+        <div className="grid gap-6 lg:grid-cols-[320px_1fr] lg:gap-8">
           {/* Tab list */}
-          <div className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible">
+          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0 lg:flex-col lg:overflow-visible lg:pb-0">
             {groups.map((g) => {
               const isActive = g.id === active;
               return (
@@ -568,7 +568,7 @@ export const Features = () => {
                   key={g.id}
                   onClick={() => setActive(g.id)}
                   className={cn(
-                    "group flex shrink-0 items-center gap-3 rounded-xl border p-3 text-left transition-all lg:shrink",
+                    "group flex w-[84vw] max-w-[290px] shrink-0 items-center gap-3 rounded-xl border p-3 text-left transition-all sm:w-72 lg:w-full lg:max-w-none lg:shrink",
                     isActive
                       ? "border-transparent bg-card shadow-elegant"
                       : "border-border bg-card/50 hover:border-accent/40 hover:bg-card hover:shadow-soft"
@@ -603,7 +603,7 @@ export const Features = () => {
           {/* Active panel */}
           <div
             key={active}
-            className="grid animate-fade-in gap-6 rounded-3xl border border-border bg-card p-6 shadow-card md:p-8 lg:grid-cols-2"
+            className="grid animate-fade-in gap-6 rounded-3xl border border-border bg-card p-5 shadow-card sm:p-6 md:p-8 lg:grid-cols-2"
           >
             <div>
               <div className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-3 py-1 text-xs font-semibold text-white shadow-glow">
@@ -641,7 +641,7 @@ export const Features = () => {
             </div>
 
             {/* Preview */}
-            <div className="relative rounded-2xl border border-border bg-gradient-to-br from-muted/60 to-background p-4 md:p-6">
+            <div className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-muted/60 to-background p-3 sm:p-4 md:p-6">
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex gap-1.5">
                   <span className="h-2.5 w-2.5 rounded-full bg-secondary/60" />
