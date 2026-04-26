@@ -31,13 +31,13 @@ export const Pricing = () => {
         </div>
 
         <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-border bg-card shadow-elegant">
-          <div className="grid divide-y divide-border md:grid-cols-5 md:divide-x md:divide-y-0">
+          <div className="grid divide-y divide-border sm:grid-cols-2 sm:divide-x md:grid-cols-5 md:divide-y-0">
             {plans.map((plan) => (
-              <div key={plan.name} className="flex min-h-[260px] flex-col p-6 text-center transition hover:bg-muted/50 md:p-6 lg:p-8">
+              <div key={plan.name} className="flex min-h-[220px] flex-col p-5 text-center transition hover:bg-muted/50 md:min-h-[260px] md:p-6 lg:p-8">
                 <h3 className="flex min-h-8 items-center justify-center font-display text-2xl font-extrabold">{plan.name}</h3>
                 <div className="mt-4 flex min-h-20 flex-col items-center justify-center leading-none text-gradient-brand">
                   <span className="text-sm font-black uppercase tracking-widest">{plan.priceTop}</span>
-                  <span className="mt-1 text-3xl font-black lg:text-4xl">{plan.priceBottom}</span>
+                  <span className="mt-1 break-words text-3xl font-black lg:text-4xl">{plan.priceBottom}</span>
                 </div>
                 <div className="mt-auto space-y-2 pt-5 text-sm text-muted-foreground">
                   <p><span className="font-semibold text-foreground/85">Pedidos/mês:</span> {plan.orders}</p>
