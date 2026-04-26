@@ -2,10 +2,11 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const plans = [
-  { name: "Starter", users: "1 usuário" },
-  { name: "Business", users: "3 usuários" },
-  { name: "Corporate", users: "6 usuários" },
-  { name: "Enterprise", users: "Ilimitado" },
+  { name: "Start", orders: "até 30", price: "R$ 345,00", users: "1" },
+  { name: "Grow", orders: "até 100", price: "R$ 782,00", users: "2" },
+  { name: "Scale", orders: "até 400", price: "R$ 2.990,00", users: "3" },
+  { name: "Pro", orders: "até 800", price: "R$ 5.865,00", users: "4" },
+  { name: "Enterprise", orders: "1000 +", price: "sob consulta", users: "sob consulta" },
 ];
 
 const included = [
@@ -22,20 +23,23 @@ export const Pricing = () => {
         <div className="mx-auto mb-10 max-w-3xl text-center">
           <span className="text-sm font-semibold uppercase tracking-widest text-secondary">Planos</span>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-5xl">
-            Planos simples, <span className="text-gradient-brand">customizados por usuário</span>
+            Planos simples, <span className="text-gradient-brand">por volume de pedidos</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Todos recebem a mesma solução personalizada. O que muda é apenas a quantidade de acessos.
+            Escolha a faixa ideal para sua operação. Todos os planos incluem a solução personalizada.
           </p>
         </div>
 
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-elegant">
-          <div className="grid divide-y divide-border md:grid-cols-4 md:divide-x md:divide-y-0">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-border bg-card shadow-elegant">
+          <div className="grid divide-y divide-border md:grid-cols-5 md:divide-x md:divide-y-0">
             {plans.map((plan) => (
               <div key={plan.name} className="p-6 text-center transition hover:bg-muted/50 md:p-8">
                 <h3 className="font-display text-2xl font-extrabold">{plan.name}</h3>
-                <p className="mt-4 text-3xl font-black text-gradient-brand">{plan.users}</p>
-                <p className="mt-3 text-sm text-muted-foreground">Plano sob medida</p>
+                <p className="mt-4 text-3xl font-black text-gradient-brand">{plan.price}</p>
+                <div className="mt-5 space-y-2 text-sm text-muted-foreground">
+                  <p><span className="font-semibold text-foreground/85">Pedidos/mês:</span> {plan.orders}</p>
+                  <p><span className="font-semibold text-foreground/85">Usuários:</span> {plan.users}</p>
+                </div>
               </div>
             ))}
           </div>
