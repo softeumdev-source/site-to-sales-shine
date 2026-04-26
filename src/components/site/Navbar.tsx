@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
-import { Menu, X } from "lucide-react";
+import { ExternalLink, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -69,7 +69,8 @@ export const Navbar = () => {
 
         <button
           aria-label="Abrir menu"
-          className="md:hidden rounded-lg p-2 hover:bg-muted"
+          aria-expanded={open}
+          className="rounded-lg p-2 hover:bg-muted md:hidden"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -77,8 +78,8 @@ export const Navbar = () => {
       </div>
 
       {open && (
-        <div className="animate-fade-in border-t border-border/40 bg-background md:hidden">
-          <div className="container flex flex-col gap-1 py-4">
+        <div className="animate-fade-in border-t border-border/40 bg-background/95 shadow-soft backdrop-blur-xl md:hidden">
+          <div className="container flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto py-4">
             {links.map((l) => (
               <a
                 key={l.href}
@@ -89,6 +90,17 @@ export const Navbar = () => {
                 {l.label}
               </a>
             ))}
+            <Button asChild variant="outline" className="mt-3 w-full justify-center">
+              <a
+                href="https://softeum-flow.vercel.app/login"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setOpen(false)}
+              >
+                Acessar a plataforma
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </Button>
             <Button asChild variant="hero" className="mt-2">
               <a href="#demo" onClick={() => setOpen(false)}>Agende uma demo</a>
             </Button>
