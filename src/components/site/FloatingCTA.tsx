@@ -17,7 +17,7 @@ export const FloatingCTA = () => {
       href="#demo"
       aria-label="Agende uma demo"
       className={cn(
-        "fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full bg-gradient-brand px-5 py-3.5 text-sm font-bold text-white shadow-elegant transition-all duration-500 hover:scale-105 hover:shadow-glow",
+        "fixed bottom-4 left-4 right-4 z-40 flex items-center justify-center gap-2 rounded-full bg-gradient-brand px-5 py-3.5 text-sm font-bold text-white shadow-elegant transition-all duration-500 hover:scale-105 hover:shadow-glow sm:bottom-6 sm:left-auto sm:right-6",
         show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-20 opacity-0"
       )}
     >
