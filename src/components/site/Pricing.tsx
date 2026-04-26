@@ -2,11 +2,11 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const plans = [
-  { name: "Start", orders: "até 30", price: "R$ 345,00", users: "1" },
-  { name: "Grow", orders: "até 100", price: "R$ 782,00", users: "2" },
-  { name: "Scale", orders: "até 400", price: "R$ 2.990,00", users: "3" },
-  { name: "Pro", orders: "até 800", price: "R$ 5.865,00", users: "4" },
-  { name: "Enterprise", orders: "1000 +", price: "sob consulta", users: "sob consulta" },
+  { name: "Start", orders: "até 30", priceTop: "R$", priceBottom: "345,00", users: "1" },
+  { name: "Grow", orders: "até 100", priceTop: "R$", priceBottom: "782,00", users: "2" },
+  { name: "Scale", orders: "até 400", priceTop: "R$", priceBottom: "2.990,00", users: "3" },
+  { name: "Pro", orders: "até 800", priceTop: "R$", priceBottom: "5.865,00", users: "4" },
+  { name: "Enterprise", orders: "1000 +", priceTop: "sob", priceBottom: "consulta", users: "sob consulta" },
 ];
 
 const included = [
@@ -35,9 +35,10 @@ export const Pricing = () => {
             {plans.map((plan) => (
               <div key={plan.name} className="flex min-h-[260px] flex-col p-6 text-center transition hover:bg-muted/50 md:p-6 lg:p-8">
                 <h3 className="flex min-h-8 items-center justify-center font-display text-2xl font-extrabold">{plan.name}</h3>
-                <p className="mt-4 flex min-h-20 items-center justify-center text-2xl font-black leading-tight text-gradient-brand lg:text-3xl">
-                  {plan.price}
-                </p>
+                <div className="mt-4 flex min-h-20 flex-col items-center justify-center leading-none text-gradient-brand">
+                  <span className="text-sm font-black uppercase tracking-widest">{plan.priceTop}</span>
+                  <span className="mt-1 text-3xl font-black lg:text-4xl">{plan.priceBottom}</span>
+                </div>
                 <div className="mt-auto space-y-2 pt-5 text-sm text-muted-foreground">
                   <p><span className="font-semibold text-foreground/85">Pedidos/mês:</span> {plan.orders}</p>
                   <p><span className="font-semibold text-foreground/85">Usuários:</span> {plan.users}</p>
