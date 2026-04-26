@@ -32,7 +32,7 @@ export const CTA = () => {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
               <Sparkles className="h-3.5 w-3.5" />
-              Sistema rodando em até 48 horas
+              Sistema rodando em até 3 dias úteis
             </div>
 
             <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight md:text-5xl">
@@ -48,7 +48,7 @@ export const CTA = () => {
             </p>
 
             <ul className="mt-7 space-y-3 text-sm text-white/90">
-              {["Demo personalizada com seus pedidos", "Análise de ROI para sua operação", "Sistema rodando em até 48 horas"].map((b) => (
+              {["Demo personalizada com seus pedidos", "Análise de ROI para sua operação", "Sistema rodando em até 3 dias úteis"].map((b) => (
                 <li key={b} className="flex items-center gap-2.5">
                   <CheckCircle2 className="h-5 w-5 text-secondary" />
                   {b}
