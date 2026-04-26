@@ -33,10 +33,12 @@ export const Pricing = () => {
         <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-border bg-card shadow-elegant">
           <div className="grid divide-y divide-border md:grid-cols-5 md:divide-x md:divide-y-0">
             {plans.map((plan) => (
-              <div key={plan.name} className="p-6 text-center transition hover:bg-muted/50 md:p-8">
-                <h3 className="font-display text-2xl font-extrabold">{plan.name}</h3>
-                <p className="mt-4 text-3xl font-black text-gradient-brand">{plan.price}</p>
-                <div className="mt-5 space-y-2 text-sm text-muted-foreground">
+              <div key={plan.name} className="flex min-h-[260px] flex-col p-6 text-center transition hover:bg-muted/50 md:p-6 lg:p-8">
+                <h3 className="flex min-h-8 items-center justify-center font-display text-2xl font-extrabold">{plan.name}</h3>
+                <p className="mt-4 flex min-h-20 items-center justify-center text-2xl font-black leading-tight text-gradient-brand lg:text-3xl">
+                  {plan.price}
+                </p>
+                <div className="mt-auto space-y-2 pt-5 text-sm text-muted-foreground">
                   <p><span className="font-semibold text-foreground/85">Pedidos/mês:</span> {plan.orders}</p>
                   <p><span className="font-semibold text-foreground/85">Usuários:</span> {plan.users}</p>
                 </div>
