@@ -14,12 +14,12 @@ const benefits: Array<{ value: number; suffix: string; label: string }> = [
 ];
 
 const items = [
-  "Indústrias que recebem pedidos de distribuidores e varejistas por e-mail",
-  "Distribuidoras que processam grandes volumes manualmente",
-  "Empresas que perdem tempo digitando pedidos no ERP",
-  "Negócios que querem eliminar erros e atrasos no processamento",
-  "Pedidos processados em minutos, não horas",
-  "Operação com mais produtividade e rastreabilidade",
+  "Indústrias que vendem para varejistas e atacadistas",
+  "Distribuidores que recebem pedidos de comerciantes regionais",
+  "Empresas que processam dezenas ou centenas de pedidos por e-mail",
+  "Operações que querem eliminar erros e retrabalho de digitação",
+  "Times que precisam liberar tempo para vender, não digitar",
+  "Negócios que querem escalar sem aumentar o time operacional",
 ];
 
 const StatCard = ({ b, i, shown }: { b: typeof benefits[number]; i: number; shown: boolean }) => {

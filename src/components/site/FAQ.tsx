@@ -7,24 +7,40 @@ import {
 
 const faqs = [
   {
+    q: "Preciso instalar algo?",
+    a: "Não. O Softeum funciona 100% no navegador. Você acessa de qualquer computador, em qualquer lugar — sem instalação e sem manutenção.",
+  },
+  {
+    q: "Funciona com o meu ERP?",
+    a: "Sim. O sistema gera exportações no formato customizado para o seu ERP. A própria IA analisa o layout que você usa hoje e adapta — CSV, XML, JSON ou XLSX.",
+  },
+  {
+    q: "Como o sistema lê o pedido?",
+    a: "Inteligência artificial extrai os dados do PDF anexado no e-mail. Funciona com qualquer formato de pedido — não é preciso que o seu cliente use um modelo específico.",
+  },
+  {
+    q: "E se a IA errar algum dado?",
+    a: "O sistema tem 8 regras de validação. Se houver qualquer inconsistência, o pedido fica pendente para revisão humana. Você sempre tem a palavra final antes de exportar.",
+  },
+  {
+    q: "Quantos usuários posso cadastrar?",
+    a: "Depende do plano contratado. Cada plano define um limite de membros, com 3 níveis de acesso: Administrador, Membro e Dono da Conta.",
+  },
+  {
+    q: "Quantos pedidos posso processar?",
+    a: "Depende do plano. Há opções para diferentes volumes mensais — fale com nosso comercial para encontrar a faixa ideal para sua operação.",
+  },
+  {
+    q: "Meus dados ficam seguros?",
+    a: "Sim. Cada empresa tem seus dados completamente isolados (multi-tenant). Senhas nunca ficam expostas e a conexão com o Gmail é via OAuth, padrão Google de segurança.",
+  },
+  {
+    q: "Posso testar antes de assinar?",
+    a: "Sim. Temos um modo demo com dados fictícios realistas e cenários simulados para você explorar todas as funcionalidades antes de contratar.",
+  },
+  {
     q: "Em quanto tempo o sistema entra em operação?",
     a: "Em até 3 dias úteis a Softeum já está rodando na sua operação, conectada ao seu e-mail e ao seu ERP, processando pedidos reais automaticamente.",
-  },
-  {
-    q: "Funciona com qual ERP?",
-    a: "A Softeum pode integrar com ERPs via API ou gerar arquivos exatamente no formato aceito pelo seu sistema, como CSV, XML, JSON ou XLSX.",
-  },
-  {
-    q: "E se o pedido vier em um layout diferente?",
-    a: "Nossa IA é treinada para interpretar layouts variados. Para clientes recorrentes que usam um modelo específico, criamos um perfil dedicado que aumenta a precisão para próximo de 100%.",
-  },
-  {
-    q: "Os pedidos com erro são lançados mesmo assim?",
-    a: "Não. Pedidos com qualquer divergência (preço, código não encontrado, condição inválida) ficam em uma fila de revisão para sua equipe aprovar com 1 clique. Isso garante segurança total.",
-  },
-  {
-    q: "Quanto custa?",
-    a: "A Softeum possui planos Starter, Business, Corporate e Enterprise, variando conforme número de acessos, volume de pedidos e necessidade da operação.",
   },
 ];
 
