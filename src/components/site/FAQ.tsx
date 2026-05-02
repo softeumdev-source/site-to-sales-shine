@@ -36,7 +36,7 @@ const faqs = [
   },
   {
     q: "Posso testar antes de assinar?",
-    a: "Sim. Temos um modo demo com dados fictícios realistas e cenários simulados para você explorar todas as funcionalidades antes de contratar.",
+    a: "Sim. Você pode testar gratuitamente por 5 dias úteis com acesso completo a todas as funcionalidades.",
   },
   {
     q: "Como começa a operação na minha empresa?",
