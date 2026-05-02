@@ -14,12 +14,12 @@ const benefits: Array<{ value: number; suffix: string; label: string }> = [
 ];
 
 const items = [
-  "Você recupera horas todo dia que hoje seu time gasta digitando",
-  "Sua operação processa muito mais pedidos sem contratar gente nova",
-  "Seu ERP recebe os pedidos por API ou exportação no formato certo",
-  "Você reduz drasticamente erros, devoluções e retrabalho",
-  "Seu time comercial volta a focar em vender, não em copiar PDF",
-  "Seu cliente é faturado mais rápido — e seu caixa entra antes",
+  "Recupere horas produtivas todo dia eliminando a digitação manual de pedidos",
+  "Multiplique por 10 o volume de pedidos processados sem contratar uma pessoa a mais",
+  "Conecte direto no seu ERP via API ou receba a exportação pronta no formato exato que ele aceita",
+  "Reduza em até 95% os erros que viram devolução, retrabalho e cliente irritado",
+  "Devolva ao seu time comercial o tempo que hoje ele perde em tarefa operacional",
+  "Fature no mesmo dia que o pedido chega e antecipe a entrada de caixa todo mês",
 ];
 
 const StatCard = ({ b, i, shown }: { b: typeof benefits[number]; i: number; shown: boolean }) => {
