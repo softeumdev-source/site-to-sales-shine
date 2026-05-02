@@ -10,17 +10,44 @@ export const CTA = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      nome: ((data.get("name") as string) ?? "").trim(),
+      empresa: ((data.get("company") as string) ?? "").trim(),
+      telefone: ((data.get("phone") as string) ?? "").trim(),
+      email: ((data.get("email") as string) ?? "").trim(),
+      pedidosMes: ((data.get("msg") as string) ?? "").trim(),
+    };
+
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      (e.target as HTMLFormElement).reset();
+    try {
+      const res = await fetch("/api/send-demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || !result.success) {
+        throw new Error(result.error ?? "Falha ao enviar.");
+      }
+      form.reset();
       toast({
         title: "Demo agendada com sucesso!",
-        description: "Nossa equipe entra em contato em até 1 dia útil para confirmar.",
+        description: "Em breve entraremos em contato.",
       });
-    }, 800);
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "Erro ao enviar",
+        description:
+          "Tente novamente ou envie um e-mail direto pra comercial@softeum.com.br",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
