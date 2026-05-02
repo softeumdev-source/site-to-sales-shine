@@ -79,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "Softeum <onboarding@resend.dev>",
+      from: "Softeum <noreply@softeum.com.br>",
       to: "comercial@softeum.com.br",
       replyTo: email,
       subject: `Novo lead: ${nome} - ${empresa}`,
