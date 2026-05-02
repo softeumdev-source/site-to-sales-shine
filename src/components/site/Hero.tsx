@@ -68,7 +68,7 @@ export const Hero = () => {
         ))}
       </div>
 
-      <div className="container relative grid gap-10 pb-14 pt-6 md:pb-28 md:pt-10 lg:grid-cols-2 lg:items-center lg:pb-32 lg:pt-14">
+      <div className="container relative grid gap-10 py-14 md:py-28 lg:grid-cols-2 lg:items-center lg:py-32">
         <div className="animate-fade-up space-y-6 text-center sm:text-left md:space-y-7">
           <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1.5 text-xs font-medium text-foreground/80 backdrop-blur transition-all hover:scale-105 hover:border-secondary/40 hover:shadow-glow sm:px-4">
             <Sparkles className="h-3.5 w-3.5 animate-pulse-soft text-secondary" />
@@ -76,21 +76,20 @@ export const Hero = () => {
           </div>
 
           <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Transforme pedidos por e-mail em{" "}
+            Automatize seus{" "}
             <span className="relative inline-block">
-              <span className="text-gradient-animated">faturamento automático</span>
+              <span className="text-gradient-animated">pedidos com IA</span>
               <span className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-brand opacity-60" />
             </span>
           </h1>
 
           <p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground sm:mx-0 md:text-xl">
-            A Softeum lê os PDFs que chegam no e-mail da sua empresa, valida cada pedido com IA e
-            entrega tudo pronto no seu ERP — via integração por API ou exportação no formato exato
-            que seu sistema aceita. Sem digitação, sem retrabalho, sem perder pedido.
+            Chega de digitar pedidos manualmente. A Softeum transforma e-mails com PDF em pedidos prontos
+            para o seu ERP em minutos, com zero esforço humano.
           </p>
 
           <ul className="grid gap-2.5 text-left text-sm md:grid-cols-2">
-            {["Zero digitação manual", "Até 95% de precisão na leitura", "Integração via API ou exportação para ERP", "Pedidos prontos em minutos, não em horas"].map((b, i) => (
+            {["Zero digitação manual", "Até 95% de precisão na leitura", "Integração ou exportação para ERP", "Pedidos processados em minutos"].map((b, i) => (
               <li
                 key={b}
                 className="flex animate-fade-in items-center gap-2 transition-transform hover:translate-x-1"
@@ -106,29 +105,20 @@ export const Hero = () => {
             <MagneticButton className="w-full sm:w-auto">
               <Button asChild variant="hero" size="xl" className="group w-full sm:w-auto">
                 <a href="#demo">
-                  Quero automatizar meus pedidos
+                  Agende uma demo gratuita
                   <ArrowRight className="ml-1 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </a>
               </Button>
             </MagneticButton>
             <MagneticButton strength={0.15} className="w-full sm:w-auto">
               <Button asChild variant="outline" size="xl" className="w-full sm:w-auto">
-                <a href="#funcionalidades">Ver como funciona</a>
+                <a href="#funcionalidades">Ver funcionalidades</a>
               </Button>
             </MagneticButton>
           </div>
 
-          <div className="inline-flex flex-wrap items-center gap-2 rounded-xl border border-accent/30 bg-accent/5 px-3 py-2 text-xs text-foreground/80 sm:gap-3">
-            <Plug className="h-4 w-4 shrink-0 text-accent" />
-            <span>
-              <strong className="font-semibold text-foreground">Integração via API</strong> ou
-              <strong className="font-semibold text-foreground"> exportação personalizada</strong> —
-              seu ERP recebe o pedido pronto, no formato que ele aceita.
-            </span>
-          </div>
-
           <p className="text-xs text-muted-foreground">
-            Recebeu pedido por e-mail com PDF? A Softeum lê, valida e entrega no seu ERP automaticamente.
+            Seu cliente envia o pedido por e-mail com PDF em anexo. O Softeum lê, interpreta e processa automaticamente.
           </p>
         </div>
 
@@ -210,13 +200,13 @@ export const Hero = () => {
                 [
                   "+98% de tempo economizado",
                   "−95% de erros nos pedidos",
-                  "Faturamento no mesmo dia",
+                  "Pedidos faturados no mesmo dia",
                   "10x mais capacidade sem contratar",
-                  "Sua equipe focada em vender",
-                  "Integração via API com seu ERP",
+                  "Equipe focada em vender, não digitar",
+                  "Clientes recebendo no prazo",
                   "Operação rodando 24/7 sem parar",
                   "Margem maior, retrabalho zero",
-                  "Escala sem aumentar o time",
+                  "Escalabilidade sem aumentar custo",
                   "ROI já no primeiro mês",
                 ].map((n, idx) => (
                   <span
