@@ -57,7 +57,7 @@ export const Navbar = () => {
 
         <div className="hidden items-center gap-3 md:flex">
           <Button asChild variant="ghost" size="sm">
-            <a href="https://softeum-flow.vercel.app/login" target="_blank" rel="noreferrer">
+            <a href="https://plataforma.softeum.com.br" target="_blank" rel="noreferrer">
               Acessar a plataforma
             </a>
           </Button>
@@ -91,7 +91,7 @@ export const Navbar = () => {
             ))}
             <Button asChild variant="outline" className="mt-3 w-full justify-center">
               <a
-                href="https://softeum-flow.vercel.app/login"
+                href="https://plataforma.softeum.com.br"
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => setOpen(false)}
