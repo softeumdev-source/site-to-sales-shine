@@ -40,7 +40,7 @@ export const Navbar = () => {
             height={36}
             className="h-9 w-9 transition-transform group-hover:rotate-6 group-hover:scale-110"
           />
-          <span className="font-display text-xl font-bold tracking-tight">Softeum</span>
+          <span className="font-display text-xl font-bold leading-none tracking-tight">Softeum</span>
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">

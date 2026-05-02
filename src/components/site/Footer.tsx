@@ -8,7 +8,7 @@ export const Footer = () => {
           <div className="md:col-span-2">
             <a href="#top" className="flex items-center gap-2">
               <img src={logo} alt="Softeum" width={32} height={32} className="h-8 w-8" />
-              <span className="font-display text-lg font-bold">Softeum</span>
+              <span className="font-display text-lg font-bold leading-none">Softeum</span>
             </a>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
               Pedidos por e-mail viram pedidos no seu ERP. Sem digitar.
