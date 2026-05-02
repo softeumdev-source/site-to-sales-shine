@@ -32,23 +32,24 @@ export const CTA = () => {
           <div>
             <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
               <Sparkles className="h-3.5 w-3.5" />
-              <span className="truncate">Sistema rodando em até 3 dias úteis</span>
+              <span className="truncate">Demo gratuita e sem compromisso</span>
             </div>
 
             <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight md:text-5xl">
-              Veja o Softeum funcionando com{" "}
+              Pare de perder dinheiro digitando.{" "}
               <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
-                seus próprios pedidos
+                Comece a faturar mais hoje.
               </span>
             </h2>
 
             <p className="mt-5 text-lg text-white/80">
-              Agende uma demonstração de 30 minutos. Nossa equipe mostra a plataforma rodando
-              com pedidos reais e desenha um plano para a sua operação.
+              Agende uma demonstração de 30 minutos. Nosso time roda a Softeum com pedidos reais da
+              sua operação e mostra exatamente quanto tempo, quanto dinheiro e quantos erros você
+              vai economizar todo mês.
             </p>
 
             <ul className="mt-7 space-y-3 text-sm text-white/90">
-              {["Demo personalizada com seus pedidos", "Análise de ROI para sua operação", "Sistema rodando em até 3 dias úteis", "Sem compromisso e sem instalação"].map((b) => (
+              {["Demonstração com pedidos reais da sua empresa", "Cálculo de ROI personalizado para a sua operação", "Integração via API ou exportação no formato do seu ERP", "Sem compromisso, sem instalação, sem cartão de crédito"].map((b) => (
                 <li key={b} className="flex items-center gap-2.5">
                   <CheckCircle2 className="h-5 w-5 text-secondary" />
                   {b}
@@ -90,7 +91,7 @@ export const CTA = () => {
               </div>
 
               <Button type="submit" variant="hero" size="lg" disabled={loading} className="mt-2 h-auto min-h-11 whitespace-normal px-4 text-center">
-                {loading ? "Enviando..." : "Quero agendar minha demo"}
+                {loading ? "Enviando..." : "Quero economizar tempo e dinheiro"}
               </Button>
               <p className="text-center text-xs text-muted-foreground">
                 Resposta em até 1 dia útil • Seus dados estão seguros

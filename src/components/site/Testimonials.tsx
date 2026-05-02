@@ -12,7 +12,7 @@ const testimonials = [
     img: t1,
   },
   {
-    quote: "Com a Softeum rodando em até 3 dias úteis, a redução de erros nos pedidos foi imediata e impressionou nossa diretoria — o ROI veio já no primeiro mês.",
+    quote: "A redução de erros nos pedidos foi imediata e impressionou nossa diretoria — o ROI da Softeum veio já no primeiro mês de operação.",
     name: "Carolina Mendes",
     role: "Gerente de Operações",
     img: t2,

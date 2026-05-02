@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: "Funciona com o meu ERP?",
-    a: "Sim. O sistema gera exportações no formato customizado para o seu ERP. A própria IA analisa o layout que você usa hoje e adapta — CSV, XML, JSON ou XLSX.",
+    a: "Sim. A Softeum integra com o seu ERP de duas formas: via API (o pedido entra direto, sem nenhum clique) ou por exportação no formato customizado que ele aceita. A própria IA analisa o layout que você já usa e gera CSV, XML, JSON ou XLSX exatamente nesse padrão. Funciona com SAP, TOTVS, Sankhya, Bling, Omie, Senior e ERPs personalizados.",
   },
   {
     q: "Como o sistema lê o pedido?",
@@ -32,15 +32,15 @@ const faqs = [
   },
   {
     q: "Meus dados ficam seguros?",
-    a: "Sim. Cada empresa tem seus dados completamente isolados (multi-tenant). Senhas nunca ficam expostas e a conexão com o Gmail é via OAuth, padrão Google de segurança.",
+    a: "Sim. Cada empresa tem seus dados completamente isolados (multi-tenant). Senhas nunca ficam expostas e a conexão com o e-mail da sua empresa é feita via protocolos seguros e padrão de mercado (OAuth quando disponível).",
   },
   {
     q: "Posso testar antes de assinar?",
     a: "Sim. Temos um modo demo com dados fictícios realistas e cenários simulados para você explorar todas as funcionalidades antes de contratar.",
   },
   {
-    q: "Em quanto tempo o sistema entra em operação?",
-    a: "Em até 3 dias úteis a Softeum já está rodando na sua operação, conectada ao seu e-mail e ao seu ERP, processando pedidos reais automaticamente.",
+    q: "Como começa a operação na minha empresa?",
+    a: "Conectamos o e-mail da sua empresa, configuramos a integração com o ERP (via API ou exportação personalizada) e validamos os primeiros pedidos junto com você. A partir daí, a Softeum passa a processar tudo automaticamente, com o seu time apenas revisando o que precisa de atenção.",
   },
 ];
 

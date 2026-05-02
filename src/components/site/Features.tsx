@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   Mail, Brain, Activity, Edit3, ShieldCheck, Copy, Send,
   BarChart3, Plug, Lock, Check, ArrowRight, Sparkles, AlertTriangle,
-  Clock, FileText, Eye, Bell, Filter, History
+  Clock, FileText, Eye, Bell, History
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -60,7 +60,7 @@ const AIExtractionPreview = () => (
           <Sparkles className="h-3 w-3" /> 99% IA
         </span>
       </div>
-      <div className="font-display text-base font-bold">Acme Indústria LTDA</div>
+      <div className="font-display text-base font-bold">Acme Comércio LTDA</div>
       <div className="text-xs text-muted-foreground">CNPJ 12.345.678/0001-90</div>
     </div>
     <div className="overflow-hidden rounded-xl border border-border bg-background/80">
@@ -265,7 +265,7 @@ const ReportsPreview = () => (
     <div className="rounded-xl border border-border bg-background/80 p-3">
       <div className="mb-2 text-xs font-semibold">Top clientes</div>
       {[
-        { n: "Acme Indústria", v: 84 },
+        { n: "Acme Comércio", v: 84 },
         { n: "DistribMax", v: 62 },
         { n: "TechFlow", v: 41 },
       ].map((c) => (
@@ -376,12 +376,12 @@ const groups: FeatureGroup[] = [
     id: "recebimento",
     emoji: "⚡",
     icon: Mail,
-    title: "Integração com e-mail",
-    pitch: "Conecte o e-mail da sua empresa e deixe o sistema monitorar os pedidos automaticamente.",
+    title: "Captura automática dos pedidos por e-mail",
+    pitch: "Conecte o e-mail comercial da sua empresa e deixe a Softeum trabalhar 24/7 por você.",
     bullets: [
-      "Monitoramento automático da caixa de entrada a cada 5 minutos",
-      "Funciona com Gmail e qualquer provedor via encaminhamento",
-      "Processamento dos pedidos recebidos sem intervenção manual",
+      "Monitoramento automático da caixa de entrada a cada poucos minutos",
+      "Funciona com qualquer provedor de e-mail (corporativo ou pessoal) via conexão segura ou encaminhamento",
+      "Nenhum pedido fica esquecido — todos entram no fluxo automaticamente",
     ],
     preview: InboxPreview,
   },
@@ -480,13 +480,13 @@ const groups: FeatureGroup[] = [
     id: "erp",
     emoji: "⚙️",
     icon: Plug,
-    title: "Exportação no formato do seu ERP",
-    pitch: "Suba um arquivo modelo uma única vez e a IA gera a exportação no layout que seu sistema aceita.",
+    title: "Integração com seu ERP via API ou exportação",
+    pitch: "Os dois pilares da Softeum: integramos direto no seu ERP por API ou geramos o arquivo de importação no formato exato que ele aceita.",
     bullets: [
-      "Geração de arquivos exatamente no formato do seu ERP",
-      "Exportação em CSV, XML, JSON ou XLSX",
-      "Integração com API e suporte a formatos futuros",
-      "Pedido pronto para importar, aprovar ou faturar",
+      "Integração direta via API com seu ERP — pedido cai já lançado, sem intervenção humana",
+      "Exportação personalizada em CSV, XML, JSON ou XLSX no layout exato do seu sistema",
+      "Suba uma única vez um arquivo modelo e a IA replica esse layout em todos os pedidos",
+      "Compatível com SAP, TOTVS, Sankhya, Bling, Omie, Senior e outros — ou qualquer ERP customizado",
     ],
     preview: ErpPreview,
   },
@@ -502,19 +502,6 @@ const groups: FeatureGroup[] = [
       "Histórico detalhado: quem mudou o quê e quando",
     ],
     preview: SecurityPreview,
-  },
-  {
-    id: "multiempresa",
-    emoji: "🏢",
-    icon: Filter,
-    title: "Multi-empresa",
-    pitch: "Atenda múltiplas indústrias e distribuidores na mesma plataforma.",
-    bullets: [
-      "Configurações separadas por empresa",
-      "E-mails, layouts de ERP e equipes independentes",
-      "Operação organizada para diferentes unidades ou clientes",
-    ],
-    preview: DashboardPreview,
   },
   {
     id: "equipe",

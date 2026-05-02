@@ -12,7 +12,7 @@ export const Footer = () => {
             </a>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
               Pedidos por e-mail viram pedidos no seu ERP. Sem digitar.
-              IA, validação e exportação automática para indústrias e distribuidores.
+              IA, validação automática e integração via API ou exportação personalizada.
             </p>
           </div>
 

@@ -19,8 +19,8 @@ const Index = () => {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     description:
-      "O Softeum automatiza o processamento de pedidos recebidos por e-mail. Indústrias e distribuidores transformam PDFs em pedidos prontos para o ERP em segundos, com IA, validação e exportação automática.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", description: "Demo gratuita — sistema rodando em até 3 dias úteis" },
+      "O Softeum automatiza o processamento de pedidos recebidos por e-mail. Empresas que recebem pedidos em PDF transformam esses arquivos em pedidos prontos para o ERP em segundos, com IA, validação automática, integração via API e exportação personalizada.",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", description: "Demo gratuita e sem compromisso" },
   };
 
   return (

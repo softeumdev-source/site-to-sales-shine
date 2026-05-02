@@ -6,20 +6,20 @@ const steps = [
   {
     n: "01",
     icon: Mail,
-    title: "Conecte sua caixa de entrada",
-    desc: "Conecte o Gmail da empresa em poucos cliques, com OAuth seguro. Tudo pronto em menos de 2 minutos.",
+    title: "Conecte o e-mail da sua empresa",
+    desc: "Em poucos cliques você conecta o e-mail comercial à Softeum, com autenticação segura. A partir daí, todo pedido recebido entra no fluxo automaticamente.",
   },
   {
     n: "02",
     icon: Brain,
-    title: "A IA lê os pedidos automaticamente",
-    desc: "Cada e-mail com pedido em PDF é processado por inteligência artificial: produto, quantidade, valor, comprador e prazo extraídos em segundos.",
+    title: "A IA lê e valida cada pedido",
+    desc: "Nossa IA extrai produto, quantidade, valor, comprador, CNPJ e prazo de qualquer PDF — em segundos. Regras de validação garantem que nada passe errado para o ERP.",
   },
   {
     n: "03",
     icon: Database,
-    title: "Pronto para o ERP",
-    desc: "Pedidos válidos são aprovados automaticamente. Os exportados saem no formato exato do seu ERP — importação direta, sem retrabalho.",
+    title: "Pedido entregue no seu ERP",
+    desc: "Integração direta via API ou exportação no formato exato do seu ERP. O pedido cai pronto pra faturar — sem digitar, sem retrabalho, sem dor de cabeça.",
   },
 ];
 
@@ -38,7 +38,7 @@ export const HowItWorks = () => {
             <span className="text-gradient-brand">3 passos</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            O Softeum lê, interpreta e processa automaticamente — sem você precisar fazer nada.
+            A Softeum recebe, interpreta e entrega o pedido no seu ERP — você só revisa o que precisa.
           </p>
         </div>
 

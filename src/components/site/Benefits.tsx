@@ -14,12 +14,12 @@ const benefits: Array<{ value: number; suffix: string; label: string }> = [
 ];
 
 const items = [
-  "Indústrias que vendem para varejistas e atacadistas",
-  "Distribuidores que recebem pedidos de comerciantes regionais",
-  "Empresas que processam dezenas ou centenas de pedidos por e-mail",
-  "Operações que querem eliminar erros e retrabalho de digitação",
-  "Times que precisam liberar tempo para vender, não digitar",
-  "Negócios que querem escalar sem aumentar o time operacional",
+  "Você recupera horas todo dia que hoje seu time gasta digitando",
+  "Sua operação processa muito mais pedidos sem contratar gente nova",
+  "Seu ERP recebe os pedidos por API ou exportação no formato certo",
+  "Você reduz drasticamente erros, devoluções e retrabalho",
+  "Seu time comercial volta a focar em vender, não em copiar PDF",
+  "Seu cliente é faturado mais rápido — e seu caixa entra antes",
 ];
 
 const StatCard = ({ b, i, shown }: { b: typeof benefits[number]; i: number; shown: boolean }) => {
@@ -84,15 +84,16 @@ export const Benefits = () => {
             )}
           >
             <span className="text-sm font-semibold uppercase tracking-widest text-secondary">
-              Para quem é o Softeum
+              O que muda na sua operação
             </span>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">
-              Resultados que seus clientes podem alcançar{" "}
-              <span className="text-gradient-animated">sem digitação manual</span>
+              Resultados que você alcança{" "}
+              <span className="text-gradient-animated">a partir do primeiro mês</span>
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              A Softeum foi criada para operações que recebem pedidos por e-mail e precisam transformar PDFs
-              em pedidos prontos para o ERP com velocidade, precisão e controle.
+              Você para de gastar horas digitando, reduz erros que custam dinheiro e ainda passa a
+              entregar os pedidos no seu ERP automaticamente — via API ou exportação no formato que
+              seu sistema já aceita.
             </p>
 
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -115,7 +116,7 @@ export const Benefits = () => {
 
             <MagneticButton className="mt-8 w-full sm:w-auto">
               <Button asChild variant="hero" size="lg" className="w-full sm:w-auto">
-                <a href="#demo">Quero conhecer a Softeum</a>
+                <a href="#demo">Quero esses resultados na minha operação</a>
               </Button>
             </MagneticButton>
           </div>

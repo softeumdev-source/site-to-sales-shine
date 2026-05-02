@@ -3,10 +3,10 @@ import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
 
 const problems = [
-  { icon: Clock, title: "Digitação manual de pedidos", desc: "Sua equipe gasta horas todo dia copiando pedidos do e-mail para o ERP." },
-  { icon: AlertTriangle, title: "Erros de transcrição", desc: "Códigos trocados, quantidades erradas e valores digitados de forma incorreta." },
-  { icon: FileX, title: "Pedidos perdidos no e-mail", desc: "Mensagens que ficam para trás e pedidos esquecidos no inbox." },
-  { icon: TrendingDown, title: "Operação difícil de escalar", desc: "Mais clientes = mais gente digitando. Crescimento limitado pela operação manual." },
+  { icon: Clock, title: "Horas perdidas todo dia digitando", desc: "Seu time gasta horas copiando pedidos do e-mail para o ERP — tempo que deveria estar em vendas, não em retrabalho." },
+  { icon: AlertTriangle, title: "Erros que custam caro", desc: "Códigos trocados, quantidades erradas e valores incorretos viram devolução, retrabalho e cliente insatisfeito." },
+  { icon: FileX, title: "Pedidos esquecidos no inbox", desc: "Mensagem que ninguém abriu vira pedido não faturado, prazo perdido e venda que escapa." },
+  { icon: TrendingDown, title: "Crescimento travado pela operação", desc: "Cada cliente novo significa mais gente digitando. Você não escala — só contrata mais." },
 ];
 
 export const Problems = () => {
@@ -19,12 +19,12 @@ export const Problems = () => {
             O problema
           </span>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-5xl">
-            Pedidos por e-mail estão{" "}
-            <span className="text-gradient-brand">travando seu negócio</span>
+            Cada pedido digitado na mão é{" "}
+            <span className="text-gradient-brand">dinheiro saindo do caixa</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Empresas que recebem pedidos por e-mail enfrentam desafios diários
-            que impactam a eficiência, a margem e o crescimento.
+            Se sua empresa recebe pedidos por e-mail, todo dia você perde tempo, comete erros e
+            deixa receita na mesa. A boa notícia: dá pra acabar com isso.
           </p>
         </div>
 
