@@ -8,7 +8,6 @@ import { Features } from "@/components/site/Features";
 import { FAQ } from "@/components/site/FAQ";
 import { CTA } from "@/components/site/CTA";
 import { Footer } from "@/components/site/Footer";
-import { FloatingCTA } from "@/components/site/FloatingCTA";
 import { ScrollProgress } from "@/components/site/ScrollProgress";
 
 const Index = () => {
@@ -39,7 +38,6 @@ const Index = () => {
       <FAQ />
       <CTA />
       <Footer />
-      <FloatingCTA />
     </main>
   );
 };
