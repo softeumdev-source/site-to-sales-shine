@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,21 +5,35 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle2, Sparkles } from "lucide-react";
 
+const WHATSAPP_NUMBER = "5547997875257";
+
 export const CTA = () => {
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      (e.target as HTMLFormElement).reset();
-      toast({
-        title: "Demo agendada com sucesso!",
-        description: "Nossa equipe entra em contato em até 1 dia útil para confirmar.",
-      });
-    }, 800);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const fieldOrFallback = (key: string) =>
+      (data.get(key) as string)?.trim() || "não informado";
+
+    const message = `Olá! Tenho interesse em conhecer a Softeum.
+
+Nome: ${fieldOrFallback("name")}
+Empresa: ${fieldOrFallback("company")}
+Telefone: ${fieldOrFallback("phone")}
+E-mail: ${fieldOrFallback("email")}
+Pedidos por mês: ${fieldOrFallback("msg")}
+
+Aguardo retorno para agendarmos uma demo. Obrigado!`;
+
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+    form.reset();
+    toast({
+      title: "WhatsApp aberto!",
+      description: "Confira a mensagem pré-preenchida e toque em enviar para concluir o agendamento.",
+    });
   };
 
   return (
@@ -90,8 +103,8 @@ export const CTA = () => {
                 <Textarea id="msg" name="msg" rows={3} placeholder="Ex.: ~500 pedidos / mês, ERP Protheus..." />
               </div>
 
-              <Button type="submit" variant="hero" size="lg" disabled={loading} className="mt-2 h-auto min-h-11 whitespace-normal px-4 text-center">
-                {loading ? "Enviando..." : "Quero economizar tempo e dinheiro"}
+              <Button type="submit" variant="hero" size="lg" className="mt-2 h-auto min-h-11 whitespace-normal px-4 text-center">
+                Quero economizar tempo e dinheiro
               </Button>
               <p className="text-center text-xs text-muted-foreground">
                 Resposta em até 1 dia útil • Seus dados estão seguros
