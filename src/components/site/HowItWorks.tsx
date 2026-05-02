@@ -13,13 +13,13 @@ const steps = [
     n: "02",
     icon: Brain,
     title: "A IA lê e valida cada pedido",
-    desc: "Nossa IA extrai produto, quantidade, valor, comprador, CNPJ e prazo de qualquer PDF — em segundos. Regras de validação garantem que nada passe errado para o ERP.",
+    desc: "Nossa IA extrai produto, quantidade, valor, comprador, CNPJ e prazo de qualquer PDF, em segundos. Regras de validação garantem que nada passe errado para o ERP.",
   },
   {
     n: "03",
     icon: Database,
     title: "Pedido entregue no seu ERP",
-    desc: "Integração direta via API ou exportação no formato exato do seu ERP. O pedido cai pronto pra faturar — sem digitar, sem retrabalho, sem dor de cabeça.",
+    desc: "Integração direta via API ou exportação no formato exato do seu ERP. O pedido cai pronto pra faturar, sem digitar, sem retrabalho, sem dor de cabeça.",
   },
 ];
 
@@ -38,7 +38,7 @@ export const HowItWorks = () => {
             <span className="text-gradient-brand">3 passos</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            A Softeum recebe, interpreta e entrega o pedido no seu ERP — você só revisa o que precisa.
+            A Softeum recebe, interpreta e entrega o pedido no seu ERP. Você só revisa o que precisa.
           </p>
         </div>
 

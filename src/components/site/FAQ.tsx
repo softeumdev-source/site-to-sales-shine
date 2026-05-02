@@ -8,7 +8,7 @@ import {
 const faqs = [
   {
     q: "Preciso instalar algo?",
-    a: "Não. O Softeum funciona 100% no navegador. Você acessa de qualquer computador, em qualquer lugar — sem instalação e sem manutenção.",
+    a: "Não. O Softeum funciona 100% no navegador. Você acessa de qualquer computador, em qualquer lugar, sem instalação e sem manutenção.",
   },
   {
     q: "Funciona com o meu ERP?",
@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "Como o sistema lê o pedido?",
-    a: "Inteligência artificial extrai os dados do PDF anexado no e-mail. Funciona com qualquer formato de pedido — não é preciso que o seu cliente use um modelo específico.",
+    a: "Inteligência artificial extrai os dados do PDF anexado no e-mail. Funciona com qualquer formato de pedido. Não é preciso que o seu cliente use um modelo específico.",
   },
   {
     q: "E se a IA errar algum dado?",
@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     q: "Quantos pedidos posso processar?",
-    a: "Depende do plano. Há opções para diferentes volumes mensais — fale com nosso comercial para encontrar a faixa ideal para sua operação.",
+    a: "Depende do plano. Há opções para diferentes volumes mensais. Fale com nosso comercial para encontrar a faixa ideal para sua operação.",
   },
   {
     q: "Meus dados ficam seguros?",

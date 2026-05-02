@@ -3,10 +3,10 @@ import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
 
 const problems = [
-  { icon: Clock, title: "Horas perdidas todo dia digitando", desc: "Seu time gasta horas copiando pedidos do e-mail para o ERP — tempo que deveria estar em vendas, não em retrabalho." },
+  { icon: Clock, title: "Horas perdidas todo dia digitando", desc: "Seu time gasta horas copiando pedidos do e-mail para o ERP. Tempo que deveria estar em vendas, não em retrabalho." },
   { icon: AlertTriangle, title: "Erros que custam caro", desc: "Códigos trocados, quantidades erradas e valores incorretos viram devolução, retrabalho e cliente insatisfeito." },
   { icon: FileX, title: "Pedidos esquecidos no inbox", desc: "Mensagem que ninguém abriu vira pedido não faturado, prazo perdido e venda que escapa." },
-  { icon: TrendingDown, title: "Crescimento travado pela operação", desc: "Cada cliente novo significa mais gente digitando. Você não escala — só contrata mais." },
+  { icon: TrendingDown, title: "Crescimento travado pela operação", desc: "Cada cliente novo significa mais gente digitando. Você não escala, só contrata mais." },
 ];
 
 export const Problems = () => {

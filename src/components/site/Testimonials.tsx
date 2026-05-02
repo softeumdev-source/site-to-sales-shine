@@ -12,7 +12,7 @@ const testimonials = [
     img: t1,
   },
   {
-    quote: "A redução de erros nos pedidos foi imediata e impressionou nossa diretoria — o ROI da Softeum veio já no primeiro mês de operação.",
+    quote: "A redução de erros nos pedidos foi imediata e impressionou nossa diretoria. O ROI da Softeum veio já no primeiro mês de operação.",
     name: "Carolina Mendes",
     role: "Gerente de Operações",
     img: t2,

@@ -92,7 +92,7 @@ export const Benefits = () => {
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
               Você para de gastar horas digitando, reduz erros que custam dinheiro e ainda passa a
-              entregar os pedidos no seu ERP automaticamente — via API ou exportação no formato que
+              entregar os pedidos no seu ERP automaticamente, via API ou exportação no formato que
               seu sistema já aceita.
             </p>
 

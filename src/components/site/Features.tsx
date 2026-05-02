@@ -21,8 +21,8 @@ type FeatureGroup = {
 const InboxPreview = () => (
   <div className="space-y-2">
     {[
-      { from: "compras@acme.com.br", subject: "Pedido 4521 — 12 itens", status: "novo" },
-      { from: "vendas@distribmax.com", subject: "Reposição mensal — PDF anexo", status: "lido" },
+      { from: "compras@acme.com.br", subject: "Pedido 4521 - 12 itens", status: "novo" },
+      { from: "vendas@distribmax.com", subject: "Reposição mensal - PDF anexo", status: "lido" },
       { from: "pedidos@techflow.com", subject: "Pedido urgente faturar hoje", status: "novo" },
     ].map((m, i) => (
       <div
@@ -143,7 +143,7 @@ const ReviewPreview = () => (
   <div className="rounded-xl border border-border bg-background/80 p-4">
     <div className="mb-3 flex items-center gap-2 rounded-lg border border-secondary/30 bg-secondary/10 p-2 text-xs">
       <AlertTriangle className="h-4 w-4 text-secondary" />
-      <span><b>1 campo</b> com baixa confiança — revise antes de aprovar.</span>
+      <span><b>1 campo</b> com baixa confiança, revise antes de aprovar.</span>
     </div>
     <div className="grid gap-2">
       <div>
@@ -381,7 +381,7 @@ const groups: FeatureGroup[] = [
     bullets: [
       "Monitoramento automático da caixa de entrada a cada poucos minutos",
       "Funciona com qualquer provedor de e-mail (corporativo ou pessoal) via conexão segura ou encaminhamento",
-      "Nenhum pedido fica esquecido — todos entram no fluxo automaticamente",
+      "Nenhum pedido fica esquecido. Todos entram no fluxo automaticamente",
     ],
     preview: InboxPreview,
   },
@@ -483,10 +483,10 @@ const groups: FeatureGroup[] = [
     title: "Integração com seu ERP via API ou exportação",
     pitch: "Os dois pilares da Softeum: integramos direto no seu ERP por API ou geramos o arquivo de importação no formato exato que ele aceita.",
     bullets: [
-      "Integração direta via API com seu ERP — pedido cai já lançado, sem intervenção humana",
+      "Integração direta via API com seu ERP, pedido cai já lançado, sem intervenção humana",
       "Exportação personalizada em CSV, XML, JSON ou XLSX no layout exato do seu sistema",
       "Suba uma única vez um arquivo modelo e a IA replica esse layout em todos os pedidos",
-      "Compatível com SAP, TOTVS, Sankhya, Bling, Omie, Senior e outros — ou qualquer ERP customizado",
+      "Compatível com SAP, TOTVS, Sankhya, Bling, Omie, Senior e outros, ou qualquer ERP customizado",
     ],
     preview: ErpPreview,
   },
@@ -540,7 +540,7 @@ export const Features = () => {
             <span className="text-gradient-brand">vender mais e melhor</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Capacidades trabalhando juntas — do e-mail ao ERP, com IA, regras
+            Capacidades trabalhando juntas, do e-mail ao ERP, com IA, regras
             de aprovação e visibilidade total.
           </p>
         </div>
