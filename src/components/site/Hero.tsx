@@ -68,7 +68,7 @@ export const Hero = () => {
         ))}
       </div>
 
-      <div className="container relative grid gap-10 py-14 md:py-28 lg:grid-cols-2 lg:items-center lg:py-32">
+      <div className="container relative grid gap-10 pb-14 pt-6 md:pb-28 md:pt-10 lg:grid-cols-2 lg:items-center lg:pb-32 lg:pt-14">
         <div className="animate-fade-up space-y-6 text-center sm:text-left md:space-y-7">
           <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1.5 text-xs font-medium text-foreground/80 backdrop-blur transition-all hover:scale-105 hover:border-secondary/40 hover:shadow-glow sm:px-4">
             <Sparkles className="h-3.5 w-3.5 animate-pulse-soft text-secondary" />
