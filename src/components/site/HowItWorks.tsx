@@ -6,20 +6,20 @@ const steps = [
   {
     n: "01",
     icon: Mail,
-    title: "Cliente envia o pedido",
-    desc: "Seu cliente envia o pedido por e-mail com o PDF em anexo, usando o fluxo que já existe hoje.",
+    title: "Conecte sua caixa de entrada",
+    desc: "Conecte o Gmail da empresa em poucos cliques, com OAuth seguro. Tudo pronto em menos de 2 minutos.",
   },
   {
     n: "02",
     icon: Brain,
-    title: "IA lê e interpreta tudo",
-    desc: "A Softeum lê qualquer PDF de pedido, entende o layout e extrai empresa, CNPJ, produtos, quantidades, preços e entrega.",
+    title: "A IA lê os pedidos automaticamente",
+    desc: "Cada e-mail com pedido em PDF é processado por inteligência artificial: produto, quantidade, valor, comprador e prazo extraídos em segundos.",
   },
   {
     n: "03",
     icon: Database,
-    title: "Pedido pronto para o ERP",
-    desc: "O pedido fica pronto em minutos para integração ou exportação no formato do seu ERP — CSV, XML, JSON ou XLSX.",
+    title: "Pronto para o ERP",
+    desc: "Pedidos válidos são aprovados automaticamente. Os exportados saem no formato exato do seu ERP — importação direta, sem retrabalho.",
   },
 ];
 

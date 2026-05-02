@@ -11,8 +11,8 @@ export const Footer = () => {
               <span className="font-display text-lg font-bold">Softeum</span>
             </a>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-              Automação de pedidos por e-mail com IA, integrada ao seu ERP.
-              Menos digitação, mais negócio.
+              Pedidos por e-mail viram pedidos no seu ERP. Sem digitar.
+              IA, validação e exportação automática para indústrias e distribuidores.
             </p>
           </div>
 
@@ -37,7 +37,7 @@ export const Footer = () => {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
           <p>© {new Date().getFullYear()} Softeum. Todos os direitos reservados.</p>
-          <p>Feito com ❤ para quem quer crescer sem digitar pedidos.</p>
+          <p>Feito para liberar sua equipe da digitação de pedidos.</p>
         </div>
       </div>
     </footer>

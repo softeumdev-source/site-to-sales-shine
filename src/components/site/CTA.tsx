@@ -36,19 +36,19 @@ export const CTA = () => {
             </div>
 
             <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight md:text-5xl">
-              Veja a Softeum funcionando com{" "}
+              Veja o Softeum funcionando com{" "}
               <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
                 seus próprios pedidos
               </span>
             </h2>
 
             <p className="mt-5 text-lg text-white/80">
-              Agende uma demo de 30 minutos. Nossa equipe mostra a plataforma rodando
+              Agende uma demonstração de 30 minutos. Nossa equipe mostra a plataforma rodando
               com pedidos reais e desenha um plano para a sua operação.
             </p>
 
             <ul className="mt-7 space-y-3 text-sm text-white/90">
-              {["Demo personalizada com seus pedidos", "Análise de ROI para sua operação", "Sistema rodando em até 3 dias úteis"].map((b) => (
+              {["Demo personalizada com seus pedidos", "Análise de ROI para sua operação", "Sistema rodando em até 3 dias úteis", "Sem compromisso e sem instalação"].map((b) => (
                 <li key={b} className="flex items-center gap-2.5">
                   <CheckCircle2 className="h-5 w-5 text-secondary" />
                   {b}

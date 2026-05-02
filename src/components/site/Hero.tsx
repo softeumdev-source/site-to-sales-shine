@@ -76,20 +76,20 @@ export const Hero = () => {
           </div>
 
           <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Automatize seus{" "}
+            Pedidos por e-mail viram{" "}
             <span className="relative inline-block">
-              <span className="text-gradient-animated">pedidos com IA</span>
+              <span className="text-gradient-animated">pedidos no seu ERP</span>
               <span className="absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-brand opacity-60" />
             </span>
           </h1>
 
           <p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground sm:mx-0 md:text-xl">
-            Chega de digitar pedidos manualmente. A Softeum transforma e-mails com PDF em pedidos prontos
-            para o seu ERP em minutos, com zero esforço humano.
+            Acabe com a digitação manual de pedidos. O Softeum recebe e-mails com PDF, extrai, valida
+            e envia tudo pronto para o seu ERP — automaticamente.
           </p>
 
           <ul className="grid gap-2.5 text-left text-sm md:grid-cols-2">
-            {["Zero digitação manual", "Até 95% de precisão na leitura", "Integração ou exportação para ERP", "Pedidos processados em minutos"].map((b, i) => (
+            {["Zero digitação manual", "IA com até 95% de precisão", "Exportação no formato do seu ERP", "Pedidos processados em segundos"].map((b, i) => (
               <li
                 key={b}
                 className="flex animate-fade-in items-center gap-2 transition-transform hover:translate-x-1"
@@ -118,7 +118,7 @@ export const Hero = () => {
           </div>
 
           <p className="text-xs text-muted-foreground">
-            Seu cliente envia o pedido por e-mail com PDF em anexo. O Softeum lê, interpreta e processa automaticamente.
+            Indústrias e distribuidores que recebem pedidos por e-mail economizam horas todo dia com o Softeum.
           </p>
         </div>
 

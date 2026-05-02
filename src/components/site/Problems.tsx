@@ -3,10 +3,10 @@ import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
 
 const problems = [
-  { icon: Clock, title: "Excesso de digitação manual", desc: "Sua equipe gasta horas todo dia copiando pedidos do e-mail para o ERP." },
-  { icon: AlertTriangle, title: "Alto índice de erros", desc: "Códigos trocados, quantidades erradas, pedidos perdidos no inbox." },
-  { icon: FileX, title: "Processos lentos e gargalos", desc: "Pedidos que demoram horas (ou dias) para virar nota fiscal." },
-  { icon: TrendingDown, title: "Dificuldade para escalar", desc: "Mais clientes = mais gente digitando. Crescimento limitado pela operação." },
+  { icon: Clock, title: "Digitação manual de pedidos", desc: "Sua equipe gasta horas todo dia copiando pedidos do e-mail para o ERP." },
+  { icon: AlertTriangle, title: "Erros de transcrição", desc: "Códigos trocados, quantidades erradas e valores digitados de forma incorreta." },
+  { icon: FileX, title: "Pedidos perdidos no e-mail", desc: "Mensagens que ficam para trás e pedidos esquecidos no inbox." },
+  { icon: TrendingDown, title: "Operação difícil de escalar", desc: "Mais clientes = mais gente digitando. Crescimento limitado pela operação manual." },
 ];
 
 export const Problems = () => {
