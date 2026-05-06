@@ -199,7 +199,7 @@ export const Hero = () => {
               {[...Array(2)].map((_, k) =>
                 [
                   "+98% de tempo economizado",
-                  "−95% de erros nos pedidos",
+                  "−100% de erros nos pedidos",
                   "Pedidos faturados no mesmo dia",
                   "10x mais capacidade sem contratar",
                   "Equipe focada em vender, não digitar",
