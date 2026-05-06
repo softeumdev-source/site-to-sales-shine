@@ -89,7 +89,7 @@ export const Hero = () => {
           </p>
 
           <ul className="grid gap-2.5 text-left text-sm md:grid-cols-2">
-            {["Zero digitação manual", "Até 95% de precisão na leitura", "Integração ou exportação para ERP", "Pedidos processados em minutos"].map((b, i) => (
+            {["Zero digitação manual", "Até 100% de precisão na leitura", "Integração ou exportação para ERP", "Pedidos processados em minutos"].map((b, i) => (
               <li
                 key={b}
                 className="flex animate-fade-in items-center gap-2 transition-transform hover:translate-x-1"
@@ -199,7 +199,7 @@ export const Hero = () => {
               {[...Array(2)].map((_, k) =>
                 [
                   "+98% de tempo economizado",
-                  "−95% de erros nos pedidos",
+                  "−100% de erros nos pedidos",
                   "Pedidos faturados no mesmo dia",
                   "10x mais capacidade sem contratar",
                   "Equipe focada em vender, não digitar",

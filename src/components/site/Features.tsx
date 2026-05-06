@@ -392,7 +392,7 @@ const groups: FeatureGroup[] = [
     title: "Leitura automática de PDF por IA avançada",
     pitch: "Nossa IA lê qualquer PDF de pedido, independente do layout ou formato.",
     bullets: [
-      "Até 95% de precisão na leitura dos PDFs",
+      "Até 100% de precisão na leitura dos PDFs",
       "Extrai número do pedido, empresa, CNPJ, produtos, quantidades e preços",
       "Identifica endereço de entrega e outros dados importantes do pedido",
     ],

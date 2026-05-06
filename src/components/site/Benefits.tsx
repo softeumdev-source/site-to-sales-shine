@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const benefits: Array<{ value: number; suffix: string; label: string }> = [
   { value: 90, suffix: "%", label: "redução no tempo de processamento" },
-  { value: 95, suffix: "%", label: "de precisão na leitura dos PDFs" },
+  { value: 100, suffix: "%", label: "de precisão na leitura dos PDFs" },
   { value: 0, suffix: "", label: "digitação manual na operação" },
   { value: 24, suffix: "/7", label: "processando pedidos sem parar" },
 ];
@@ -17,7 +17,7 @@ const items = [
   "Recupere horas produtivas todo dia eliminando a digitação manual de pedidos",
   "Multiplique por 10 o volume de pedidos processados sem contratar uma pessoa a mais",
   "Conecte direto no seu ERP via API ou receba a exportação pronta no formato exato que ele aceita",
-  "Reduza em até 95% os erros que viram devolução, retrabalho e cliente irritado",
+  "Reduza em até 100% os erros que viram devolução, retrabalho e cliente irritado",
   "Devolva ao seu time comercial o tempo que hoje ele perde em tarefa operacional",
   "Fature no mesmo dia que o pedido chega e antecipe a entrada de caixa todo mês",
 ];
