@@ -34,6 +34,7 @@ const Index = () => {
       <Hero />
       <Problems />
       <HowItWorks />
+      <WhatsAppSection />
       <Benefits />
       <Features />
       <FAQ />
