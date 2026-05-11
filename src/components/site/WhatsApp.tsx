@@ -54,37 +54,84 @@ export const WhatsAppSection = () => {
           </p>
         </div>
 
-        {/* Mini fluxo visual */}
-        <div className="mx-auto mb-14 max-w-3xl rounded-2xl border border-border bg-card p-6 shadow-card md:p-8">
-          <div className="flex flex-col items-center gap-4 text-sm">
-            <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 font-medium">
-              <MessageCircle className="h-4 w-4" style={{ color: "#25D366" }} />
-              Cliente no WhatsApp
-            </div>
-            <ArrowDown className="h-5 w-5 text-muted-foreground" />
-            <div className="grid w-full gap-4 sm:grid-cols-2">
-              <div className="flex flex-col items-center gap-3">
-                <div className="rounded-full border border-border bg-background px-4 py-2 font-medium">Envia PDF</div>
-                <ArrowDown className="h-4 w-4 text-muted-foreground" />
-                <div className="flex items-center gap-2 rounded-full bg-gradient-brand px-4 py-2 text-white shadow-glow">
-                  <FileText className="h-4 w-4" />
-                  Softeum lê
+        {/* Visual moderno: jornada do pedido */}
+        <div className="mx-auto mb-16 max-w-5xl">
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-card/60 p-6 shadow-card backdrop-blur md:p-10">
+            {/* glow background */}
+            <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-gradient-brand opacity-20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-16 -right-16 h-64 w-64 rounded-full bg-gradient-cta opacity-20 blur-3xl" />
+
+            <div className="relative grid items-center gap-8 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
+              {/* Origem: cliente */}
+              <div className="flex flex-col items-center text-center">
+                <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-background shadow-soft">
+                  <MessageCircle className="h-8 w-8" style={{ color: "#25D366" }} />
+                  <span className="absolute -right-1 -top-1 flex h-3 w-3">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ backgroundColor: "#25D366" }} />
+                    <span className="relative inline-flex h-3 w-3 rounded-full" style={{ backgroundColor: "#25D366" }} />
+                  </span>
+                </div>
+                <p className="mt-3 font-display text-sm font-bold">Cliente no WhatsApp</p>
+                <p className="text-xs text-muted-foreground">Inicia o pedido</p>
+              </div>
+
+              {/* Conector 1 */}
+              <div className="hidden items-center md:flex">
+                <div className="h-px w-16 bg-gradient-to-r from-transparent via-accent to-transparent" />
+              </div>
+
+              {/* Bifurcação: dois caminhos */}
+              <div className="flex flex-col gap-3">
+                <div className="group flex items-center gap-3 rounded-2xl border border-border bg-background/80 p-3 shadow-soft transition-all hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-elegant">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white shadow-glow">
+                    <FileText className="h-5 w-5" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-semibold leading-tight">Envia PDF</p>
+                    <p className="text-xs text-muted-foreground">Softeum lê e extrai</p>
+                  </div>
+                </div>
+                <div className="group flex items-center gap-3 rounded-2xl border border-border bg-background/80 p-3 shadow-soft transition-all hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-elegant">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white shadow-glow">
+                    <Bot className="h-5 w-5" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-semibold leading-tight">Conversa com IA</p>
+                    <p className="text-xs text-muted-foreground">Fecha pedido natural</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="rounded-full border border-border bg-background px-4 py-2 font-medium">Não tem PDF</div>
-                <ArrowDown className="h-4 w-4 text-muted-foreground" />
-                <div className="flex items-center gap-2 rounded-full bg-gradient-brand px-4 py-2 text-white shadow-glow">
-                  <Bot className="h-4 w-4" />
-                  IA conversa
+
+              {/* Conector 2 */}
+              <div className="hidden items-center md:flex">
+                <div className="h-px w-16 bg-gradient-to-r from-transparent via-accent to-transparent" />
+              </div>
+
+              {/* Destino */}
+              <div className="flex flex-col items-center text-center">
+                <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-cta text-primary-foreground shadow-elegant">
+                  <Database className="h-8 w-8" />
+                  <Sparkles className="absolute -right-2 -top-2 h-5 w-5 text-accent" />
                 </div>
+                <p className="mt-3 font-display text-sm font-bold">Pedido no ERP</p>
+                <p className="text-xs text-muted-foreground">Pronto pra faturar</p>
               </div>
             </div>
-            <ArrowDown className="h-5 w-5 text-muted-foreground" />
-            <div className="rounded-full border border-border bg-background px-4 py-2 font-medium">Pedido validado</div>
-            <ArrowDown className="h-5 w-5 text-muted-foreground" />
-            <div className="rounded-full bg-gradient-cta px-5 py-2 font-semibold text-primary-foreground shadow-elegant">
-              ERP / Exportação
+
+            {/* Linha de status / chip inferior */}
+            <div className="relative mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+                Validação automática
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+                Confirmação no WhatsApp
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+                Integração via API ou exportação
+              </span>
             </div>
           </div>
         </div>
