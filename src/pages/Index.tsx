@@ -4,6 +4,7 @@ import { Problems } from "@/components/site/Problems";
 import { HowItWorks } from "@/components/site/HowItWorks";
 import { Benefits } from "@/components/site/Benefits";
 import { Features } from "@/components/site/Features";
+import { WhatsAppSection } from "@/components/site/WhatsApp";
 
 import { FAQ } from "@/components/site/FAQ";
 import { CTA } from "@/components/site/CTA";
