@@ -79,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "Softeum <onboarding@resend.dev>",
+      from: "Softeum <noreply@softeum.com.br>",
       to: "comercial@softeum.com.br",
       replyTo: email,
       subject: `Novo lead: ${nome} - ${empresa}`,
@@ -87,7 +87,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     if (error) {
-      return res.status(500).json({ success: false, error: error.message });
+      console.error("[send-demo] Resend error:", JSON.stringify(error));
+      return res.status(500).json({ success: false, error: error.message, detail: error });
     }
 
     return res.status(200).json({ success: true, id: data?.id });
