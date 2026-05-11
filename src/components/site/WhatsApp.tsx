@@ -50,7 +50,7 @@ export const WhatsAppSection = () => {
             <span className="text-gradient-brand">você escolhe</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Seus clientes já estão no WhatsApp. Agora o Softeum também.
+            Seus clientes já estão no WhatsApp. Agora a Softeum também.
           </p>
         </div>
 
