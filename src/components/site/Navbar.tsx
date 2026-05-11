@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.svg";
-import { ExternalLink, Menu, X } from "lucide-react";
+import { ExternalLink, Menu, MessageCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -53,6 +53,13 @@ export const Navbar = () => {
               {l.label}
             </a>
           ))}
+          <a
+            href="#whatsapp"
+            className="flex items-center gap-1.5 text-sm font-medium text-[#25D366] transition-colors hover:text-[#1ebe5d]"
+          >
+            <MessageCircle className="h-4 w-4" />
+            WhatsApp
+          </a>
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -89,6 +96,14 @@ export const Navbar = () => {
                 {l.label}
               </a>
             ))}
+            <a
+              href="#whatsapp"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-[#25D366] hover:bg-muted hover:text-[#1ebe5d]"
+            >
+              <MessageCircle className="h-4 w-4" />
+              WhatsApp
+            </a>
             <Button asChild variant="outline" className="mt-3 w-full justify-center">
               <a
                 href="https://plataforma.softeum.com.br"

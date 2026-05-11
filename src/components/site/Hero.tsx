@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, Sparkles, Mail, Brain, Database, Zap, ShieldCheck, Cpu, Headphones, Plug, Lock, MessageCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2, Sparkles, Mail, Brain, Database, Zap, ShieldCheck, Cpu, Headphones, Plug, Lock } from "lucide-react";
 import { useEffect, useRef, useState, MouseEvent } from "react";
 import heroImage from "@/assets/hero-dashboard.jpg";
 import { useCounter } from "@/hooks/use-counter";
@@ -113,14 +113,6 @@ export const Hero = () => {
             <MagneticButton strength={0.15} className="w-full sm:w-auto">
               <Button asChild variant="outline" size="xl" className="w-full sm:w-auto">
                 <a href="#funcionalidades">Ver funcionalidades</a>
-              </Button>
-            </MagneticButton>
-            <MagneticButton strength={0.15} className="w-full sm:w-auto">
-              <Button asChild size="xl" className="w-full sm:w-auto gap-2 bg-[#25D366] text-white hover:bg-[#1ebe5d]">
-                <a href="#whatsapp">
-                  <MessageCircle className="h-5 w-5" />
-                  WhatsApp
-                </a>
               </Button>
             </MagneticButton>
           </div>
