@@ -53,6 +53,12 @@ export const Navbar = () => {
               {l.label}
             </a>
           ))}
+          <a
+            href="#whatsapp"
+            className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform after:duration-300 hover:after:scale-x-100"
+          >
+            WhatsApp
+          </a>
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -89,6 +95,13 @@ export const Navbar = () => {
                 {l.label}
               </a>
             ))}
+            <a
+              href="#whatsapp"
+              onClick={() => setOpen(false)}
+              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            >
+              WhatsApp
+            </a>
             <Button asChild variant="outline" className="mt-3 w-full justify-center">
               <a
                 href="https://plataforma.softeum.com.br"
