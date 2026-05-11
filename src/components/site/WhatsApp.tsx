@@ -1,4 +1,4 @@
-import { FileText, Bot, MessageCircle, ArrowDown, CheckCircle2, ArrowRight } from "lucide-react";
+import { FileText, Bot, MessageCircle, CheckCircle2, ArrowRight, Sparkles, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
