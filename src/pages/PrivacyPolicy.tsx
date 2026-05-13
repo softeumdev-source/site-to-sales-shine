@@ -275,10 +275,10 @@ const PrivacyPolicy = () => {
             <p className="mt-3">
               Os pedidos podem ser feitos pelo e-mail{" "}
               <a
-                href="mailto:privacidade@softeum.com.br"
+                href="mailto:comercial@softeum.com.br"
                 className="text-foreground underline underline-offset-4 hover:text-foreground/80"
               >
-                privacidade@softeum.com.br
+                comercial@softeum.com.br
               </a>
               . Responderemos em até 15 dias corridos.
             </p>
@@ -317,10 +317,10 @@ const PrivacyPolicy = () => {
               Em cumprimento ao art. 41 da LGPD, o Softeum mantém um Encarregado pelo
               Tratamento de Dados, que pode ser contatado pelo e-mail{" "}
               <a
-                href="mailto:dpo@softeum.com.br"
+                href="mailto:comercial@softeum.com.br"
                 className="text-foreground underline underline-offset-4 hover:text-foreground/80"
               >
-                dpo@softeum.com.br
+                comercial@softeum.com.br
               </a>
               .
             </p>
@@ -351,10 +351,10 @@ const PrivacyPolicy = () => {
             <p>
               Dúvidas sobre esta Política podem ser enviadas para{" "}
               <a
-                href="mailto:privacidade@softeum.com.br"
+                href="mailto:comercial@softeum.com.br"
                 className="text-foreground underline underline-offset-4 hover:text-foreground/80"
               >
-                privacidade@softeum.com.br
+                comercial@softeum.com.br
               </a>
               . Consulte também os nossos{" "}
               <Link
