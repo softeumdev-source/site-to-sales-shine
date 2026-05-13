@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.svg";
 
 export const Footer = () => {
@@ -38,6 +39,14 @@ export const Footer = () => {
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
           <p>© {new Date().getFullYear()} Softeum. Todos os direitos reservados.</p>
           <p>Feito para liberar sua equipe da digitação de pedidos.</p>
+          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <Link to="/privacy-policy" className="hover:text-foreground">
+              Política de Privacidade
+            </Link>
+            <Link to="/terms" className="hover:text-foreground">
+              Termos de Uso
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>
