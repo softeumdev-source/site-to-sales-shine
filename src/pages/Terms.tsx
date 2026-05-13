@@ -343,14 +343,7 @@ const Terms = () => {
               14. Contato
             </h2>
             <p>
-              Dúvidas sobre estes Termos podem ser enviadas para{" "}
-              <a
-                href="mailto:juridico@softeum.com.br"
-                className="text-foreground underline underline-offset-4 hover:text-foreground/80"
-              >
-                juridico@softeum.com.br
-              </a>
-              . Para questões comerciais, escreva para{" "}
+              Dúvidas sobre estes Termos ou questões comerciais podem ser enviadas para{" "}
               <a
                 href="mailto:comercial@softeum.com.br"
                 className="text-foreground underline underline-offset-4 hover:text-foreground/80"
