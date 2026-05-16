@@ -177,26 +177,18 @@ const Cte = () => {
             </div>
           </div>
 
-          <ul className="grid gap-4">
-            {[
-              "Zero digitação manual de CT-e",
-              "100% dos dados extraídos automaticamente",
-              "Integração direta com seu ERP",
-            ].map((b, i) => (
-              <li
-                key={b}
-                className="flex animate-fade-in items-center gap-3 rounded-2xl border border-border/60 bg-background/70 p-5 shadow-card backdrop-blur transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-elegant"
-                style={{ animationDelay: `${200 + i * 150}ms` }}
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white shadow-glow">
-                  <CheckCircle2 className="h-5 w-5" />
-                </span>
-                <span className="font-display text-base font-semibold text-foreground/90 md:text-lg">
-                  {b}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <div className="relative animate-fade-in [animation-delay:300ms]">
+            <div className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-gradient-brand opacity-20 blur-3xl" />
+            <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-background/40 shadow-elegant backdrop-blur">
+              <img
+                src={heroCte}
+                alt="Ilustração 3D de caminhão de frete com dashboard de CT-e"
+                width={1280}
+                height={1280}
+                className="h-auto w-full"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
