@@ -18,6 +18,7 @@ import {
   FileX,
   TrendingDown,
 } from "lucide-react";
+import heroCte from "@/assets/hero-cte.jpg";
 
 const problems = [
   {
