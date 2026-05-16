@@ -6,11 +6,10 @@ import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { to: "/", label: "Pedidos" },
-  { to: "/cte", label: "CT-e" },
-  { to: "/nfse", label: "NFS-e" },
-  { to: "/boletos", label: "Boletos" },
-  { to: "/extrato", label: "Extrato" },
+  { href: "#como-funciona", label: "Como funciona" },
+  { href: "#funcionalidades", label: "Funcionalidades" },
+  { href: "#beneficios", label: "Benefícios" },
+  { href: "#faq", label: "FAQ" },
 ];
 
 export const Navbar = () => {
@@ -26,7 +25,6 @@ export const Navbar = () => {
 
   const baseLink =
     "relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform after:duration-300 hover:after:scale-x-100";
-  const activeLink = "text-foreground after:scale-x-100";
 
   return (
     <header
@@ -51,14 +49,9 @@ export const Navbar = () => {
 
         <nav className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === "/"}
-              className={({ isActive }) => cn(baseLink, isActive && activeLink)}
-            >
+            <a key={l.href} href={l.href} className={baseLink}>
               {l.label}
-            </NavLink>
+            </a>
           ))}
         </nav>
 
@@ -87,20 +80,14 @@ export const Navbar = () => {
         <div className="animate-fade-in border-t border-border/40 bg-background/95 shadow-soft backdrop-blur-xl md:hidden">
           <div className="container flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto py-4">
             {links.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                end={l.to === "/"}
+              <a
+                key={l.href}
+                href={l.href}
                 onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  cn(
-                    "rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground",
-                    isActive && "bg-muted text-foreground"
-                  )
-                }
+                className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 {l.label}
-              </NavLink>
+              </a>
             ))}
             <Button asChild variant="outline" className="mt-3 w-full justify-center">
               <a
