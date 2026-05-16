@@ -2,13 +2,15 @@ import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.svg";
 import { ExternalLink, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "#como-funciona", label: "Como funciona" },
-  { href: "#funcionalidades", label: "Funcionalidades" },
-  { href: "#beneficios", label: "Benefícios" },
-  { href: "#faq", label: "FAQ" },
+  { to: "/", label: "Pedidos" },
+  { to: "/cte", label: "CT-e" },
+  { to: "/nfse", label: "NFS-e" },
+  { to: "/boletos", label: "Boletos" },
+  { to: "/extrato", label: "Extrato" },
 ];
 
 export const Navbar = () => {
@@ -22,6 +24,10 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const baseLink =
+    "relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform after:duration-300 hover:after:scale-x-100";
+  const activeLink = "text-foreground after:scale-x-100";
+
   return (
     <header
       className={cn(
@@ -32,7 +38,7 @@ export const Navbar = () => {
       )}
     >
       <div className="container flex h-16 items-center justify-between">
-        <a href="#top" className="group flex items-center gap-2">
+        <NavLink to="/" className="group flex items-center gap-2">
           <img
             src={logo}
             alt="Softeum logo"
@@ -41,24 +47,19 @@ export const Navbar = () => {
             className="h-9 w-9 transition-transform group-hover:rotate-6 group-hover:scale-110"
           />
           <span className="font-display text-xl font-bold leading-none tracking-tight">Softeum</span>
-        </a>
+        </NavLink>
 
         <nav className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform after:duration-300 hover:after:scale-x-100"
+            <NavLink
+              key={l.to}
+              to={l.to}
+              end={l.to === "/"}
+              className={({ isActive }) => cn(baseLink, isActive && activeLink)}
             >
               {l.label}
-            </a>
+            </NavLink>
           ))}
-          <a
-            href="#whatsapp"
-            className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform after:duration-300 hover:after:scale-x-100"
-          >
-            WhatsApp
-          </a>
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -68,7 +69,7 @@ export const Navbar = () => {
             </a>
           </Button>
           <Button asChild variant="hero" size="sm">
-            <a href="#demo">Agende uma demo</a>
+            <a href="/#demo">Agende uma demo</a>
           </Button>
         </div>
 
@@ -86,22 +87,21 @@ export const Navbar = () => {
         <div className="animate-fade-in border-t border-border/40 bg-background/95 shadow-soft backdrop-blur-xl md:hidden">
           <div className="container flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto py-4">
             {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end={l.to === "/"}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                className={({ isActive }) =>
+                  cn(
+                    "rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground",
+                    isActive && "bg-muted text-foreground"
+                  )
+                }
               >
                 {l.label}
-              </a>
+              </NavLink>
             ))}
-            <a
-              href="#whatsapp"
-              onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-            >
-              WhatsApp
-            </a>
             <Button asChild variant="outline" className="mt-3 w-full justify-center">
               <a
                 href="https://plataforma.softeum.com.br"
@@ -114,7 +114,7 @@ export const Navbar = () => {
               </a>
             </Button>
             <Button asChild variant="hero" className="mt-2">
-              <a href="#demo" onClick={() => setOpen(false)}>Agende uma demo</a>
+              <a href="/#demo" onClick={() => setOpen(false)}>Agende uma demo</a>
             </Button>
           </div>
         </div>
