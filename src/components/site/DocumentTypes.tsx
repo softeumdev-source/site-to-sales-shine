@@ -30,7 +30,7 @@ const documents = [
 
 export const DocumentTypes = () => {
   return (
-    <section className="relative overflow-hidden bg-background py-20 md:py-28">
+    <section id="documentos" className="relative overflow-hidden bg-background py-20 md:py-28">
       <div className="pointer-events-none absolute -top-40 left-0 h-[500px] w-[500px] rounded-full bg-secondary/10 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-40 right-0 h-[500px] w-[500px] rounded-full bg-accent/10 blur-3xl" />
 
@@ -47,20 +47,26 @@ export const DocumentTypes = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {documents.map((doc, index) => (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {documents.map((doc, i) => (
             <div
               key={doc.title}
               className={
-                "rounded-2xl border border-border bg-card p-6 shadow-card" +
-                (index === 4 ? " sm:col-span-2 lg:col-span-1 lg:col-start-2" : "")
+                "animate-fade-in flex items-start gap-4 rounded-2xl border border-border bg-card p-5 shadow-card transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-elegant" +
+                (i === 4 ? " sm:col-span-2 lg:col-span-1 lg:col-start-2" : "")
               }
+              style={{ animationDelay: `${i * 100}ms` }}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-brand p-3 text-white shadow-glow">
-                <doc.icon className="h-6 w-6" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white">
+                <doc.icon className="h-5 w-5" />
               </div>
-              <div className="mt-4 font-bold text-base">{doc.title}</div>
-              <div className="mt-1 text-sm text-muted-foreground">{doc.description}</div>
+              <div className="flex flex-col">
+                <span className="font-bold text-sm">{doc.title}</span>
+                <span className="mt-0.5 text-xs text-muted-foreground">{doc.description}</span>
+                <span className="mt-2 w-fit rounded-full bg-accent/10 px-2 py-0.5 text-[10px] text-accent">
+                  Disponível
+                </span>
+              </div>
             </div>
           ))}
         </div>
