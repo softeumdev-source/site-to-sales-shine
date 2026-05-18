@@ -4,6 +4,7 @@ import { Problems } from "@/components/site/Problems";
 import { HowItWorks } from "@/components/site/HowItWorks";
 import { Benefits } from "@/components/site/Benefits";
 import { Features } from "@/components/site/Features";
+import { DocumentTypes } from "@/components/site/DocumentTypes";
 import { WhatsAppSection } from "@/components/site/WhatsApp";
 
 import { FAQ } from "@/components/site/FAQ";
@@ -37,6 +38,7 @@ const Index = () => {
       <WhatsAppSection />
       <Benefits />
       <Features />
+      <DocumentTypes />
       <FAQ />
       <CTA />
       <Footer />
