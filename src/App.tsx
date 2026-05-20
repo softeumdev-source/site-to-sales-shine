@@ -7,6 +7,8 @@ import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import Terms from "./pages/Terms.tsx";
+import TermosECondicoes from "./pages/TermosECondicoes.tsx";
+import PoliticaDeCookies from "./pages/PoliticaDeCookies.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,8 +24,8 @@ const App = () => (
           <Route path="/terms" element={<Terms />} />
           <Route path="/sobre" element={<Navigate to="/" replace />} />
           <Route path="/funcionalidades" element={<Navigate to="/" replace />} />
-          <Route path="/politica-de-cookies" element={<Navigate to="/" replace />} />
-          <Route path="/termos-e-condicoes" element={<Navigate to="/" replace />} />
+          <Route path="/politica-de-cookies" element={<PoliticaDeCookies />} />
+          <Route path="/termos-e-condicoes" element={<TermosECondicoes />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
