@@ -34,6 +34,11 @@ export const CTA = () => {
         throw new Error(result.error ?? "Falha ao enviar.");
       }
       form.reset();
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'conversion', {
+          send_to: 'AW-18102628959/zFtLCJPMpbAcEN_kgLhD'
+        });
+      }
       toast({
         title: "Demo agendada com sucesso!",
         description: "Em breve entraremos em contato.",
