@@ -9,6 +9,15 @@ type DemoRequest = {
   pedidosMes?: string;
 };
 
+type GeoData = {
+  city: string;
+  region: string;
+  country: string;
+  ip: string;
+  latitude: string;
+  longitude: string;
+};
+
 const escapeHtml = (s: string) =>
   s
     .replace(/&/g, "&amp;")
@@ -17,7 +26,55 @@ const escapeHtml = (s: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 
-const buildHtml = (lead: Required<DemoRequest>) => {
+const decodeHeader = (raw: string | string[] | undefined): string => {
+  const value = Array.isArray(raw) ? raw[0] : (raw ?? "");
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+};
+
+const buildGeoSection = (geo: GeoData): string => {
+  const allEmpty = !geo.city && !geo.region && !geo.country && !geo.ip && !geo.latitude && !geo.longitude;
+
+  if (allEmpty) {
+    return `
+      <tr>
+        <td style="padding:28px 28px 0;">
+          <p style="margin:0 0 8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;">Localização do lead</p>
+          <p style="margin:0;font-size:14px;color:#64748b;">Localização não disponível (ambiente local ou proxy sem headers Vercel).</p>
+        </td>
+      </tr>`;
+  }
+
+  const locationLine = geo.city
+    ? `${escapeHtml(geo.city)}${geo.region ? ` - ${escapeHtml(geo.region)}` : ""}${geo.country ? `, ${escapeHtml(geo.country)}` : ""}`
+    : "Não identificada";
+
+  const mapLink = geo.latitude && geo.longitude
+    ? `<br><a href="https://www.google.com/maps?q=${escapeHtml(geo.latitude)},${escapeHtml(geo.longitude)}" style="color:#0ea5e9;text-decoration:none;font-size:13px;" target="_blank">Ver no mapa</a>`
+    : "";
+
+  return `
+      <tr>
+        <td style="padding:28px 28px 0;">
+          <p style="margin:0 0 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;">Localização do lead</p>
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size:14px;border-top:1px solid #e2e8f0;">
+            <tr>
+              <td style="padding:10px 0;border-bottom:1px solid #e2e8f0;color:#64748b;width:140px;vertical-align:top;">Cidade</td>
+              <td style="padding:10px 0;border-bottom:1px solid #e2e8f0;font-weight:600;">${locationLine}${mapLink}</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 0;color:#64748b;width:140px;vertical-align:top;">IP</td>
+              <td style="padding:10px 0;font-weight:600;">${geo.ip ? escapeHtml(geo.ip) : "Não identificado"}</td>
+            </tr>
+          </table>
+        </td>
+      </tr>`;
+};
+
+const buildHtml = (lead: Required<DemoRequest>, geo: GeoData) => {
   const row = (label: string, value: string, isLast = false) => `
     <tr>
       <td style="padding:10px 0;${isLast ? "" : "border-bottom:1px solid #e2e8f0;"}color:#64748b;width:140px;vertical-align:top;">${label}</td>
@@ -44,6 +101,11 @@ const buildHtml = (lead: Required<DemoRequest>) => {
             ${row("Pedidos / mês", escapeHtml(lead.pedidosMes), true)}
           </table>
           <p style="margin:24px 0 0;font-size:13px;color:#64748b;">Responda este e-mail para falar direto com o lead.</p>
+        </td>
+      </tr>
+      ${buildGeoSection(geo)}
+      <tr>
+        <td style="padding:16px 28px 28px;">
         </td>
       </tr>
     </table>
@@ -75,6 +137,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ success: false, error: "RESEND_API_KEY não configurada." });
   }
 
+  let geo: GeoData = { city: "", region: "", country: "", ip: "", latitude: "", longitude: "" };
+  try {
+    const rawIp = Array.isArray(req.headers["x-forwarded-for"])
+      ? req.headers["x-forwarded-for"][0]
+      : (req.headers["x-forwarded-for"] ?? "");
+    geo = {
+      city: decodeHeader(req.headers["x-vercel-ip-city"]),
+      region: decodeHeader(req.headers["x-vercel-ip-country-region"]),
+      country: decodeHeader(req.headers["x-vercel-ip-country"]),
+      ip: rawIp.split(",")[0].trim(),
+      latitude: decodeHeader(req.headers["x-vercel-ip-latitude"]),
+      longitude: decodeHeader(req.headers["x-vercel-ip-longitude"]),
+    };
+  } catch (geoErr) {
+    console.error("[send-demo] Falha ao extrair geo headers:", geoErr);
+  }
+
   const resend = new Resend(apiKey);
 
   try {
@@ -83,7 +162,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       to: "comercial@softeum.com.br",
       replyTo: email,
       subject: `Novo lead: ${nome} - ${empresa}`,
-      html: buildHtml({ nome, empresa, telefone, email, pedidosMes }),
+      html: buildHtml({ nome, empresa, telefone, email, pedidosMes }, geo),
     });
 
     if (error) {
