@@ -1,4 +1,5 @@
-import { ShoppingCart, Receipt, Truck, CreditCard, Package } from "lucide-react";
+import { ShoppingCart, Receipt, Truck, CreditCard, Package, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const documents = [
   {
@@ -51,10 +52,7 @@ export const DocumentTypes = () => {
           {documents.map((doc, i) => (
             <div
               key={doc.title}
-              className={
-                "animate-fade-in flex items-start gap-4 rounded-2xl border border-border bg-card p-5 shadow-card transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-elegant" +
-                (i === 4 ? " sm:col-span-2 lg:col-span-1 lg:col-start-2" : "")
-              }
+              className="animate-fade-in flex items-start gap-4 rounded-2xl border border-border bg-card p-5 shadow-card transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-elegant"
               style={{ animationDelay: `${i * 100}ms` }}
             >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white">
@@ -69,6 +67,26 @@ export const DocumentTypes = () => {
               </div>
             </div>
           ))}
+
+          {/* CTA card */}
+          <div className="animate-fade-in flex flex-col items-start justify-between gap-4 rounded-2xl border border-dashed border-accent/40 bg-gradient-to-br from-accent/5 to-secondary/5 p-5 shadow-card transition-all hover:-translate-y-1 hover:border-accent/70 hover:shadow-elegant"
+            style={{ animationDelay: `${documents.length * 100}ms` }}
+          >
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-sm">Não viu seu documento?</span>
+                <span className="mt-0.5 text-xs text-muted-foreground">
+                  Personalizamos a solução para o formato que você precisa
+                </span>
+              </div>
+            </div>
+            <Button asChild size="sm" variant="outline" className="w-full border-accent/40 text-accent hover:bg-accent hover:text-white">
+              <a href="#demo">Agende uma demo</a>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
