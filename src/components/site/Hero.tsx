@@ -84,7 +84,7 @@ export const Hero = () => {
           </h1>
 
           <p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground sm:mx-0 md:text-xl">
-            Chega de digitar pedidos manualmente. A Softeum transforma e-mails, WhatsApp com PDF em pedidos prontos
+            Chega de digitar pedidos manualmente. A Softeum transforma e-mails e WhatsApp com pedidos em PDF, texto ou outros formatos em pedidos prontos
             para o seu ERP em minutos, com zero esforço humano.
           </p>
 
@@ -118,7 +118,7 @@ export const Hero = () => {
           </div>
 
           <p className="text-xs text-muted-foreground">
-            Seu cliente envia o pedido por e-mail ou WhatsApp com PDF em anexo. O Softeum lê, interpreta e processa automaticamente.
+            Seu cliente envia o pedido por e-mail ou WhatsApp em PDF, texto ou outros formatos. O Softeum lê, interpreta e processa automaticamente.
           </p>
         </div>
 

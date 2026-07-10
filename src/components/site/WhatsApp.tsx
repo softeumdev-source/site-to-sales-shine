@@ -6,10 +6,10 @@ import { cn } from "@/lib/utils";
 const flows = [
   {
     icon: FileText,
-    title: "Envio direto por PDF",
-    desc: "O cliente envia um PDF de pedido pelo WhatsApp — o Softeum detecta automaticamente, extrai os dados, valida os itens e envia direto para o seu ERP via API ou exportação. Sem redigitar. Sem retrabalho. Zero fricção para o cliente.",
+    title: "Envio direto por PDF, texto ou outros formatos",
+    desc: "O cliente envia o pedido pelo WhatsApp em qualquer formato: PDF, mensagem de texto, imagem ou planilha — o Softeum detecta automaticamente, extrai os dados, valida os itens e envia direto para o seu ERP via API ou exportação. Sem redigitar. Sem retrabalho. Zero fricção para o cliente.",
     bullets: [
-      "Leitura automática do PDF recebido no WhatsApp",
+      "Leitura automática de PDF, texto, imagem e outros formatos recebidos no WhatsApp",
       "Validação de itens, quantidades e códigos",
       "Envio automático para o ERP via API REST",
       "Exportação disponível como alternativa (CSV, JSON)",
@@ -46,7 +46,7 @@ export const WhatsAppSection = () => {
             Pedidos pelo WhatsApp
           </span>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-5xl">
-            PDF ou conversa,{" "}
+            PDF, texto ou outros formatos,{" "}
             <span className="text-gradient-brand">você escolhe</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
@@ -87,7 +87,7 @@ export const WhatsAppSection = () => {
                     <FileText className="h-5 w-5" />
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-semibold leading-tight">Envia PDF</p>
+                    <p className="text-sm font-semibold leading-tight">Envia PDF, texto ou outros</p>
                     <p className="text-xs text-muted-foreground">Softeum lê e extrai</p>
                   </div>
                 </div>
