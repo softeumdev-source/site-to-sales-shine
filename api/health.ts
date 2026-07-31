@@ -32,24 +32,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       headers: { Authorization: `Bearer ${apiKey}` },
     });
 
-    if (response.status === 401 || response.status === 403) {
-      return res.status(200).json({
-        success: false,
-        resendApiKey: "invalid",
-        senderDomain: { name: SENDER_DOMAIN, status: "unknown" },
-        hint: "A chave configurada foi rejeitada pela Resend. Gere uma nova chave e atualize a variável.",
-      });
-    }
-
     if (!response.ok) {
-      const detail = await response.text().catch(() => "");
+      const detail = (await response.text().catch(() => "")).slice(0, 300);
+      const rejected =
+        response.status === 401 ||
+        response.status === 403 ||
+        /api key is invalid|restricted/i.test(detail);
+
       return res.status(200).json({
         success: false,
-        resendApiKey: "present",
+        resendApiKey: rejected ? "invalid" : "present",
         resendStatus: response.status,
-        resendError: detail.slice(0, 300),
+        resendError: detail,
         senderDomain: { name: SENDER_DOMAIN, status: "unknown" },
-        hint: `Resend respondeu ${response.status} ao consultar domínios.`,
+        hint: rejected
+          ? "A chave configurada foi rejeitada pela Resend. Gere uma nova chave em resend.com/api-keys, atualize RESEND_API_KEY na Vercel (Production, Preview e Development) e refaça o deploy."
+          : `Resend respondeu ${response.status} ao consultar domínios.`,
       });
     }
 
