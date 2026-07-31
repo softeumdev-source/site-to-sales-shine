@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "@/assets/logocerta.png";
+import { PLATFORM_URL, SUPPORT_EMAIL } from "@/lib/constants";
 
 export const Footer = () => {
   return (
@@ -20,18 +21,25 @@ export const Footer = () => {
           <div>
             <h4 className="mb-3 font-display text-sm font-bold uppercase tracking-wider">Produto</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#como-funciona" className="hover:text-foreground">Como funciona</a></li>
-              <li><a href="#funcionalidades" className="hover:text-foreground">Funcionalidades</a></li>
-              <li><a href="#beneficios" className="hover:text-foreground">Benefícios</a></li>
-              <li><a href="#faq" className="hover:text-foreground">FAQ</a></li>
+              <li><a href="/#como-funciona" className="hover:text-foreground">Como funciona</a></li>
+              <li><a href="/#funcionalidades" className="hover:text-foreground">Funcionalidades</a></li>
+              <li><a href="/#beneficios" className="hover:text-foreground">Benefícios</a></li>
+              <li><a href="/#faq" className="hover:text-foreground">FAQ</a></li>
+              <li>
+                <a href={PLATFORM_URL} target="_blank" rel="noreferrer" className="hover:text-foreground">
+                  Acessar a plataforma
+                </a>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="mb-3 font-display text-sm font-bold uppercase tracking-wider">Contato</h4>
+            <h4 className="mb-3 font-display text-sm font-bold uppercase tracking-wider">Suporte e contato</h4>
             <ul className="space-y-2 break-words text-sm text-muted-foreground">
-              <li><a href="mailto:comercial@softeum.com.br" className="hover:text-foreground">comercial@softeum.com.br</a></li>
-              <li><a href="#demo" className="hover:text-foreground">Agendar demo</a></li>
+              <li><Link to="/suporte" className="hover:text-foreground">Central de suporte</Link></li>
+              <li><Link to="/suporte#abrir-chamado" className="hover:text-foreground">Abrir chamado</Link></li>
+              <li><a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-foreground">{SUPPORT_EMAIL}</a></li>
+              <li><a href="/#demo" className="hover:text-foreground">Agendar demo</a></li>
             </ul>
           </div>
         </div>

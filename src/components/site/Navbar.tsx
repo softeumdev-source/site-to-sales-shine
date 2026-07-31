@@ -2,15 +2,18 @@ import { Button } from "@/components/ui/button";
 import logo from "@/assets/logocerta.png";
 import { ExternalLink, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { PLATFORM_URL } from "@/lib/constants";
 
-const links = [
-  { href: "#como-funciona", label: "Como funciona" },
-  { href: "#documentos", label: "Documentos" },
-  { href: "#funcionalidades", label: "Funcionalidades" },
-  { href: "#beneficios", label: "Benefícios" },
-  { href: "#faq", label: "FAQ" },
+type NavItem = { label: string; href?: string; to?: string };
+
+const links: NavItem[] = [
+  { href: "/#como-funciona", label: "Como funciona" },
+  { href: "/#funcionalidades", label: "Funcionalidades" },
+  { href: "/#beneficios", label: "Benefícios" },
+  { href: "/#faq", label: "FAQ" },
+  { to: "/suporte", label: "Suporte" },
 ];
 
 export const Navbar = () => {
@@ -26,6 +29,9 @@ export const Navbar = () => {
 
   const baseLink =
     "relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform after:duration-300 hover:after:scale-x-100";
+
+  const mobileLink =
+    "rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground";
 
   return (
     <header
@@ -49,16 +55,22 @@ export const Navbar = () => {
         </NavLink>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className={baseLink}>
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.to ? (
+              <Link key={l.to} to={l.to} className={baseLink}>
+                {l.label}
+              </Link>
+            ) : (
+              <a key={l.href} href={l.href} className={baseLink}>
+                {l.label}
+              </a>
+            )
+          )}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
           <Button asChild variant="ghost" size="sm">
-            <a href="https://plataforma.softeum.com.br" target="_blank" rel="noreferrer">
+            <a href={PLATFORM_URL} target="_blank" rel="noreferrer">
               Acessar a plataforma
             </a>
           </Button>
@@ -80,19 +92,20 @@ export const Navbar = () => {
       {open && (
         <div className="animate-fade-in border-t border-border/40 bg-background/95 shadow-soft backdrop-blur-xl md:hidden">
           <div className="container flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto py-4">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                {l.label}
-              </a>
-            ))}
+            {links.map((l) =>
+              l.to ? (
+                <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className={mobileLink}>
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.href} href={l.href} onClick={() => setOpen(false)} className={mobileLink}>
+                  {l.label}
+                </a>
+              )
+            )}
             <Button asChild variant="outline" className="mt-3 w-full justify-center">
               <a
-                href="https://plataforma.softeum.com.br"
+                href={PLATFORM_URL}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => setOpen(false)}

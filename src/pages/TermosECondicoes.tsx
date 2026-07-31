@@ -61,10 +61,10 @@ const TermosECondicoes = () => {
                 <strong className="text-foreground">Plataforma:</strong> ambiente acessível
                 em{" "}
                 <a
-                  href="https://plataforma.softeum.com.br"
+                  href="https://pedidos.softeum.com.br"
                   className="text-foreground underline underline-offset-4 hover:text-foreground/80"
                 >
-                  plataforma.softeum.com.br
+                  pedidos.softeum.com.br
                 </a>{" "}
                 e respectivas APIs.
               </li>
