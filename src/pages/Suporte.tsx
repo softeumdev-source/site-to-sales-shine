@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
-import { SupportTicketForm } from "@/components/site/SupportTicketForm";
+import { SupportArea } from "@/components/site/SupportArea";
+import { SupportAuthProvider } from "@/lib/support-auth";
 import { Button } from "@/components/ui/button";
 import {
   AlarmClock,
@@ -11,6 +12,7 @@ import {
   CheckCircle2,
   ClipboardList,
   Clock,
+  LockKeyhole,
   Mail,
   MessageSquareText,
   Moon,
@@ -22,24 +24,24 @@ import { PLATFORM_URL, SUPPORT_EMAIL } from "@/lib/constants";
 
 const steps = [
   {
+    icon: LockKeyhole,
+    title: "1. Entre com o acesso da plataforma",
+    text: "O login do suporte é o mesmo e-mail e senha que você usa na plataforma Softeum. Não existe cadastro novo — e já sabemos de qual empresa e de qual responsável veio o chamado.",
+  },
+  {
     icon: ClipboardList,
-    title: "1. Descreva o problema",
-    text: "Preencha o formulário com o que aconteceu, desde quando e quais pedidos foram afetados. Quanto mais contexto, mais rápido resolvemos.",
+    title: "2. Descreva o problema e anexe prints",
+    text: "Conte o que aconteceu, desde quando e quais pedidos foram afetados. Você pode anexar prints da tela ou PDFs direto no formulário.",
   },
   {
     icon: Ticket,
-    title: "2. Receba o protocolo",
-    text: "O chamado é registrado na nossa fila e você recebe por e-mail o número do protocolo com o prazo de retorno da prioridade escolhida.",
-  },
-  {
-    icon: MessageSquareText,
-    title: "3. Acompanhe por e-mail",
-    text: "Todo o atendimento acontece na mesma thread. Basta responder o e-mail de confirmação para complementar informações.",
+    title: "3. Acompanhe pelo protocolo",
+    text: "O chamado entra na nossa fila, você recebe o protocolo por e-mail e acompanha o status aqui mesmo, em “Meus chamados”.",
   },
 ];
 
 const checklist = [
-  "Nome da empresa e e-mail conectado à plataforma",
+  "Print da tela de erro ou do pedido afetado (anexe direto no formulário)",
   "Número do pedido, cliente ou data e hora do e-mail afetado",
   "Desde quando o problema acontece e se ele é recorrente",
   "Quantos pedidos ou usuários estão sendo impactados",
@@ -74,9 +76,11 @@ const Suporte = () => {
             Suporte <span className="text-gradient-brand">Softeum</span>
           </h1>
           <p className="mt-4 max-w-3xl text-base text-muted-foreground md:text-lg">
-            Aqui você abre um chamado técnico, entende exatamente em quanto tempo vamos responder e
-            acompanha tudo por e-mail. Todo chamado gera um número de protocolo, é enviado para o
-            nosso time e uma cópia vai automaticamente para o seu e-mail.
+            Aqui você abre um chamado técnico, anexa prints da tela, entende exatamente em quanto
+            tempo vamos responder e acompanha o andamento. O acesso é o{" "}
+            <strong className="text-foreground">mesmo e-mail e senha da plataforma Softeum</strong>:
+            todo chamado gera um número de protocolo, vai para o nosso time e uma cópia chega
+            automaticamente no seu e-mail.
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -132,7 +136,7 @@ const Suporte = () => {
           Como funciona a abertura de chamado
         </h2>
         <p className="mt-2 max-w-2xl text-muted-foreground">
-          Três passos, sem cadastro e sem instalar nada.
+          Três passos, sem cadastro novo e sem instalar nada.
         </p>
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -287,7 +291,7 @@ const Suporte = () => {
         <div className="container grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-12">
           <div>
             <span className="text-sm font-semibold uppercase tracking-widest text-accent">
-              Abertura de chamado
+              Acesso ao suporte
             </span>
             <h2 className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">
               O que informar para acelerar a resolução
@@ -326,7 +330,9 @@ const Suporte = () => {
             </div>
           </div>
 
-          <SupportTicketForm />
+          <SupportAuthProvider>
+            <SupportArea />
+          </SupportAuthProvider>
         </div>
       </section>
 
