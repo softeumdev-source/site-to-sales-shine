@@ -1,20 +1,42 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
 
+/**
+ * Abertura de chamado de suporte — exige login da plataforma Softeum.
+ *
+ * O cliente entra na aba de suporte com o MESMO e-mail e senha da plataforma
+ * (Supabase Auth) e o navegador manda o token aqui. Este endpoint:
+ *   1. valida o token no servidor (nunca confia no que o formulário diz);
+ *   2. registra o chamado pela RPC `abrir_chamado`, que carimba tenant, e-mail
+ *      e protocolo a partir do próprio token;
+ *   3. envia o chamado para o suporte com os prints/PDFs em anexo e manda a
+ *      confirmação com o protocolo para quem abriu.
+ *
+ * Sem token não há chamado: é assim que sabemos de qual empresa e de qual
+ * responsável veio cada pedido de ajuda.
+ */
+
 const SUPPORT_INBOX = "comercial@softeum.com.br";
 const FROM_INTERNAL = "Softeum Suporte <noreply@softeum.com.br>";
 const FROM_CLIENT = "Softeum Suporte <noreply@softeum.com.br>";
 
+/** Espelha os limites do formulário (src/lib/anexos.ts). */
+const MAX_ANEXOS = 3;
+const MAX_ANEXO_BYTES = 2 * 1024 * 1024;
+const MAX_ANEXOS_TOTAL_BYTES = 3 * 1024 * 1024;
+const TIPOS_ANEXO = ["image/png", "image/jpeg", "image/webp", "image/gif", "application/pdf"];
+
+type AnexoRequest = { nome?: string; tipo?: string; base64?: string };
+
 type TicketRequest = {
   nome?: string;
-  empresa?: string;
-  email?: string;
   telefone?: string;
   prioridade?: string;
   categoria?: string;
   assunto?: string;
   descricao?: string;
   referencia?: string;
+  anexos?: AnexoRequest[];
 };
 
 type PriorityId = "P1" | "P2" | "P3";
@@ -44,32 +66,17 @@ const nl2br = (s: string) => escapeHtml(s).replace(/\r?\n/g, "<br>");
 const clean = (value: unknown, maxLength: number): string =>
   typeof value === "string" ? value.trim().slice(0, maxLength) : "";
 
-const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
-
-/** Protocolo no formato SFT-AAMMDD-XXXX (data de Brasília). */
-const buildProtocol = (): string => {
-  const now = new Date(Date.now() - 3 * 60 * 60 * 1000); // UTC-3
-  const stamp = [
-    String(now.getUTCFullYear()).slice(2),
-    String(now.getUTCMonth() + 1).padStart(2, "0"),
-    String(now.getUTCDate()).padStart(2, "0"),
-  ].join("");
-
-  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let suffix = "";
-  for (let i = 0; i < 4; i += 1) {
-    suffix += alphabet[Math.floor(Math.random() * alphabet.length)];
-  }
-
-  return `SFT-${stamp}-${suffix}`;
-};
-
 const formatDateBR = (): string =>
   new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "short",
     timeStyle: "short",
     timeZone: "America/Sao_Paulo",
   }).format(new Date());
+
+const formatarTamanho = (bytes: number): string =>
+  bytes >= 1024 * 1024
+    ? `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+    : `${Math.max(1, Math.round(bytes / 1024))} KB`;
 
 const row = (label: string, value: string, isLast = false) => `
     <tr>
@@ -92,10 +99,32 @@ const shell = (headerBg: string, title: string, subtitle: string, body: string) 
   </body>
 </html>`;
 
-const buildInternalHtml = (
-  ticket: Required<Omit<TicketRequest, "prioridade">> & { prioridade: PriorityId },
-  protocol: string
-) => {
+type Ticket = {
+  nome: string;
+  empresa: string;
+  email: string;
+  telefone: string;
+  categoria: string;
+  assunto: string;
+  descricao: string;
+  referencia: string;
+  prioridade: PriorityId;
+};
+
+type AnexoValidado = { nome: string; tipo: string; base64: string; tamanho: number };
+
+const listaAnexosHtml = (anexos: AnexoValidado[]) =>
+  anexos.length === 0
+    ? ""
+    : `
+          <p style="margin:24px 0 8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;">Anexos (${anexos.length})</p>
+          <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.7;color:#334155;">
+            ${anexos
+              .map((a) => `<li>${escapeHtml(a.nome)} · ${formatarTamanho(a.tamanho)}</li>`)
+              .join("")}
+          </ul>`;
+
+const buildInternalHtml = (ticket: Ticket, protocol: string, anexos: AnexoValidado[]) => {
   const sla = PRIORITIES[ticket.prioridade];
 
   const body = `
@@ -117,7 +146,7 @@ const buildInternalHtml = (
             ${row("Categoria", escapeHtml(ticket.categoria))}
             ${row("Empresa", escapeHtml(ticket.empresa))}
             ${row("Solicitante", escapeHtml(ticket.nome))}
-            ${row("E-mail", `<a href="mailto:${escapeHtml(ticket.email)}" style="color:#0ea5e9;text-decoration:none;">${escapeHtml(ticket.email)}</a>`)}
+            ${row("E-mail (autenticado)", `<a href="mailto:${escapeHtml(ticket.email)}" style="color:#0ea5e9;text-decoration:none;">${escapeHtml(ticket.email)}</a>`)}
             ${row("Telefone", ticket.telefone ? escapeHtml(ticket.telefone) : "Não informado")}
             ${row("Referência", ticket.referencia ? escapeHtml(ticket.referencia) : "Não informada", true)}
           </table>
@@ -126,6 +155,7 @@ const buildInternalHtml = (
           <div style="padding:16px;border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;font-size:14px;line-height:1.6;">
             ${nl2br(ticket.descricao)}
           </div>
+          ${listaAnexosHtml(anexos)}
 
           <p style="margin:24px 0 0;font-size:13px;color:#64748b;">Responda este e-mail para falar direto com o cliente. Mantenha o protocolo no assunto.</p>
         </td>
@@ -139,10 +169,7 @@ const buildInternalHtml = (
   );
 };
 
-const buildClientHtml = (
-  ticket: Required<Omit<TicketRequest, "prioridade">> & { prioridade: PriorityId },
-  protocol: string
-) => {
+const buildClientHtml = (ticket: Ticket, protocol: string, anexos: AnexoValidado[]) => {
   const sla = PRIORITIES[ticket.prioridade];
 
   const body = `
@@ -170,13 +197,15 @@ const buildClientHtml = (
           <div style="padding:16px;border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;font-size:14px;line-height:1.6;">
             ${nl2br(ticket.descricao)}
           </div>
+          ${listaAnexosHtml(anexos)}
 
           <p style="margin:24px 0 0;font-size:14px;line-height:1.6;color:#334155;">
             Os prazos são contados em horário de atendimento: segunda a sexta, das 08h às 18h (horário de Brasília), exceto feriados nacionais.
             Chamados abertos fora desse período começam a contar no próximo dia útil.
           </p>
           <p style="margin:16px 0 0;font-size:14px;line-height:1.6;color:#334155;">
-            Precisa complementar alguma informação? Basta responder este e-mail mantendo o protocolo no assunto.
+            Você acompanha o andamento na aba <strong>Suporte</strong> do site, entrando com o mesmo acesso da plataforma.
+            Para complementar informações, basta responder este e-mail mantendo o protocolo no assunto.
           </p>
           <p style="margin:24px 0 0;font-size:13px;color:#64748b;">Equipe Softeum · ${SUPPORT_INBOX}</p>
         </td>
@@ -202,16 +231,120 @@ const parseBody = (raw: unknown): TicketRequest => {
   return (raw ?? {}) as TicketRequest;
 };
 
+const supabaseEnv = () => ({
+  url: (process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL ?? "").replace(/\/$/, ""),
+  anonKey: process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY ?? "",
+});
+
+const bearerToken = (req: VercelRequest): string => {
+  const header = req.headers.authorization ?? "";
+  const match = /^Bearer\s+(.+)$/i.exec(Array.isArray(header) ? header[0] : header);
+  return match ? match[1].trim() : "";
+};
+
+/** Valida o token no Supabase. Nunca confie no e-mail que veio no corpo. */
+const usuarioDoToken = async (
+  url: string,
+  anonKey: string,
+  token: string
+): Promise<{ email: string } | null> => {
+  const resposta = await fetch(`${url}/auth/v1/user`, {
+    headers: { apikey: anonKey, Authorization: `Bearer ${token}` },
+  });
+  if (!resposta.ok) return null;
+  const usuario = (await resposta.json().catch(() => null)) as { email?: string } | null;
+  return usuario?.email ? { email: usuario.email } : null;
+};
+
+/** Nome da empresa do usuário — o RLS já limita ao tenant dele. */
+const empresaDoUsuario = async (url: string, anonKey: string, token: string): Promise<string> => {
+  const resposta = await fetch(`${url}/rest/v1/tenants?select=nome&limit=2`, {
+    headers: { apikey: anonKey, Authorization: `Bearer ${token}` },
+  });
+  if (!resposta.ok) return "";
+  const linhas = (await resposta.json().catch(() => [])) as { nome?: string }[];
+  return linhas.length === 1 ? (linhas[0]?.nome ?? "") : "";
+};
+
+/** Decodifica e confere os anexos com os mesmos limites do formulário. */
+const validarAnexos = (
+  entrada: unknown
+): { anexos: AnexoValidado[]; erro: string | null } => {
+  if (!Array.isArray(entrada) || entrada.length === 0) return { anexos: [], erro: null };
+  if (entrada.length > MAX_ANEXOS) {
+    return { anexos: [], erro: `Envie no máximo ${MAX_ANEXOS} arquivos por chamado.` };
+  }
+
+  const anexos: AnexoValidado[] = [];
+  let total = 0;
+
+  for (const bruto of entrada as AnexoRequest[]) {
+    const nome = clean(bruto?.nome, 160).replace(/[\r\n"]/g, "") || "anexo";
+    const tipo = clean(bruto?.tipo, 100).toLowerCase();
+    const base64 = typeof bruto?.base64 === "string" ? bruto.base64.replace(/\s/g, "") : "";
+
+    if (!base64 || !/^[A-Za-z0-9+/]+={0,2}$/.test(base64)) {
+      return { anexos: [], erro: `Anexo "${nome}" inválido.` };
+    }
+    if (tipo && !TIPOS_ANEXO.includes(tipo)) {
+      return { anexos: [], erro: `Anexo "${nome}": envie imagem (PNG, JPG, WEBP, GIF) ou PDF.` };
+    }
+
+    const tamanho = Math.floor((base64.length * 3) / 4);
+    if (tamanho > MAX_ANEXO_BYTES) {
+      return {
+        anexos: [],
+        erro: `Anexo "${nome}" tem ${formatarTamanho(tamanho)}: o limite por arquivo é ${formatarTamanho(MAX_ANEXO_BYTES)}.`,
+      };
+    }
+
+    total += tamanho;
+    if (total > MAX_ANEXOS_TOTAL_BYTES) {
+      return {
+        anexos: [],
+        erro: `Os anexos somam mais de ${formatarTamanho(MAX_ANEXOS_TOTAL_BYTES)}. Reduza os arquivos e tente de novo.`,
+      };
+    }
+
+    anexos.push({ nome, tipo: tipo || "application/octet-stream", base64, tamanho });
+  }
+
+  return { anexos, erro: null };
+};
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ success: false, error: "Method not allowed" });
   }
 
+  const { url: supabaseUrl, anonKey } = supabaseEnv();
+  if (!supabaseUrl || !anonKey) {
+    console.error("[send-ticket] SUPABASE_URL/SUPABASE_ANON_KEY não configurados no ambiente.");
+    return res.status(500).json({
+      success: false,
+      error: "Área de suporte indisponível no momento.",
+    });
+  }
+
+  const token = bearerToken(req);
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      error: "Entre com o seu acesso da plataforma Softeum para abrir o chamado.",
+    });
+  }
+
+  const usuario = await usuarioDoToken(supabaseUrl, anonKey, token).catch(() => null);
+  if (!usuario) {
+    return res.status(401).json({
+      success: false,
+      error: "Sua sessão expirou. Entre de novo para abrir o chamado.",
+    });
+  }
+
   const body = parseBody(req.body);
 
   const nome = clean(body.nome, 120);
-  const empresa = clean(body.empresa, 120);
-  const email = clean(body.email, 160);
   const telefone = clean(body.telefone, 40);
   const categoria = clean(body.categoria, 120) || "Não informada";
   const assunto = clean(body.assunto, 160);
@@ -222,15 +355,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const prioridade: PriorityId =
     rawPriority === "P1" || rawPriority === "P2" || rawPriority === "P3" ? rawPriority : "P3";
 
-  if (!nome || !empresa || !email || !assunto || !descricao) {
+  if (!nome || !assunto || !descricao) {
     return res.status(400).json({
       success: false,
-      error: "Campos obrigatórios faltando: nome, empresa, e-mail, assunto e descrição.",
+      error: "Campos obrigatórios faltando: nome, assunto e descrição.",
     });
   }
 
-  if (!isEmail(email)) {
-    return res.status(400).json({ success: false, error: "Informe um e-mail válido." });
+  const { anexos, erro: erroAnexo } = validarAnexos(body.anexos);
+  if (erroAnexo) {
+    return res.status(400).json({ success: false, error: erroAnexo });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -242,11 +376,61 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
-  const protocolo = buildProtocol();
-  const ticket = {
+  // 1) Registra o chamado. O protocolo, o tenant e o e-mail vêm do banco a
+  //    partir do token — o formulário não escolhe nada disso.
+  const registro = await fetch(`${supabaseUrl}/rest/v1/rpc/abrir_chamado`, {
+    method: "POST",
+    headers: {
+      apikey: anonKey,
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      p_nome: nome,
+      p_prioridade: prioridade,
+      p_categoria: categoria,
+      p_assunto: assunto,
+      p_descricao: descricao,
+      p_telefone: telefone,
+      p_referencia: referencia,
+      p_anexos: anexos.map((a) => ({
+        nome: a.nome,
+        tipo: a.tipo,
+        tamanho_kb: Math.max(1, Math.round(a.tamanho / 1024)),
+      })),
+    }),
+  }).catch(() => null);
+
+  if (!registro || !registro.ok) {
+    const detalhe = (await registro?.json().catch(() => null)) as { message?: string } | null;
+    console.error("[send-ticket] Falha ao registrar chamado:", registro?.status, detalhe);
+    const semEmpresa = /empresa vinculada/i.test(detalhe?.message ?? "");
+    const muitosChamados = /Muitos chamados/i.test(detalhe?.message ?? "");
+    return res.status(semEmpresa || muitosChamados ? 403 : 500).json({
+      success: false,
+      error:
+        detalhe?.message && (semEmpresa || muitosChamados)
+          ? detalhe.message
+          : "Não foi possível registrar o chamado. Tente novamente em instantes.",
+    });
+  }
+
+  const linhas = (await registro.json().catch(() => [])) as { protocolo?: string }[];
+  const protocolo = linhas[0]?.protocolo;
+  if (!protocolo) {
+    console.error("[send-ticket] RPC abrir_chamado não devolveu protocolo.");
+    return res.status(500).json({
+      success: false,
+      error: "Não foi possível registrar o chamado. Tente novamente em instantes.",
+    });
+  }
+
+  const empresa = (await empresaDoUsuario(supabaseUrl, anonKey, token).catch(() => "")) || "—";
+
+  const ticket: Ticket = {
     nome,
     empresa,
-    email,
+    email: usuario.email,
     telefone,
     categoria,
     assunto,
@@ -255,51 +439,56 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     prioridade,
   };
 
+  // 2) Avisa o suporte e o cliente. O chamado JÁ está registrado: falha de
+  //    e-mail vira aviso na tela, não perda do chamado.
   const resend = new Resend(apiKey);
+  const avisos: string[] = [];
 
   try {
     const internal = await resend.emails.send({
       from: FROM_INTERNAL,
       to: SUPPORT_INBOX,
-      replyTo: email,
+      replyTo: usuario.email,
       subject: `[${prioridade}] ${protocolo} · ${empresa} — ${assunto}`,
-      html: buildInternalHtml(ticket, protocolo),
+      html: buildInternalHtml(ticket, protocolo, anexos),
+      attachments: anexos.map((a) => ({ filename: a.nome, content: a.base64 })),
     });
 
     if (internal.error) {
       console.error("[send-ticket] Falha ao enviar e-mail interno:", internal.error);
-      return res.status(500).json({ success: false, error: internal.error.message });
+      avisos.push("Não conseguimos enviar o aviso por e-mail ao time, mas o chamado foi registrado.");
     }
-
-    let clienteNotificado = true;
-    try {
-      const confirmation = await resend.emails.send({
-        from: FROM_CLIENT,
-        to: email,
-        replyTo: SUPPORT_INBOX,
-        subject: `Chamado ${protocolo} recebido — ${assunto}`,
-        html: buildClientHtml(ticket, protocolo),
-      });
-
-      if (confirmation.error) {
-        clienteNotificado = false;
-        console.error("[send-ticket] Falha ao enviar confirmação ao cliente:", confirmation.error);
-      }
-    } catch (confirmationErr) {
-      clienteNotificado = false;
-      console.error("[send-ticket] Erro ao enviar confirmação ao cliente:", confirmationErr);
-    }
-
-    return res.status(200).json({
-      success: true,
-      protocolo,
-      prioridade,
-      clienteNotificado,
-      id: internal.data?.id,
-    });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Erro desconhecido ao abrir o chamado.";
-    console.error("[send-ticket] Erro inesperado:", err);
-    return res.status(500).json({ success: false, error: message });
+    console.error("[send-ticket] Erro ao enviar e-mail interno:", err);
+    avisos.push("Não conseguimos enviar o aviso por e-mail ao time, mas o chamado foi registrado.");
   }
+
+  let clienteNotificado = true;
+  try {
+    const confirmation = await resend.emails.send({
+      from: FROM_CLIENT,
+      to: usuario.email,
+      replyTo: SUPPORT_INBOX,
+      subject: `Chamado ${protocolo} recebido — ${assunto}`,
+      html: buildClientHtml(ticket, protocolo, anexos),
+    });
+
+    if (confirmation.error) {
+      clienteNotificado = false;
+      console.error("[send-ticket] Falha ao enviar confirmação ao cliente:", confirmation.error);
+    }
+  } catch (confirmationErr) {
+    clienteNotificado = false;
+    console.error("[send-ticket] Erro ao enviar confirmação ao cliente:", confirmationErr);
+  }
+
+  return res.status(200).json({
+    success: true,
+    protocolo,
+    prioridade,
+    empresa,
+    email: usuario.email,
+    clienteNotificado,
+    avisos,
+  });
 }

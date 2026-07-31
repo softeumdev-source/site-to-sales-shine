@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Variáveis de ambiente locais (o .env.example é versionado)
+.env
+.env.*
+!.env.example
+
+# Saída do tsc -b
+*.tsbuildinfo

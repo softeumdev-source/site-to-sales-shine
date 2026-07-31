@@ -58,3 +58,35 @@ export const BUSINESS_HOURS = {
   hours: "08h às 18h (horário de Brasília)",
   exception: "Exceto feriados nacionais",
 };
+
+/** Chamado registrado no banco (tabela `chamados`, RLS por tenant). */
+export type ChamadoStatus = "aberto" | "em_andamento" | "resolvido" | "cancelado";
+
+export type Chamado = {
+  id: string;
+  protocolo: string;
+  assunto: string;
+  descricao: string;
+  categoria: string;
+  prioridade: PriorityId;
+  status: ChamadoStatus;
+  resposta: string | null;
+  nome: string;
+  email: string;
+  anexos: { nome?: string; tipo?: string; tamanho_kb?: number }[] | null;
+  criado_em: string;
+  atualizado_em: string;
+};
+
+export const CHAMADO_STATUS: Record<ChamadoStatus, { label: string; classe: string }> = {
+  aberto: { label: "Aberto", classe: "border-accent/40 bg-accent/10 text-accent" },
+  em_andamento: {
+    label: "Em andamento",
+    classe: "border-primary/40 bg-primary/10 text-primary",
+  },
+  resolvido: {
+    label: "Resolvido",
+    classe: "border-emerald-500/40 bg-emerald-500/10 text-emerald-600",
+  },
+  cancelado: { label: "Cancelado", classe: "border-border bg-muted text-muted-foreground" },
+};

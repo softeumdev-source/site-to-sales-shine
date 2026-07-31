@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,45 +11,88 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle2, LifeBuoy, Send } from "lucide-react";
+import { CheckCircle2, ImagePlus, LifeBuoy, Paperclip, Send, ShieldCheck, X } from "lucide-react";
 import { PRIORITIES, SUPPORT_CATEGORIES, type PriorityId } from "@/lib/support";
 import { SUPPORT_EMAIL } from "@/lib/constants";
+import { useSupportAuth } from "@/lib/support-auth";
+import {
+  ACCEPT_ANEXOS,
+  ANEXOS_MAX_ARQUIVOS,
+  ANEXOS_MAX_TOTAL_BYTES,
+  ANEXO_MAX_BYTES,
+  formatarTamanho,
+  prepararAnexo,
+  validarAnexos,
+} from "@/lib/anexos";
 
 type Sent = {
   protocolo: string;
   prioridade: PriorityId;
   email: string;
+  avisos: string[];
 };
 
-export const SupportTicketForm = () => {
+/**
+ * Abertura de chamado — só aparece para quem já entrou com o acesso da
+ * plataforma. Nome da empresa e e-mail não são digitados: vêm da conta.
+ */
+export const SupportTicketForm = ({ onAberto }: { onAberto?: () => void }) => {
   const { toast } = useToast();
+  const { session, usuario } = useSupportAuth();
   const [loading, setLoading] = useState(false);
   const [prioridade, setPrioridade] = useState<PriorityId>("P3");
   const [categoria, setCategoria] = useState<string>(SUPPORT_CATEGORIES[0]);
+  const [nome, setNome] = useState(() => usuario?.email.split("@")[0] ?? "");
+  const [arquivos, setArquivos] = useState<File[]>([]);
   const [sent, setSent] = useState<Sent | null>(null);
+  const inputArquivos = useRef<HTMLInputElement>(null);
+
+  const semEmpresa = !usuario?.tenantId;
+
+  const adicionarArquivos = (lista: FileList | null) => {
+    if (!lista || lista.length === 0) return;
+    const { aceitos, erros } = validarAnexos(Array.from(lista), arquivos);
+    if (aceitos.length > 0) setArquivos((atual) => [...atual, ...aceitos]);
+    if (erros.length > 0) {
+      toast({
+        variant: "destructive",
+        title: "Alguns arquivos não foram anexados",
+        description: erros.join(" "),
+      });
+    }
+    if (inputArquivos.current) inputArquivos.current.value = "";
+  };
+
+  const removerArquivo = (indice: number) =>
+    setArquivos((atual) => atual.filter((_, i) => i !== indice));
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!session) return;
+
     const form = e.currentTarget;
     const data = new FormData(form);
-    const payload = {
-      nome: ((data.get("nome") as string) ?? "").trim(),
-      empresa: ((data.get("empresa") as string) ?? "").trim(),
-      email: ((data.get("email") as string) ?? "").trim(),
-      telefone: ((data.get("telefone") as string) ?? "").trim(),
-      prioridade,
-      categoria,
-      assunto: ((data.get("assunto") as string) ?? "").trim(),
-      descricao: ((data.get("descricao") as string) ?? "").trim(),
-      referencia: ((data.get("referencia") as string) ?? "").trim(),
-    };
 
     setLoading(true);
     try {
+      const anexos = await Promise.all(arquivos.map(prepararAnexo));
+
       const res = await fetch("/api/send-ticket", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({
+          nome: nome.trim(),
+          telefone: ((data.get("telefone") as string) ?? "").trim(),
+          prioridade,
+          categoria,
+          assunto: ((data.get("assunto") as string) ?? "").trim(),
+          descricao: ((data.get("descricao") as string) ?? "").trim(),
+          referencia: ((data.get("referencia") as string) ?? "").trim(),
+          anexos: anexos.map((a) => ({ nome: a.nome, tipo: a.tipo, base64: a.base64 })),
+        }),
       });
       const result = await res.json().catch(() => ({}));
       if (!res.ok || !result.success) {
@@ -57,13 +100,20 @@ export const SupportTicketForm = () => {
       }
 
       form.reset();
-      setSent({ protocolo: result.protocolo, prioridade, email: payload.email });
+      setArquivos([]);
+      setSent({
+        protocolo: result.protocolo,
+        prioridade,
+        email: result.email ?? usuario?.email ?? "",
+        avisos: Array.isArray(result.avisos) ? result.avisos : [],
+      });
       setPrioridade("P3");
       setCategoria(SUPPORT_CATEGORIES[0]);
+      onAberto?.();
 
       toast({
         title: `Chamado ${result.protocolo} aberto`,
-        description: `Enviamos a confirmação para ${payload.email}.`,
+        description: `Enviamos a confirmação para ${result.email ?? usuario?.email ?? "o seu e-mail"}.`,
       });
     } catch (err) {
       toast({
@@ -116,10 +166,17 @@ export const SupportTicketForm = () => {
             </li>
           )}
           <li>
-            Para complementar informações, basta responder o e-mail de confirmação mantendo o
-            número do protocolo no assunto.
+            O andamento fica logo abaixo, em <strong className="text-foreground">Meus chamados</strong>
+            . Para complementar informações, responda o e-mail de confirmação mantendo o protocolo no
+            assunto.
           </li>
         </ul>
+
+        {sent.avisos.length > 0 && (
+          <p className="mt-4 rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+            {sent.avisos.join(" ")}
+          </p>
+        )}
 
         <Button variant="outline" className="mt-6 w-full" onClick={() => setSent(null)}>
           Abrir outro chamado
@@ -142,27 +199,35 @@ export const SupportTicketForm = () => {
         por e-mail.
       </p>
 
+      <div className="mb-6 flex items-start gap-3 rounded-xl border border-border bg-muted/40 p-4">
+        <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+        <div className="text-sm">
+          <p className="font-semibold">Chamado identificado pela sua conta</p>
+          <p className="text-muted-foreground">
+            {usuario?.empresa ? `${usuario.empresa} · ` : ""}
+            {usuario?.email}
+          </p>
+        </div>
+      </div>
+
+      {semEmpresa && (
+        <p className="mb-6 rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+          Esta conta não está vinculada a nenhuma empresa na plataforma, então não é possível abrir
+          chamado por aqui. Escreva para {SUPPORT_EMAIL}.
+        </p>
+      )}
+
       <div className="grid gap-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="grid gap-2">
-            <Label htmlFor="sup-nome">Nome *</Label>
-            <Input id="sup-nome" name="nome" required placeholder="Seu nome completo" />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="sup-empresa">Empresa *</Label>
-            <Input id="sup-empresa" name="empresa" required placeholder="Nome da empresa" />
-          </div>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="grid gap-2">
-            <Label htmlFor="sup-email">E-mail *</Label>
+            <Label htmlFor="sup-nome">Seu nome *</Label>
             <Input
-              id="sup-email"
-              name="email"
-              type="email"
+              id="sup-nome"
+              name="nome"
               required
-              placeholder="voce@empresa.com.br"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              placeholder="Seu nome completo"
             />
           </div>
           <div className="grid gap-2">
@@ -237,11 +302,68 @@ export const SupportTicketForm = () => {
           />
         </div>
 
+        {/* Prints e PDFs */}
+        <div className="grid gap-2">
+          <Label htmlFor="sup-anexos">Prints e arquivos (opcional)</Label>
+          <input
+            ref={inputArquivos}
+            id="sup-anexos"
+            name="anexos"
+            type="file"
+            multiple
+            accept={ACCEPT_ANEXOS}
+            className="sr-only"
+            onChange={(e) => adicionarArquivos(e.target.files)}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            className="h-auto min-h-11 justify-start whitespace-normal text-left"
+            onClick={() => inputArquivos.current?.click()}
+            disabled={arquivos.length >= ANEXOS_MAX_ARQUIVOS}
+          >
+            <ImagePlus className="h-4 w-4" />
+            {arquivos.length >= ANEXOS_MAX_ARQUIVOS
+              ? `Limite de ${ANEXOS_MAX_ARQUIVOS} arquivos atingido`
+              : "Anexar print da tela ou PDF"}
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            Até {ANEXOS_MAX_ARQUIVOS} arquivos, {formatarTamanho(ANEXO_MAX_BYTES)} cada e{" "}
+            {formatarTamanho(ANEXOS_MAX_TOTAL_BYTES)} no total. PNG, JPG, WEBP, GIF ou PDF. Um print
+            da tela de erro costuma resolver o chamado bem mais rápido.
+          </p>
+
+          {arquivos.length > 0 && (
+            <ul className="mt-1 grid gap-2">
+              {arquivos.map((arquivo, i) => (
+                <li
+                  key={`${arquivo.name}-${arquivo.size}-${i}`}
+                  className="flex items-center gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2 text-sm"
+                >
+                  <Paperclip className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  <span className="min-w-0 flex-1 truncate">{arquivo.name}</span>
+                  <span className="shrink-0 text-xs text-muted-foreground">
+                    {formatarTamanho(arquivo.size)}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => removerArquivo(i)}
+                    aria-label={`Remover ${arquivo.name}`}
+                    className="shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
         <Button
           type="submit"
           variant="hero"
           size="lg"
-          disabled={loading}
+          disabled={loading || semEmpresa}
           className="mt-2 h-auto min-h-11 whitespace-normal px-4 text-center"
         >
           {loading ? (
