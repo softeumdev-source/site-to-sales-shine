@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { resolverSupabaseEnv } from "../src/lib/supabase-env";
 
 /**
  * Diagnóstico dos formulários do site (demo e chamados de suporte).
@@ -12,25 +13,34 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
  */
 const SENDER_DOMAIN = "softeum.com.br";
 
-/** Só diz se está configurado e se responde — nunca devolve a chave. */
+/**
+ * Só diz se está configurado e se responde — nunca devolve a chave.
+ *
+ * Reporta URL e chave separadamente, e lista os NOMES das variáveis presentes
+ * (nunca os valores). "missing" sem mais nada obrigava a adivinhar qual das duas
+ * faltava; com o nome à vista dá para ver na hora que a variável existe com
+ * outro rótulo ou que não foi marcada para Production.
+ */
 const diagnosticoSupabase = async () => {
-  const url = (process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL ?? "").replace(/\/$/, "");
-  const anonKey = process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY ?? "";
+  const { url, anonKey, configurado, encontradas } = resolverSupabaseEnv(process.env);
 
-  if (!url || !anonKey) {
+  if (!configurado) {
     return {
       status: "missing" as const,
-      hint: "Configure SUPABASE_URL e SUPABASE_ANON_KEY na Vercel: sem elas o login da aba de suporte não funciona.",
+      url: url ? ("ok" as const) : ("missing" as const),
+      anonKey: anonKey ? ("ok" as const) : ("missing" as const),
+      variaveisEncontradas: encontradas,
+      hint: "Faltou URL ou chave pública do Supabase nesta função. Confira se a variável existe COM ESSE NOME e se está marcada para o ambiente Production — e refaça o deploy depois de salvar.",
     };
   }
 
   try {
     const resposta = await fetch(`${url}/auth/v1/settings`, { headers: { apikey: anonKey } });
     return resposta.ok
-      ? { status: "ok" as const }
-      : { status: "erro" as const, authStatus: resposta.status };
+      ? { status: "ok" as const, variaveisEncontradas: encontradas }
+      : { status: "erro" as const, authStatus: resposta.status, variaveisEncontradas: encontradas };
   } catch {
-    return { status: "inacessivel" as const };
+    return { status: "inacessivel" as const, variaveisEncontradas: encontradas };
   }
 };
 
