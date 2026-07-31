@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
-import { resolverSupabaseEnv } from "../src/lib/supabase-env";
 
 /**
  * Abertura de chamado de suporte — exige login da plataforma Softeum.
@@ -232,7 +231,38 @@ const parseBody = (raw: unknown): TicketRequest => {
   return (raw ?? {}) as TicketRequest;
 };
 
-const supabaseEnv = () => resolverSupabaseEnv(process.env);
+// ── Resolvedor das variáveis do Supabase ─────────────────────────────────────
+// Duplicado de `src/lib/supabase-env.ts` DE PROPÓSITO. A função serverless da
+// Vercel não empacota arquivos de fora de `api/`: importar de `../src` derrubou
+// esta rota em produção com ERR_MODULE_NOT_FOUND. O teste `api-env-sincronizado`
+// falha se estas listas divergirem das do módulo do navegador.
+const NOMES_URL = ["SUPABASE_URL", "VITE_SUPABASE_URL"];
+const NOMES_CHAVE = [
+  "SUPABASE_ANON_KEY",
+  "VITE_SUPABASE_ANON_KEY",
+  "SUPABASE_PUBLISHABLE_KEY",
+  "VITE_SUPABASE_PUBLISHABLE_KEY",
+  "SUPABASE_PUBLISHABLE_DEFAULT_KEY",
+  "VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY",
+];
+const NOMES_PROJECT_ID = ["SUPABASE_PROJECT_ID", "VITE_SUPABASE_PROJECT_ID"];
+
+const primeiroValor = (fonte: NodeJS.ProcessEnv, nomes: string[]): string => {
+  for (const nome of nomes) {
+    const valor = fonte[nome];
+    if (typeof valor === "string" && valor.trim()) return valor.trim();
+  }
+  return "";
+};
+
+const supabaseEnv = () => {
+  const url = primeiroValor(process.env, NOMES_URL).replace(/\/$/, "");
+  const projectId = primeiroValor(process.env, NOMES_PROJECT_ID);
+  return {
+    url: url || (projectId ? `https://${projectId}.supabase.co` : ""),
+    anonKey: primeiroValor(process.env, NOMES_CHAVE),
+  };
+};
 
 const bearerToken = (req: VercelRequest): string => {
   const header = req.headers.authorization ?? "";
