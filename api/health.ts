@@ -1,5 +1,41 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { resolverSupabaseEnv } from "../src/lib/supabase-env";
+
+// ── Resolvedor das variáveis do Supabase ─────────────────────────────────────
+// Duplicado de `src/lib/supabase-env.ts` DE PROPÓSITO. A função serverless da
+// Vercel não empacota arquivos de fora de `api/`: importar de `../src` derrubou
+// esta rota em produção com ERR_MODULE_NOT_FOUND. O teste `api-env-sincronizado`
+// falha se estas listas divergirem das do módulo do navegador.
+const NOMES_URL = ["SUPABASE_URL", "VITE_SUPABASE_URL"];
+const NOMES_CHAVE = [
+  "SUPABASE_ANON_KEY",
+  "VITE_SUPABASE_ANON_KEY",
+  "SUPABASE_PUBLISHABLE_KEY",
+  "VITE_SUPABASE_PUBLISHABLE_KEY",
+  "SUPABASE_PUBLISHABLE_DEFAULT_KEY",
+  "VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY",
+];
+const NOMES_PROJECT_ID = ["SUPABASE_PROJECT_ID", "VITE_SUPABASE_PROJECT_ID"];
+
+const primeiroValor = (fonte: NodeJS.ProcessEnv, nomes: string[]): string => {
+  for (const nome of nomes) {
+    const valor = fonte[nome];
+    if (typeof valor === "string" && valor.trim()) return valor.trim();
+  }
+  return "";
+};
+
+const resolverSupabaseEnv = (fonte: NodeJS.ProcessEnv) => {
+  const url = primeiroValor(fonte, NOMES_URL).replace(/\/$/, "");
+  const projectId = primeiroValor(fonte, NOMES_PROJECT_ID);
+  const anonKey = primeiroValor(fonte, NOMES_CHAVE);
+  const urlFinal = url || (projectId ? `https://${projectId}.supabase.co` : "");
+  const encontradas = [...NOMES_URL, ...NOMES_CHAVE, ...NOMES_PROJECT_ID].filter((nome) => {
+    const valor = fonte[nome];
+    return typeof valor === "string" && valor.trim().length > 0;
+  });
+
+  return { url: urlFinal, anonKey, configurado: Boolean(urlFinal && anonKey), encontradas };
+};
 
 /**
  * Diagnóstico dos formulários do site (demo e chamados de suporte).
