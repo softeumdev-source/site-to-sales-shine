@@ -42,9 +42,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (!response.ok) {
+      const detail = await response.text().catch(() => "");
       return res.status(200).json({
         success: false,
         resendApiKey: "present",
+        resendStatus: response.status,
+        resendError: detail.slice(0, 300),
         senderDomain: { name: SENDER_DOMAIN, status: "unknown" },
         hint: `Resend respondeu ${response.status} ao consultar domínios.`,
       });
