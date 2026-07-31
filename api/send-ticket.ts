@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
+import { resolverSupabaseEnv } from "../src/lib/supabase-env";
 
 /**
  * Abertura de chamado de suporte — exige login da plataforma Softeum.
@@ -231,10 +232,7 @@ const parseBody = (raw: unknown): TicketRequest => {
   return (raw ?? {}) as TicketRequest;
 };
 
-const supabaseEnv = () => ({
-  url: (process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL ?? "").replace(/\/$/, ""),
-  anonKey: process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY ?? "",
-});
+const supabaseEnv = () => resolverSupabaseEnv(process.env);
 
 const bearerToken = (req: VercelRequest): string => {
   const header = req.headers.authorization ?? "";
