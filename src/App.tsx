@@ -9,6 +9,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import Terms from "./pages/Terms.tsx";
 import TermosECondicoes from "./pages/TermosECondicoes.tsx";
 import PoliticaDeCookies from "./pages/PoliticaDeCookies.tsx";
+import Suporte from "./pages/Suporte.tsx";
 import GoogleAnalytics from "./components/GoogleAnalytics.tsx";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,8 @@ const App = () => (
         <GoogleAnalytics />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/suporte" element={<Suporte />} />
+          <Route path="/support" element={<Navigate to="/suporte" replace />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/sobre" element={<Navigate to="/" replace />} />

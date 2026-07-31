@@ -113,12 +113,24 @@ const buildHtml = (lead: Required<DemoRequest>, geo: GeoData) => {
 </html>`;
 };
 
+/** O corpo chega como objeto quando o runtime parseia o JSON, mas pode vir como string. */
+const parseBody = (raw: unknown): DemoRequest => {
+  if (typeof raw === "string") {
+    try {
+      return JSON.parse(raw) as DemoRequest;
+    } catch {
+      return {};
+    }
+  }
+  return (raw ?? {}) as DemoRequest;
+};
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ success: false, error: "Method not allowed" });
   }
 
-  const body = (req.body ?? {}) as DemoRequest;
+  const body = parseBody(req.body);
   const nome = body.nome?.trim();
   const empresa = body.empresa?.trim();
   const telefone = body.telefone?.trim();
@@ -134,6 +146,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
+    console.error("[send-demo] RESEND_API_KEY não configurada no ambiente.");
     return res.status(500).json({ success: false, error: "RESEND_API_KEY não configurada." });
   }
 
@@ -166,12 +179,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     if (error) {
+      console.error("[send-demo] Resend retornou erro:", error);
       return res.status(500).json({ success: false, error: error.message });
     }
 
     return res.status(200).json({ success: true, id: data?.id });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Erro desconhecido ao enviar e-mail.";
+    console.error("[send-demo] Erro inesperado:", err);
     return res.status(500).json({ success: false, error: message });
   }
 }
