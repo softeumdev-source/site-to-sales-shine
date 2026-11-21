@@ -117,42 +117,43 @@ const ScrollVideo = () => {
     return () => cancelAnimationFrame(raf);
   }, [reduce]);
 
+  // Em tela em pé (celular) o vídeo é cortado nas laterais; então a imagem desliza
+  // do e-mail (esquerda) até o servidor (direita) acompanhando a rolagem.
+  const objectPosition = useTransform(scrollYProgress, [0.05, 0.9], ["6% 50%", "94% 50%"]);
+
   return (
     <div ref={wrapRef} data-scroll-video className={cn("relative", !reduce && "h-[220vh]")}>
-      <div className={cn("flex items-center", !reduce && "sticky top-16 h-[calc(100svh-4rem)]")}>
-        <Reveal from="scale" className="relative w-full">
-          <div className="pointer-events-none absolute -inset-8 rounded-[2.5rem] bg-gradient-soft opacity-70 blur-2xl" />
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-elegant">
-            <video
-              ref={videoRef}
-              src="/videos/pedido-erp.mp4"
-              poster="/videos/pedido-erp-poster.webp"
-              muted
-              playsInline
-              preload="auto"
-              autoPlay={!!reduce}
-              loop={!!reduce}
-              aria-label="Animação: um pedido sai do e-mail e do WhatsApp e chega ao servidor do ERP"
-              className="block aspect-video w-full object-cover"
-            />
+      <div className={cn("relative h-[100svh] w-full overflow-hidden bg-background", !reduce && "sticky top-0")}>
+        <motion.video
+          ref={videoRef}
+          src="/videos/pedido-erp.mp4"
+          poster="/videos/pedido-erp-poster.webp"
+          muted
+          playsInline
+          preload="auto"
+          autoPlay={!!reduce}
+          loop={!!reduce}
+          aria-label="Animação: um pedido sai do e-mail e do WhatsApp e chega ao servidor do ERP"
+          style={reduce ? undefined : { objectPosition }}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
 
-            {/* Legendas de etapa */}
-            {!reduce && (
-              <div className="absolute inset-x-0 bottom-0 flex justify-center p-3 sm:p-5">
-                <div className="flex items-center gap-1 rounded-full border border-border/70 bg-background/90 p-1 shadow-soft backdrop-blur">
-                  {stages.map((s, i) => (
-                    <StageChip key={s.label} idx={i} stageIdx={stageIdx} icon={s.icon} label={s.label} />
-                  ))}
-                </div>
-              </div>
-            )}
-            <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-2.5 py-1 text-[11px] font-semibold shadow-soft backdrop-blur sm:left-5 sm:top-5">
-              <MessageCircle className="h-3.5 w-3.5" style={{ color: WHATSAPP_GREEN }} />
-              <Mail className="h-3.5 w-3.5 text-accent" />
-              Duas entradas, um destino
-            </span>
+        <span className="absolute left-1/2 top-20 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-background/90 px-3 py-1.5 text-xs font-semibold shadow-soft backdrop-blur md:top-24">
+          <MessageCircle className="h-3.5 w-3.5" style={{ color: WHATSAPP_GREEN }} />
+          <Mail className="h-3.5 w-3.5 text-accent" />
+          Duas entradas, um destino
+        </span>
+
+        {/* Legendas de etapa */}
+        {!reduce && (
+          <div className="absolute inset-x-0 bottom-0 flex justify-center px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:pb-10">
+            <div className="flex items-center gap-1 rounded-full border border-border/70 bg-background/90 p-1 shadow-soft backdrop-blur">
+              {stages.map((s, i) => (
+                <StageChip key={s.label} idx={i} stageIdx={stageIdx} icon={s.icon} label={s.label} />
+              ))}
+            </div>
           </div>
-        </Reveal>
+        )}
       </div>
     </div>
   );
@@ -201,10 +202,13 @@ export const WhatsAppSection = () => {
 
         <ScrollWords />
 
-        <div className="mx-auto mt-12 max-w-5xl md:mt-16">
-          <ScrollVideo />
-        </div>
+      </div>
 
+      <div className="mt-12 md:mt-16">
+        <ScrollVideo />
+      </div>
+
+      <div className="container">
         <div className="mx-auto mt-16 grid max-w-5xl gap-12 md:mt-20 md:grid-cols-2 md:gap-0 md:divide-x md:divide-border">
           {flows.map((f, i) => (
             <Stagger key={f.title} gap={0.08} delay={i * 0.2} className={cn(i === 0 ? "md:pr-12" : "md:pl-12")}>
