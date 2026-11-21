@@ -1,164 +1,221 @@
-import { FileText, Bot, MessageCircle, CheckCircle2, ArrowRight, Sparkles, Database } from "lucide-react";
+import { useEffect, useRef } from "react";
+import {
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
+import { ArrowRight, Bot, CheckCircle2, FileText, Mail, MessageCircle, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
+
+const WHATSAPP_GREEN = "#25D366";
+
+const statement =
+  "Seus clientes já mandam pedido pelo WhatsApp e pelo e-mail. Em PDF, em texto, até em foto do papel. A Softeum lê tudo e entrega o pedido pronto no seu ERP.";
+// Palavras que ganham a cor da marca quando acendem.
+const highlight = new Set(["WhatsApp", "e-mail.", "ERP."]);
 
 const flows = [
   {
     icon: FileText,
-    title: "Envio direto por PDF, texto ou outros formatos",
-    desc: "O cliente envia o pedido pelo WhatsApp em qualquer formato: PDF, mensagem de texto, imagem ou planilha — o Softeum detecta automaticamente, extrai os dados, valida os itens e envia direto para o seu ERP via API ou exportação. Sem redigitar. Sem retrabalho. Zero fricção para o cliente.",
+    title: "O cliente manda o arquivo, a Softeum lança",
+    desc: "PDF, mensagem de texto, imagem ou planilha. A Softeum identifica o formato, extrai os dados, valida os itens e envia para o ERP via API ou exportação.",
     bullets: [
-      "Leitura automática de PDF, texto, imagem e outros formatos recebidos no WhatsApp",
-      "Validação de itens, quantidades e códigos",
-      "Envio automático para o ERP via API REST",
-      "Exportação disponível como alternativa (CSV, JSON)",
-      "Confirmação automática enviada ao cliente no próprio WhatsApp",
+      "Lê PDF, texto, imagem e planilha recebidos no WhatsApp",
+      "Valida itens, quantidades e códigos",
+      "Envia para o ERP via API REST ou exportação (CSV, JSON)",
+      "Confirma o recebimento para o cliente no próprio WhatsApp",
     ],
   },
   {
     icon: Bot,
-    title: "IA que fecha pedidos como um vendedor",
-    desc: "Quando o cliente não envia um PDF, a IA entra em ação. Ela conversa de forma natural e humanizada, explica os produtos do catálogo, tira dúvidas sobre características e aplicações, fecha o pedido completo e envia direto para o sistema — tudo sem intervenção humana.",
+    title: "Sem arquivo? A IA fecha o pedido na conversa",
+    desc: "Quando o cliente escreve em vez de anexar, a IA conversa com ele, explica os produtos do catálogo, tira dúvidas e monta o pedido completo.",
     bullets: [
-      "Conversa humanizada, sem respostas robóticas",
-      "Explica produtos: características, aplicações e diferenciais",
-      "Tira dúvidas sobre o catálogo antes de fechar o pedido",
-      "Entende linguagem natural: \"quero 10 caixas do produto X\"",
+      "Entende pedidos como \"quero 10 caixas do produto X\"",
+      "Explica características e aplicações dos produtos",
       "Confirma o pedido com o cliente antes de enviar",
-      "Integração direta com o ERP após confirmação",
-      "Disponível 24h, sem precisar de vendedor online",
+      "Atende 24h, mesmo sem vendedor online",
     ],
   },
 ];
 
-export const WhatsAppSection = () => {
-  const { ref, shown } = useReveal<HTMLDivElement>();
+/* ------------------------- Frase que acende palavra a palavra ------------------------ */
+
+const Word = ({ word, range, p }: { word: string; range: [number, number]; p: MotionValue<number> }) => {
+  const opacity = useTransform(p, range, [0.18, 1]);
+  return (
+    <motion.span style={{ opacity }} className={cn(highlight.has(word) && "text-gradient-brand")}>
+      {word}{" "}
+    </motion.span>
+  );
+};
+
+const ScrollWords = () => {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.45"] });
+  const words = statement.split(" ");
 
   return (
-    <section id="whatsapp" className="relative overflow-hidden py-20 md:py-28">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-soft opacity-60" />
+    <p
+      ref={ref}
+      className="mx-auto max-w-4xl text-balance text-center font-display text-3xl font-bold leading-tight tracking-tight md:text-5xl md:leading-[1.12]"
+    >
+      {reduce
+        ? statement
+        : words.map((w, i) => (
+            <Word key={i} word={w} p={scrollYProgress} range={[i / words.length, (i + 1) / words.length]} />
+          ))}
+    </p>
+  );
+};
 
-      <div className="container relative">
-        <div className="mx-auto mb-14 max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-accent">
-            <MessageCircle className="h-4 w-4" style={{ color: "#25D366" }} />
-            Pedidos pelo WhatsApp
-          </span>
-          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-5xl">
-            PDF, texto ou outros formatos,{" "}
-            <span className="text-gradient-brand">você escolhe</span>
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Seus clientes já estão no WhatsApp. Agora a Softeum também.
-          </p>
-        </div>
+/* ----------------------------- Vídeo guiado pela rolagem ---------------------------- */
 
-        {/* Visual moderno: jornada do pedido */}
-        <div className="mx-auto mb-16 max-w-5xl">
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card/60 p-6 shadow-card backdrop-blur md:p-10">
-            {/* glow background */}
-            <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-gradient-brand opacity-20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-16 -right-16 h-64 w-64 rounded-full bg-gradient-cta opacity-20 blur-3xl" />
+const stages = [
+  { icon: Mail, label: "Pedido chega por e-mail ou WhatsApp", at: [0, 0.38] as const },
+  { icon: FileText, label: "A Softeum lê e valida", at: [0.38, 0.72] as const },
+  { icon: Server, label: "Pedido lançado no ERP", at: [0.72, 1.01] as const },
+];
 
-            <div className="relative grid items-center gap-8 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
-              {/* Origem: cliente */}
-              <div className="flex flex-col items-center text-center">
-                <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-background shadow-soft">
-                  <MessageCircle className="h-8 w-8" style={{ color: "#25D366" }} />
-                  <span className="absolute -right-1 -top-1 flex h-3 w-3">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ backgroundColor: "#25D366" }} />
-                    <span className="relative inline-flex h-3 w-3 rounded-full" style={{ backgroundColor: "#25D366" }} />
-                  </span>
+const ScrollVideo = () => {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start start", "end end"] });
+  const target = useRef(0);
+  const stageIdx = useTransform(scrollYProgress, (v) => (v < 0.38 ? 0 : v < 0.72 ? 1 : 2));
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    target.current = v;
+  });
+
+  // Aproxima o tempo do vídeo da posição da rolagem a cada quadro (fica suave mesmo
+  // com rodinha do mouse dando "saltos").
+  useEffect(() => {
+    if (reduce) return;
+    const video = videoRef.current;
+    if (!video) return;
+    video.pause();
+    let raf = 0;
+    let current = 0;
+    const tick = () => {
+      const d = video.duration;
+      if (d && Number.isFinite(d)) {
+        const goal = target.current * (d - 0.05);
+        current += (goal - current) * 0.18;
+        if (Math.abs(video.currentTime - current) > 0.01) video.currentTime = current;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [reduce]);
+
+  return (
+    <div ref={wrapRef} data-scroll-video className={cn("relative", !reduce && "h-[220vh]")}>
+      <div className={cn("flex items-center", !reduce && "sticky top-16 h-[calc(100svh-4rem)]")}>
+        <div className="relative w-full">
+          <div className="pointer-events-none absolute -inset-8 rounded-[2.5rem] bg-gradient-soft opacity-70 blur-2xl" />
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-elegant">
+            <video
+              ref={videoRef}
+              src="/videos/pedido-erp.mp4"
+              poster="/videos/pedido-erp-poster.webp"
+              muted
+              playsInline
+              preload="auto"
+              autoPlay={!!reduce}
+              loop={!!reduce}
+              aria-label="Animação: um pedido sai do e-mail e do WhatsApp e chega ao servidor do ERP"
+              className="block aspect-video w-full object-cover"
+            />
+
+            {/* Legendas de etapa */}
+            {!reduce && (
+              <div className="absolute inset-x-0 bottom-0 flex justify-center p-3 sm:p-5">
+                <div className="flex items-center gap-1 rounded-full border border-border/70 bg-background/90 p-1 shadow-soft backdrop-blur">
+                  {stages.map((s, i) => (
+                    <StageChip key={s.label} idx={i} stageIdx={stageIdx} icon={s.icon} label={s.label} />
+                  ))}
                 </div>
-                <p className="mt-3 font-display text-sm font-bold">Cliente no WhatsApp</p>
-                <p className="text-xs text-muted-foreground">Inicia o pedido</p>
               </div>
-
-              {/* Conector 1 */}
-              <div className="hidden items-center md:flex">
-                <div className="h-px w-16 bg-gradient-to-r from-transparent via-accent to-transparent" />
-              </div>
-
-              {/* Bifurcação: dois caminhos */}
-              <div className="flex flex-col gap-3">
-                <div className="group flex items-center gap-3 rounded-2xl border border-border bg-background/80 p-3 shadow-soft transition-all hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-elegant">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white shadow-glow">
-                    <FileText className="h-5 w-5" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm font-semibold leading-tight">Envia PDF, texto ou outros</p>
-                    <p className="text-xs text-muted-foreground">Softeum lê e extrai</p>
-                  </div>
-                </div>
-                <div className="group flex items-center gap-3 rounded-2xl border border-border bg-background/80 p-3 shadow-soft transition-all hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-elegant">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white shadow-glow">
-                    <Bot className="h-5 w-5" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm font-semibold leading-tight">Conversa com IA</p>
-                    <p className="text-xs text-muted-foreground">Fecha pedido natural</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Conector 2 */}
-              <div className="hidden items-center md:flex">
-                <div className="h-px w-16 bg-gradient-to-r from-transparent via-accent to-transparent" />
-              </div>
-
-              {/* Destino */}
-              <div className="flex flex-col items-center text-center">
-                <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-cta text-primary-foreground shadow-elegant">
-                  <Database className="h-8 w-8" />
-                  <Sparkles className="absolute -right-2 -top-2 h-5 w-5 text-accent" />
-                </div>
-                <p className="mt-3 font-display text-sm font-bold">Pedido no ERP</p>
-                <p className="text-xs text-muted-foreground">Pronto pra faturar</p>
-              </div>
-            </div>
-
-            {/* Linha de status / chip inferior */}
-            <div className="relative mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-                Validação automática
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-                Confirmação no WhatsApp
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-                Integração via API ou exportação
-              </span>
-            </div>
+            )}
+            <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-2.5 py-1 text-[11px] font-semibold shadow-soft backdrop-blur sm:left-5 sm:top-5">
+              <MessageCircle className="h-3.5 w-3.5" style={{ color: WHATSAPP_GREEN }} />
+              <Mail className="h-3.5 w-3.5 text-accent" />
+              Duas entradas, um destino
+            </span>
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
 
-        {/* Cards */}
-        <div ref={ref} className="grid gap-6 md:grid-cols-2 md:gap-8">
+const StageChip = ({
+  idx,
+  stageIdx,
+  icon: Icon,
+  label,
+}: {
+  idx: number;
+  stageIdx: MotionValue<number>;
+  icon: typeof Mail;
+  label: string;
+}) => {
+  const active = useTransform(stageIdx, (v) => (v === idx ? 1 : 0));
+  const bg = useTransform(active, [0, 1], ["hsl(var(--background) / 0)", "hsl(var(--primary))"]);
+  const color = useTransform(active, [0, 1], ["hsl(var(--muted-foreground))", "hsl(var(--primary-foreground))"]);
+  const maxWidth = useTransform(active, [0, 1], ["0rem", "16rem"]);
+  return (
+    <motion.span
+      style={{ backgroundColor: bg, color }}
+      className="flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-semibold transition-colors"
+    >
+      <Icon className="h-3.5 w-3.5 shrink-0" />
+      <motion.span style={{ maxWidth }} className="overflow-hidden whitespace-nowrap transition-[max-width] duration-300">
+        {label}
+      </motion.span>
+    </motion.span>
+  );
+};
+
+/* ------------------------------------- Seção -------------------------------------- */
+
+export const WhatsAppSection = () => {
+  return (
+    <section id="whatsapp" className="relative py-20 md:py-28">
+      <div className="container">
+        <div className="mb-10 flex justify-center">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-accent">
+            <MessageCircle className="h-4 w-4" style={{ color: WHATSAPP_GREEN }} />
+            Pedidos pelo WhatsApp e e-mail
+          </span>
+        </div>
+
+        <ScrollWords />
+
+        <div className="mx-auto mt-12 max-w-5xl md:mt-16">
+          <ScrollVideo />
+        </div>
+
+        <div className="mx-auto mt-16 grid max-w-5xl gap-12 md:mt-20 md:grid-cols-2 md:gap-0 md:divide-x md:divide-border">
           {flows.map((f, i) => (
-            <div
-              key={f.title}
-              className={cn(
-                "group relative rounded-2xl border border-border bg-card p-6 shadow-card transition-all duration-700 hover:-translate-y-1 hover:border-accent/40 hover:shadow-elegant md:p-8",
-                shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              )}
-              style={{ transitionDelay: `${i * 150}ms` }}
-            >
-              <div className="mb-5 flex items-center gap-4">
-                <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-glow transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
-                  <f.icon className="h-7 w-7" />
-                </div>
-                <MessageCircle className="h-6 w-6" style={{ color: "#25D366" }} />
-              </div>
-              <h3 className="mb-3 font-display text-xl font-bold md:text-2xl">{f.title}</h3>
-              <p className="mb-5 text-muted-foreground">{f.desc}</p>
-              <ul className="space-y-2.5">
+            <div key={f.title} className={cn(i === 0 ? "md:pr-12" : "md:pl-12")}>
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                <f.icon className="h-5 w-5" />
+              </span>
+              <h3 className="mt-5 text-balance font-display text-2xl font-bold tracking-tight">{f.title}</h3>
+              <p className="mt-3 text-muted-foreground">{f.desc}</p>
+              <ul className="mt-5 space-y-2.5">
                 {f.bullets.map((b) => (
                   <li key={b} className="flex items-start gap-2.5 text-sm">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: WHATSAPP_GREEN }} />
                     <span>{b}</span>
                   </li>
                 ))}
@@ -167,7 +224,7 @@ export const WhatsAppSection = () => {
           ))}
         </div>
 
-        <div className="mt-12 flex justify-center">
+        <div className="mt-14 flex justify-center">
           <Button asChild variant="hero" size="xl" className="h-auto min-h-14 whitespace-normal px-6 text-center">
             <a href="#demo">
               Quero receber pedidos pelo WhatsApp
