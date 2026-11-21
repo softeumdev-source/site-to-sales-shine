@@ -10,6 +10,7 @@ import {
 import { ArrowRight, Bot, CheckCircle2, FileText, Mail, MessageCircle, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Reveal, RevealItem, Stagger } from "./motion";
 
 const WHATSAPP_GREEN = "#25D366";
 
@@ -119,7 +120,7 @@ const ScrollVideo = () => {
   return (
     <div ref={wrapRef} data-scroll-video className={cn("relative", !reduce && "h-[220vh]")}>
       <div className={cn("flex items-center", !reduce && "sticky top-16 h-[calc(100svh-4rem)]")}>
-        <div className="relative w-full">
+        <Reveal from="scale" className="relative w-full">
           <div className="pointer-events-none absolute -inset-8 rounded-[2.5rem] bg-gradient-soft opacity-70 blur-2xl" />
           <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-elegant">
             <video
@@ -151,7 +152,7 @@ const ScrollVideo = () => {
               Duas entradas, um destino
             </span>
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   );
@@ -191,12 +192,12 @@ export const WhatsAppSection = () => {
   return (
     <section id="whatsapp" className="relative py-20 md:py-28">
       <div className="container">
-        <div className="mb-10 flex justify-center">
+        <Reveal from="down" className="mb-10 flex justify-center">
           <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-accent">
             <MessageCircle className="h-4 w-4" style={{ color: WHATSAPP_GREEN }} />
             Pedidos pelo WhatsApp e e-mail
           </span>
-        </div>
+        </Reveal>
 
         <ScrollWords />
 
@@ -206,32 +207,38 @@ export const WhatsAppSection = () => {
 
         <div className="mx-auto mt-16 grid max-w-5xl gap-12 md:mt-20 md:grid-cols-2 md:gap-0 md:divide-x md:divide-border">
           {flows.map((f, i) => (
-            <div key={f.title} className={cn(i === 0 ? "md:pr-12" : "md:pl-12")}>
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                <f.icon className="h-5 w-5" />
-              </span>
-              <h3 className="mt-5 text-balance font-display text-2xl font-bold tracking-tight">{f.title}</h3>
-              <p className="mt-3 text-muted-foreground">{f.desc}</p>
+            <Stagger key={f.title} gap={0.08} delay={i * 0.2} className={cn(i === 0 ? "md:pr-12" : "md:pl-12")}>
+              <RevealItem from="pop" className="w-fit">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                  <f.icon className="h-5 w-5" />
+                </span>
+              </RevealItem>
+              <RevealItem>
+                <h3 className="mt-5 text-balance font-display text-2xl font-bold tracking-tight">{f.title}</h3>
+              </RevealItem>
+              <RevealItem>
+                <p className="mt-3 text-muted-foreground">{f.desc}</p>
+              </RevealItem>
               <ul className="mt-5 space-y-2.5">
                 {f.bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-2.5 text-sm">
+                  <RevealItem as="li" from={i === 0 ? "left" : "right"} key={b} className="flex items-start gap-2.5 text-sm">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: WHATSAPP_GREEN }} />
                     <span>{b}</span>
-                  </li>
+                  </RevealItem>
                 ))}
               </ul>
-            </div>
+            </Stagger>
           ))}
         </div>
 
-        <div className="mt-14 flex justify-center">
+        <Reveal from="scale" className="mt-14 flex justify-center">
           <Button asChild variant="hero" size="xl" className="h-auto min-h-14 whitespace-normal px-6 text-center">
             <a href="#demo">
               Quero receber pedidos pelo WhatsApp
               <ArrowRight className="ml-1 h-5 w-5" />
             </a>
           </Button>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

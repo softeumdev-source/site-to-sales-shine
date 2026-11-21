@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import { Check, FileText, Inbox, Paperclip, ScanText, Server } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Reveal, RevealHeading, RevealItem, Stagger } from "./motion";
 
 const steps = [
   {
@@ -287,18 +288,24 @@ export const HowItWorks = () => {
         >
           {/* Texto e passos */}
           <div>
-            <span className="text-sm font-semibold uppercase tracking-widest text-accent">Como funciona</span>
-            <h2 className="mt-2 text-balance font-display text-2xl font-bold sm:text-3xl tracking-tight md:text-5xl">
-              Do e-mail ao seu ERP, sem digitar
-            </h2>
+            <Reveal from="left">
+              <span className="text-sm font-semibold uppercase tracking-widest text-accent">Como funciona</span>
+            </Reveal>
+            <RevealHeading
+              text="Do e-mail ao seu ERP, sem digitar"
+              delay={0.1}
+              className="mt-2 text-balance font-display text-2xl font-bold tracking-tight sm:text-3xl md:text-5xl"
+            />
 
-            <ol className="mt-6 hidden space-y-1 lg:block">
+            <Stagger as="ol" delay={0.4} gap={0.15} className="mt-6 hidden space-y-1 lg:block">
               {steps.map((s, i) => (
-                <li
+                <RevealItem
+                  as="li"
+                  from="left"
                   key={s.title}
                   className={cn(
                     "relative rounded-2xl py-4 pl-14 pr-4 transition-colors duration-300",
-                    active === i ? "bg-background shadow-card" : "opacity-50"
+                    active === i ? "bg-background shadow-card" : "[&>*]:opacity-50"
                   )}
                 >
                   <span
@@ -318,12 +325,13 @@ export const HowItWorks = () => {
                   >
                     {s.desc}
                   </p>
-                </li>
+                </RevealItem>
               ))}
-            </ol>
+            </Stagger>
 
             {/* Mobile: só o passo atual */}
-            <div className="mt-4 lg:hidden" aria-live="polite">
+            <Reveal delay={0.3} className="mt-4 lg:hidden">
+            <div aria-live="polite">
               <div className="flex gap-1.5">
                 {steps.map((_, i) => (
                   <span
@@ -336,11 +344,12 @@ export const HowItWorks = () => {
                 {active + 1}. {steps[active].title}
               </h3>
               <p className="mt-1 text-sm text-muted-foreground">{steps[active].desc}</p>
-            </div>
+              </div>
+            </Reveal>
           </div>
 
           {/* Palco animado */}
-          <div className="relative">
+          <Reveal from="scale" delay={0.2} className="relative">
             <div className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-gradient-soft opacity-80 blur-2xl" />
             <div className="relative aspect-square w-full overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-[hsl(var(--brand-sky)/0.25)] via-background to-[hsl(var(--brand-pink)/0.2)] shadow-elegant sm:aspect-[5/4] lg:aspect-[16/11]">
               <InboxLayer p={p} />
@@ -352,7 +361,7 @@ export const HowItWorks = () => {
                 <motion.div style={{ width: bar }} className="h-full bg-primary" />
               </div>
             )}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
