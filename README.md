@@ -2,6 +2,12 @@
 
 Site em React + Vite (deploy na Vercel) com as funções serverless em `api/`.
 
+## Estrutura das páginas
+
+- `index.html` — página inicial (site institucional em HTML estático, com CSS e JS no próprio arquivo). Imagens e vídeo ficam em `public/home/`. O formulário de demonstração envia para `api/send-demo` e registra a conversão do Google Ads.
+- `app.html` — app React (`src/`): `/suporte`, `/privacy-policy`, `/terms`, `/politica-de-cookies`, `/termos-e-condicoes` e a página 404.
+- `vercel.json` — mantém os redirecionamentos e manda todas as rotas que não são arquivo para `app.html`. A rota `/` é servida direto pelo `index.html`.
+
 ## Variáveis de ambiente
 
 Configure todas em **Vercel > Settings > Environment Variables** (Production,
