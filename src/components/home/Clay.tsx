@@ -42,3 +42,19 @@ export const ClayLogo = ({ src, alt = "", size = 72, dark }: { src: string; alt?
     </div>
   </div>
 );
+
+/** Bloco 3D branco e discreto com um ícone escuro (para seções mais sóbrias). */
+export const ClayTile = ({ icon: Icon, size = 56 }: { icon: LucideIcon; size?: number }) => (
+  <div className="relative [transform-style:preserve-3d]" style={{ width: size, height: size }}>
+    <span className="absolute inset-0 rounded-[30%] bg-[#d5dce7]" style={{ transform: "translateZ(-8px)" }} />
+    <div
+      className="relative flex h-full w-full items-center justify-center rounded-[30%] text-foreground"
+      style={{
+        background: "linear-gradient(160deg,#ffffff 0%,#f4f6fa 100%)",
+        boxShadow: "inset 0 2px 0 #fff, 0 18px 28px -14px rgba(20,40,80,.3), 0 0 0 1px rgba(20,40,80,.06)",
+      }}
+    >
+      <Icon style={{ width: size * 0.44, height: size * 0.44, transform: "translateZ(10px)" }} strokeWidth={1.8} />
+    </div>
+  </div>
+);
