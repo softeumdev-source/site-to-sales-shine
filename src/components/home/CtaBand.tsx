@@ -13,7 +13,7 @@ export const CtaBand = () => (
         <div className="pointer-events-none absolute -bottom-28 left-1/3 h-72 w-72 rounded-full bg-[radial-gradient(circle,hsl(var(--brand-coral)/0.35),transparent_70%)]" />
         <div className="relative">
           <p className="font-display text-2xl font-bold tracking-tight md:text-3xl">Quer ver com os pedidos da sua empresa?</p>
-          <p className="mt-2 text-white/70">Demonstração de 30 minutos, sem compromisso. Teste grátis por 5 dias úteis.</p>
+          <p className="mt-2 text-white/70">Demonstração de 30 minutos, sem compromisso.</p>
         </div>
         <a
           href="#demo"

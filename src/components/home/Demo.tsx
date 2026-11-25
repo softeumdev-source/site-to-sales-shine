@@ -136,7 +136,7 @@ export const Demo = () => {
                 {!loading && <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />}
               </Button>
               <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                {["Sem compromisso", "Resposta em até 1 dia útil", "Teste grátis de 5 dias"].map((t) => (
+                {["Sem compromisso", "Resposta em até 1 dia útil", "Sem instalar nada"].map((t) => (
                   <span key={t} className="flex items-center gap-1">
                     <Check className="h-3 w-3 text-emerald-600" strokeWidth={3} /> {t}
                   </span>

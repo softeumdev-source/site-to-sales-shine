@@ -71,7 +71,7 @@ export const Hero = () => {
                 ))}
               </span>
             </div>
-            <p className="text-sm text-muted-foreground">Teste grátis por 5 dias úteis · Sem instalar nada</p>
+            <p className="text-sm text-muted-foreground">Sem instalar nada · Funciona com o seu ERP</p>
           </Reveal>
         </div>
 

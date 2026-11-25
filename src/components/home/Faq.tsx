@@ -34,8 +34,8 @@ const faqs = [
     a: "Sim. Os dados de cada empresa ficam isolados, com controle de acesso por usuário e conexão ao e-mail feita por protocolos seguros e padrão de mercado.",
   },
   {
-    q: "Posso testar antes de contratar?",
-    a: "Sim. Você testa grátis por 5 dias úteis, com acesso completo. Agende uma demonstração e a gente configura junto com você.",
+    q: "Posso ver funcionando antes de contratar?",
+    a: "Sim. Agende uma demonstração: mostramos a Softeum lendo pedidos reais da sua empresa e lançando no seu ERP.",
   },
 ];
 
