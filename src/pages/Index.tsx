@@ -3,7 +3,6 @@ import { Footer } from "@/components/site/Footer";
 import { ScrollProgress } from "@/components/site/ScrollProgress";
 import { Hero } from "@/components/home/Hero";
 import { Formats } from "@/components/home/Formats";
-import { Validators } from "@/components/home/Validators";
 import { Integrations } from "@/components/home/Integrations";
 import { Segments } from "@/components/home/Segments";
 import { Steps } from "@/components/home/Steps";
@@ -40,7 +39,6 @@ const Index = () => {
       <EmailShowcase />
       <CtaBand />
       <Formats />
-      <Validators />
       <WhatsAppShowcase />
       <Features />
       <Integrations />

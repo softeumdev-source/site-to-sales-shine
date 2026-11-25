@@ -11,7 +11,6 @@ const cols = [
       { label: "Pedidos por e-mail", href: "/#email" },
       { label: "IA no WhatsApp", href: "/#whatsapp" },
       { label: "Recursos", href: "/#recursos" },
-      { label: "Validadores", href: "/#validadores" },
       { label: "Integrações", href: "/#integracoes-erp" },
     ],
   },
