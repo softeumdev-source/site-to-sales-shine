@@ -1,5 +1,5 @@
-import { useRef, useState, type MouseEvent } from "react";
-import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { AlertTriangle, Check, Loader2, ShieldCheck } from "lucide-react";
 import { Reveal, RevealHeading } from "@/components/site/motion";
 import { cn } from "@/lib/utils";
@@ -23,9 +23,25 @@ type State = "idle" | "checking" | "ok" | "warn";
 export const Validators = () => {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.75", "end 0.55"] });
+  const inView = useInView(ref, { amount: 0.35 });
   const [p, setP] = useState(reduce ? 1 : 0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => !reduce && setP(v));
+
+  // roda sozinho quando a seção aparece na tela (cerca de 5 s), depois recomeça
+  useEffect(() => {
+    if (reduce || !inView) return;
+    let raf = 0;
+    let last = performance.now();
+    let v = 0;
+    const tick = (now: number) => {
+      v += (now - last) / 5000;
+      last = now;
+      if (v > 1.6) v = 0;
+      setP(Math.min(1, v));
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, reduce]);
 
   const stateOf = (i: number): State => {
     const start = 0.1 + i * 0.2;
@@ -72,8 +88,8 @@ export const Validators = () => {
           />
           <Reveal delay={0.4}>
             <p className="mt-4 text-lg text-muted-foreground">
-              Antes de lançar, cada pedido passa por regras de validação. O que está certo segue direto. O que é
-              diferente espera você aprovar.
+              Antes de lançar, cada pedido passa por regras de validação. O que está certo segue direto para o ERP. O que
+              for diferente do habitual fica separado para você aprovar em um clique.
             </p>
           </Reveal>
         </div>
@@ -221,6 +237,13 @@ export const Validators = () => {
               <span className="flex items-center gap-2 rounded-xl bg-amber-400/15 px-3 py-2 font-medium text-amber-700">
                 <AlertTriangle className="h-4 w-4" /> Diferente: você aprova em 1 clique
               </span>
+            </li>
+            <li className="ml-[3.4rem] border-t border-border pt-5 text-sm text-muted-foreground">
+              <p className="font-semibold text-foreground">Você define as regras</p>
+              <p className="mt-1">
+                Escolha o que pode ir direto para o ERP e o que precisa de aprovação, com regras por nível de confiança.
+                Tudo fica registrado, com rastreabilidade de cada pedido.
+              </p>
             </li>
           </ol>
         </div>

@@ -1,18 +1,16 @@
 import { useState } from "react";
-import { ArrowRight, CalendarCheck, MessageCircle, Plug } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Reveal, RevealHeading, RevealItem, Stagger } from "@/components/site/motion";
-import { ClayIcon } from "./Clay";
-import { Doc3D } from "./Doc3D";
 
-const perks = [
-  { icon: CalendarCheck, text: "30 minutos com pedidos reais da sua empresa", from: "#6BB8FF", to: "#2F7DE1" },
-  { icon: MessageCircle, text: "IA vendedora no WhatsApp funcionando ao vivo", from: "#4BE08C", to: "#16A35A" },
-  { icon: Plug, text: "Integração com o seu ERP e teste grátis de 5 dias", from: "#FF8FA0", to: "#F0485E" },
+const agenda = [
+  { title: "Seus pedidos reais", text: "Mandamos alguns pedidos da sua empresa e você vê a Softeum lendo e validando cada um." },
+  { title: "Integração com o seu ERP", text: "Mostramos como o pedido entra no seu sistema, via API ou arquivo de importação." },
+  { title: "IA vendedora no WhatsApp", text: "Você conversa com a IA como se fosse um cliente e vê o pedido sendo fechado." },
 ];
 
 export const Demo = () => {
@@ -67,42 +65,48 @@ export const Demo = () => {
             <span className="text-sm font-semibold uppercase tracking-widest text-secondary">Demonstração gratuita</span>
           </Reveal>
           <RevealHeading
-            text="Veja seus pedidos entrando sozinhos no ERP."
+            text="Veja a Softeum funcionando com os seus pedidos."
             delay={0.1}
             className="mt-3 text-balance font-display text-4xl font-extrabold tracking-tight md:text-6xl"
           />
 
-          <Stagger as="ul" className="mt-10 space-y-5" delay={0.3} gap={0.12}>
-            {perks.map((p) => (
-              <RevealItem as="li" from="left" key={p.text} className="flex items-center gap-4">
-                <div className="[transform-style:preserve-3d]" style={{ transform: "rotateX(12deg) rotateY(-14deg)" }}>
-                  <ClayIcon icon={p.icon} from={p.from} to={p.to} size={48} />
+          <Reveal delay={0.3}>
+            <p className="mt-5 max-w-lg text-lg text-muted-foreground">
+              Uma conversa de 30 minutos com o nosso time, com os pedidos da sua própria empresa.
+            </p>
+          </Reveal>
+
+          <p className="mt-10 text-xs font-bold uppercase tracking-widest text-muted-foreground">Na demonstração você vê</p>
+          <Stagger as="ol" className="mt-4 space-y-5" delay={0.35} gap={0.1}>
+            {agenda.map((a, i) => (
+              <RevealItem as="li" from="left" key={a.title} className="flex gap-4">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-primary font-display text-sm font-bold">
+                  {i + 1}
+                </span>
+                <div>
+                  <p className="font-display text-lg font-bold">{a.title}</p>
+                  <p className="text-muted-foreground">{a.text}</p>
                 </div>
-                <span className="text-lg font-medium">{p.text}</span>
               </RevealItem>
             ))}
           </Stagger>
+
+          <p className="mt-10 text-sm text-muted-foreground">
+            Prefere e-mail? Escreva para{" "}
+            <a href="mailto:comercial@softeum.com.br" className="font-semibold text-foreground underline underline-offset-4">
+              comercial@softeum.com.br
+            </a>
+          </p>
         </div>
 
         <Reveal from="scale" delay={0.2} className="relative">
-          {/* documentos flutuando em volta do formulário */}
-          <div className="pointer-events-none absolute -left-10 -top-12 hidden [perspective:800px] sm:block">
-            <Doc3D kind="pdf" size={62} float />
-          </div>
-          <div className="pointer-events-none absolute -right-8 top-1/3 hidden [perspective:800px] sm:block">
-            <Doc3D kind="whatsapp" size={66} float delay={1} />
-          </div>
-          <div className="pointer-events-none absolute -bottom-10 left-10 hidden [perspective:800px] sm:block">
-            <Doc3D kind="xlsx" size={56} float delay={2} />
-          </div>
-
           <form
             onSubmit={onSubmit}
             id="contato"
             className="relative rounded-[2rem] border border-border bg-background/90 p-6 shadow-elegant backdrop-blur sm:p-8"
           >
             <p className="font-display text-2xl font-bold">Agende sua demonstração</p>
-            <p className="mt-1 text-sm text-muted-foreground">Resposta em até 1 dia útil.</p>
+            <p className="mt-1 text-sm text-muted-foreground">Preencha e escolhemos juntos o melhor horário.</p>
 
             <div className="mt-6 grid gap-4">
               <div className="grid gap-2">
@@ -131,7 +135,13 @@ export const Demo = () => {
                 {loading ? "Enviando..." : "Agendar demonstração"}
                 {!loading && <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />}
               </Button>
-              <p className="text-center text-xs text-muted-foreground">Sem compromisso. Seus dados ficam só com a Softeum.</p>
+              <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                {["Sem compromisso", "Resposta em até 1 dia útil", "Teste grátis de 5 dias"].map((t) => (
+                  <span key={t} className="flex items-center gap-1">
+                    <Check className="h-3 w-3 text-emerald-600" strokeWidth={3} /> {t}
+                  </span>
+                ))}
+              </div>
             </div>
           </form>
         </Reveal>

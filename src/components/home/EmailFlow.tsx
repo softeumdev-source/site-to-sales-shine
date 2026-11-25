@@ -40,8 +40,10 @@ import { cn } from "@/lib/utils";
  * validado → lançado no ERP e e-mail etiquetado.
  */
 
-const W = 820;
-const H = 540;
+export const MAIL_W = 820;
+const W = MAIL_W;
+export const MAIL_H = 540;
+const H = MAIL_H;
 
 const mails = [
   { from: "Rede Gama Distribuição", subject: "Pedido 0388", snippet: "Segue pedido de reposição semanal conforme combinado", time: "07:52", clip: true },
@@ -72,7 +74,7 @@ const stepAt = [0, 0.16, 0.36, 0.8];
 
 /* ------------------------------- Janela de e-mail ------------------------------ */
 
-const MailWindow = ({ p, compact }: { p: number; compact?: boolean }) => {
+export const MailWindow = ({ p, compact }: { p: number; compact?: boolean }) => {
   const arrived = p > 0.04;
   const opened = p > 0.16;
   const preview = p > 0.3 && p < 0.9;

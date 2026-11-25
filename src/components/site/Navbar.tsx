@@ -9,8 +9,8 @@ type NavItem = { label: string; href?: string; to?: string };
 
 const links: NavItem[] = [
   { href: "/#como-funciona", label: "Como funciona" },
-  { href: "/#ia-whatsapp", label: "IA no WhatsApp" },
-  { href: "/#validadores", label: "Validadores" },
+  { href: "/#canais", label: "E-mail e WhatsApp" },
+  { href: "/#recursos", label: "Recursos" },
   { href: "/#integracoes-erp", label: "Integrações" },
   { href: "/#faq", label: "Dúvidas" },
   { to: "/suporte", label: "Suporte" },

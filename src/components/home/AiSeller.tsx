@@ -158,7 +158,7 @@ const Typing = () => (
   </div>
 );
 
-const PhoneChat = ({ p }: { p: number }) => {
+export const PhoneChat = ({ p }: { p: number }) => {
   const visible = messages.filter((m) => p >= m.at);
   const next = messages.find((m) => p < m.at);
   const typing = next && next.from === "ai" && p > next.at - 0.07;

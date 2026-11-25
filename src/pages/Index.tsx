@@ -4,13 +4,15 @@ import { ScrollProgress } from "@/components/site/ScrollProgress";
 import { Hero } from "@/components/home/Hero";
 import { Formats } from "@/components/home/Formats";
 import { Validators } from "@/components/home/Validators";
-import { AiSeller } from "@/components/home/AiSeller";
 import { Integrations } from "@/components/home/Integrations";
 import { Segments } from "@/components/home/Segments";
 import { Steps } from "@/components/home/Steps";
-import { EmailFlow } from "@/components/home/EmailFlow";
 import { Faq } from "@/components/home/Faq";
 import { Demo } from "@/components/home/Demo";
+import { WhyAutomate } from "@/components/home/WhyAutomate";
+import { ChannelsTabs } from "@/components/home/ChannelsTabs";
+import { CtaBand } from "@/components/home/CtaBand";
+import { Features } from "@/components/home/Features";
 
 const Index = () => {
   const orgJsonLd = {
@@ -33,11 +35,13 @@ const Index = () => {
       <ScrollProgress />
       <Navbar />
       <Hero />
-      <Formats />
+      <WhyAutomate />
       <Steps />
+      <ChannelsTabs />
+      <CtaBand />
+      <Formats />
       <Validators />
-      <EmailFlow />
-      <AiSeller />
+      <Features />
       <Integrations />
       <Segments />
       <Faq />
