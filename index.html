@@ -1,49 +1,185 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <!-- Google tag (gtag.js): Google Ads + Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18102628959"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'AW-18102628959');
-      gtag('config', 'G-PB31ZSS995', { send_page_view: false });
-    </script>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Softeum: automação de pedidos com IA. E-mail e WhatsApp direto no seu ERP.</title>
-    <meta name="description" content="A Softeum lê pedidos do e-mail e do WhatsApp (PDF, planilha, texto, foto e áudio), valida cada um e lança no seu ERP. Tem IA vendedora no WhatsApp. Agende uma demonstração.">
+    <title>Automação de pedidos por e-mail e WhatsApp direto no ERP | Softeum</title>
+    <meta name="description" content="A Softeum lê pedidos do e-mail e do WhatsApp (PDF, planilha, texto, foto e áudio), confere cada um e lança no seu ERP, sem digitação. Tem IA vendedora no WhatsApp. Agende uma demonstração." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="author" content="Softeum" />
-    <link rel="canonical" href="https://www.softeum.com.br/" />
+
+    <!-- Endereço oficial de cada página para o Google. Rotas que não existem (página 404) ficam fora da busca. -->
+    <script>
+      (function () {
+        var paginas = ["/", "/suporte", "/privacy-policy", "/terms", "/politica-de-cookies", "/termos-e-condicoes"];
+        var caminho = location.pathname.replace(/\/+$/, "") || "/";
+        var tag;
+        if (paginas.indexOf(caminho) !== -1) {
+          tag = document.createElement("link");
+          tag.rel = "canonical";
+          tag.href = "https://www.softeum.com.br" + (caminho === "/" ? "/" : caminho);
+        } else {
+          tag = document.createElement("meta");
+          tag.name = "robots";
+          tag.content = "noindex";
+        }
+        document.head.appendChild(tag);
+      })();
+    </script>
+
+    <!-- Google Ads (AW-18102628959) e Google Analytics 4 (G-PB31ZSS995).
+         Só carregam no domínio oficial e na Vercel, para os testes locais não entrarem nas métricas. -->
+    <script>
+      if (/(^|\.)softeum\.com\.br$|\.vercel\.app$/.test(location.hostname)) {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag("js", new Date());
+        gtag("config", "AW-18102628959");
+        gtag("config", "G-PB31ZSS995", { send_page_view: false });
+        var tag = document.createElement("script");
+        tag.async = true;
+        tag.src = "https://www.googletagmanager.com/gtag/js?id=AW-18102628959";
+        document.head.appendChild(tag);
+      }
+    </script>
+
+    <!-- Compartilhamento (WhatsApp, LinkedIn, redes sociais) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Softeum" />
+    <meta property="og:url" content="https://www.softeum.com.br/" />
+    <meta property="og:title" content="Automação de pedidos por e-mail e WhatsApp direto no ERP | Softeum" />
+    <meta property="og:description" content="A Softeum lê pedidos do e-mail e do WhatsApp (PDF, planilha, texto, foto e áudio), confere cada um e lança no seu ERP, sem digitação. Tem IA vendedora no WhatsApp. Agende uma demonstração." />
+    <meta property="og:image" content="https://www.softeum.com.br/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Pedidos do Gmail, Outlook e WhatsApp entrando sozinhos no ERP com a Softeum" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Automação de pedidos por e-mail e WhatsApp direto no ERP | Softeum" />
+    <meta name="twitter:description" content="A Softeum lê pedidos do e-mail e do WhatsApp (PDF, planilha, texto, foto e áudio), confere cada um e lança no seu ERP, sem digitação. Tem IA vendedora no WhatsApp. Agende uma demonstração." />
+    <meta name="twitter:image" content="https://www.softeum.com.br/og-image.jpg" />
+
+    <!-- Dados estruturados para o Google: empresa, site, produto e perguntas frequentes (as mesmas da página) -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.softeum.com.br/#organizacao",
+      "name": "Softeum",
+      "url": "https://www.softeum.com.br/",
+      "logo": "https://www.softeum.com.br/logocerta.png",
+      "email": "comercial@softeum.com.br",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "sales",
+        "email": "comercial@softeum.com.br",
+        "telephone": "+55-47-99659-2551",
+        "areaServed": "BR",
+        "availableLanguage": "Portuguese"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.softeum.com.br/#site",
+      "url": "https://www.softeum.com.br/",
+      "name": "Softeum",
+      "inLanguage": "pt-BR",
+      "publisher": {
+        "@id": "https://www.softeum.com.br/#organizacao"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Softeum Pedidos",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "url": "https://www.softeum.com.br/",
+      "image": "https://www.softeum.com.br/og-image.jpg",
+      "description": "Automação de pedidos recebidos por e-mail e WhatsApp: a Softeum lê pedidos em PDF, planilha, texto, foto ou áudio, confere cliente, produtos e valores e lança o pedido pronto no ERP, sem digitação. Inclui IA vendedora no WhatsApp.",
+      "publisher": {
+        "@id": "https://www.softeum.com.br/#organizacao"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL",
+        "description": "Demonstração gratuita e sem compromisso"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Preciso instalar algo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. A Softeum funciona no navegador. Você acessa de qualquer computador, sem instalação e sem manutenção."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Funciona com o meu ERP?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. O seu ERP recebe o pedido de um de três jeitos: busca pela nossa API, aviso automático no endereço do ERP ou arquivo gravado na pasta que ele já importa (XML, CSV, TXT, SAP IDoc ou Protheus), sem a TI programar. Funciona com SAP, TOTVS, Sankhya, Senior, Omie, Bling, Tiny, Microsoft Dynamics, Oracle NetSuite, Odoo e ERPs próprios. A documentação completa para a TI está em docs.softeum.com.br."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Que tipos de pedido a Softeum lê?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PDF, planilha, XML, CSV, Word, foto ou print do pedido, mensagem de texto e áudio de WhatsApp. O seu cliente não precisa usar nenhum modelo específico."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como funciona a IA vendedora no WhatsApp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ela conversa com o seu cliente como um vendedor: entende texto e áudio, explica os produtos do seu catálogo, monta o pedido, confirma com o cliente e envia para o ERP. Atende 24 horas por dia."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "E se a IA errar algum dado?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Todo pedido passa pelos validadores antes de ir para o ERP. Se algo estiver diferente do esperado, o pedido fica aguardando a sua revisão. Você sempre tem a palavra final."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Meus dados ficam seguros?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. Os dados de cada empresa ficam isolados, com controle de acesso por usuário e conexão ao e-mail feita por protocolos seguros e padrão de mercado."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso ver funcionando antes de contratar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. Agende uma demonstração: mostramos a Softeum lendo pedidos reais da sua empresa e lançando no seu ERP."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+
+    <link rel="icon" type="image/png" href="/logocerta.png" />
+    <link rel="apple-touch-icon" href="/logocerta.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
-
-    
-    
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="pt_BR" />
-    <meta property="og:image" content="https://www.softeum.com.br/og-image.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://www.softeum.com.br/">
-    <meta property="og:site_name" content="Softeum">
-
-    <meta name="twitter:card" content="summary_large_image" />
-
-
-    <meta name="twitter:image" content="https://www.softeum.com.br/og-image.jpg">
-    <meta property="og:title" content="Softeum: automação de pedidos com IA. E-mail e WhatsApp direto no seu ERP.">
-  <meta name="twitter:title" content="Softeum: automação de pedidos com IA. E-mail e WhatsApp direto no seu ERP.">
-  <meta property="og:description" content="A Softeum lê pedidos do e-mail e do WhatsApp (PDF, planilha, texto, foto e áudio), valida cada um e lança no seu ERP. Tem IA vendedora no WhatsApp. Agende uma demonstração.">
-  <meta name="twitter:description" content="A Softeum lê pedidos do e-mail e do WhatsApp (PDF, planilha, texto, foto e áudio), valida cada um e lança no seu ERP. Tem IA vendedora no WhatsApp. Agende uma demonstração.">
-  <link rel="icon" type="image/png" href="/logocerta.png">
-  <link rel="shortcut icon" type="image/png" href="/logocerta.png">
-  <link rel="apple-touch-icon" href="/logocerta.png">
-</head>
+  </head>
 
   <body>
     <div id="root"></div>
