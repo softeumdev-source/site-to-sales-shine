@@ -194,3 +194,16 @@
   86% { opacity: 1; }
   92%, 100% { left: 100%; opacity: 0; }
 }
+
+@keyframes wire {
+  0% { left: 0%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: calc(100% - 10px); opacity: 0; }
+}
+@keyframes wire-back {
+  0% { left: calc(100% - 10px); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: 0%; opacity: 0; }
+}

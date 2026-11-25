@@ -15,7 +15,7 @@ const faqs = [
   },
   {
     q: "Funciona com o meu ERP?",
-    a: "Sim. Integramos via API (o pedido entra direto no ERP) ou geramos o arquivo de importação (CSV, XML, JSON ou XLSX) no layout exato que o seu ERP aceita. Atendemos os principais ERPs de mercado e também sistemas próprios.",
+    a: "Sim. O seu ERP recebe o pedido de um de três jeitos: busca pela nossa API, aviso automático no endereço do ERP ou arquivo gravado na pasta que ele já importa (XML, CSV, TXT, SAP IDoc ou Protheus), sem a TI programar. Funciona com SAP, TOTVS, Sankhya, Senior, Omie, Bling, Tiny, Microsoft Dynamics, Oracle NetSuite, Odoo e ERPs próprios. A documentação completa para a TI está em docs.softeum.com.br.",
   },
   {
     q: "Que tipos de pedido a Softeum lê?",

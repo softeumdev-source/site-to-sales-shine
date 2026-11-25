@@ -1,8 +1,7 @@
-import { FileSpreadsheet, Plug } from "lucide-react";
 import logo from "@/assets/logocerta.png";
-import { Reveal, RevealHeading, RevealItem, Stagger } from "@/components/site/motion";
+import { Reveal, RevealHeading } from "@/components/site/motion";
 import { erps } from "./erps";
-import { Doc3D } from "./Doc3D";
+import { IntegrationWays } from "./IntegrationWays";
 
 /**
  * Integrações: a Softeum no centro e os ERPs girando em órbita (CSS 3D).
@@ -56,56 +55,12 @@ export const Integrations = () => (
           className="mt-3 text-balance font-display text-3xl font-bold tracking-tight md:text-5xl"
         />
         <Reveal delay={0.35}>
-          <p className="mt-4 max-w-md text-lg text-muted-foreground">Sem trocar de sistema. O pedido chega do jeito que o seu ERP aceita.</p>
+          <p className="mt-4 max-w-md text-lg text-muted-foreground">Sem trocar de sistema. O seu ERP recebe o pedido do jeito que for mais simples para a sua TI.</p>
         </Reveal>
 
-        <Stagger className="mt-8 space-y-4" delay={0.4} gap={0.12}>
-          {/* via API */}
-          <RevealItem className="overflow-hidden rounded-2xl border border-border bg-background">
-            <div className="grid sm:grid-cols-[1fr_1.1fr]">
-              <div className="p-5">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                    <Plug className="h-5 w-5" />
-                  </span>
-                  <p className="font-display text-lg font-bold">Via API</p>
-                </div>
-                <p className="mt-3 text-sm text-muted-foreground">O pedido entra direto no ERP, sem nenhum clique, assim que é validado.</p>
-              </div>
-              <div className="bg-[#0b1626] p-4 font-mono text-[11px] leading-relaxed text-white/80">
-                <p>
-                  <span className="text-[#6BB8FF]">POST</span> /erp/pedidos
-                </p>
-                <p className="text-white/50">{"{"} "pedido": 4521, "cliente": "12.345.678/0001-90",</p>
-                <p className="text-white/50">&nbsp;&nbsp;"itens": 3, "total": 8430.00 {"}"}</p>
-                <p className="mt-1.5 flex items-center gap-1.5 text-emerald-400">
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" /> 201 · Pedido criado no ERP
-                </p>
-              </div>
-            </div>
-          </RevealItem>
-
-          {/* arquivo de importação */}
-          <RevealItem className="overflow-hidden rounded-2xl border border-border bg-background">
-            <div className="grid sm:grid-cols-[1fr_1.1fr]">
-              <div className="p-5">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-secondary-foreground">
-                    <FileSpreadsheet className="h-5 w-5" />
-                  </span>
-                  <p className="font-display text-lg font-bold">Arquivo de importação</p>
-                </div>
-                <p className="mt-3 text-sm text-muted-foreground">Geramos o arquivo no layout exato que o seu ERP já importa.</p>
-              </div>
-              <div className="flex items-center justify-center gap-4 bg-gradient-to-br from-[#fff1f3] to-[#eef5ff] p-4 [perspective:600px]">
-                {(["csv", "xml", "xlsx"] as const).map((k, i) => (
-                  <Doc3D key={k} kind={k} size={38} float delay={i * 0.5} />
-                ))}
-                <span className="rounded-md bg-white px-2 py-1 font-mono text-[11px] font-semibold shadow-card">JSON</span>
-              </div>
-            </div>
-          </RevealItem>
-        </Stagger>
+        <Reveal delay={0.4}>
+          <IntegrationWays />
+        </Reveal>
       </div>
 
       <Reveal from="scale" className="relative mx-auto aspect-square w-full max-w-[560px]">
