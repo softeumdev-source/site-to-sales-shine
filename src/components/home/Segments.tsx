@@ -10,6 +10,7 @@ import { ClayTile } from "./Clay";
 const segments = [
   {
     icon: Factory,
+    color: "#2F7DE1",
     title: "Indústria",
     lead: "Pedidos de representantes e distribuidores entram no ERP sem redigitar.",
     items: ["Pedidos de representantes", "Planilhas de distribuidores", "Integração com o ERP da fábrica"],
@@ -17,6 +18,7 @@ const segments = [
   },
   {
     icon: Truck,
+    color: "#F0485E",
     title: "Distribuição e atacado",
     lead: "Muitos clientes, cada um com o seu jeito de pedir, todos os dias.",
     items: ["Alto volume de pedidos", "Layouts diferentes por cliente", "DE-PARA de códigos"],
@@ -24,6 +26,7 @@ const segments = [
   },
   {
     icon: Store,
+    color: "#16A35A",
     title: "Varejo",
     lead: "Lojas e redes mandando reposição por mensagem, foto ou planilha.",
     items: ["Reposição de lojas", "Pedidos pelo WhatsApp", "Redes com várias unidades"],
@@ -65,7 +68,7 @@ export const Segments = () => (
                 style={{ animationDelay: `${i * 0.8}s` }}
               >
                 <div className="[transform-style:preserve-3d]" style={{ transform: "rotateX(12deg) rotateY(-16deg)" }}>
-                  <ClayTile icon={s.icon} size={56} />
+                  <ClayTile icon={s.icon} size={56} color={s.color} />
                 </div>
               </div>
             </div>
@@ -76,7 +79,7 @@ export const Segments = () => (
             <ul className="mt-6 space-y-2.5">
               {s.items.map((it) => (
                 <li key={it} className="flex items-center gap-2.5 text-[15px]">
-                  <Check className="h-4 w-4 shrink-0 text-foreground/50" strokeWidth={2.5} />
+                  <Check className="h-4 w-4 shrink-0" style={{ color: s.color }} strokeWidth={2.5} />
                   {it}
                 </li>
               ))}
@@ -89,7 +92,7 @@ export const Segments = () => (
                   key={c}
                   src={c}
                   alt=""
-                  className="h-4 w-4 object-contain opacity-60 grayscale transition group-hover:opacity-100 group-hover:grayscale-0"
+                  className="h-4 w-4 object-contain"
                 />
               ))}
             </div>

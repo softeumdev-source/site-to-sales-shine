@@ -21,13 +21,6 @@ const cols = [
       { label: "Agendar demonstração", href: "/#demo" },
       { label: "Entrar na plataforma", href: PLATFORM_URL, external: true },
       { label: "Dúvidas frequentes", href: "/#faq" },
-    ],
-  },
-  {
-    title: "Suporte",
-    links: [
-      { label: "Central de suporte", to: "/suporte" },
-      { label: "Abrir chamado", to: "/suporte#abrir-chamado" },
       { label: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}` },
     ],
   },
@@ -52,7 +45,7 @@ export const Footer = () => (
         </a>
       </div>
 
-      <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
         <div>
           <a href="/#top" className="flex items-center gap-2">
             <img src={logo} alt="Softeum" width={32} height={32} className="h-8 w-8" />
