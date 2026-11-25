@@ -207,3 +207,8 @@
   85% { opacity: 1; }
   100% { left: 0%; opacity: 0; }
 }
+
+@keyframes shadow-bob {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: .9; }
+  50% { transform: translateX(-50%) scale(.8); opacity: .55; }
+}

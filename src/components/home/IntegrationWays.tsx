@@ -1,192 +1,127 @@
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, BellRing, Database, FolderInput, RefreshCw } from "lucide-react";
 import logo from "@/assets/logocerta.png";
-import { cn } from "@/lib/utils";
+import { RevealItem, Stagger } from "@/components/site/motion";
+import { ClayIcon, ClayLogo } from "./Clay";
 
 /**
- * Os 3 jeitos de o ERP receber o pedido, como descritos na documentação
- * (docs.softeum.com.br): busca pela API, aviso no endereço do ERP e arquivo por SFTP.
+ * Os 3 jeitos de o ERP receber o pedido (docs.softeum.com.br), num visual claro:
+ * Softeum e ERP em 3D ligados por 3 caminhos coloridos, com o pedido andando.
  */
 
 const DOCS_URL = "https://docs.softeum.com.br/";
 
-type Way = {
-  key: string;
-  tab: string;
-  icon: typeof RefreshCw;
-  title: string;
-  text: string;
-  when: string;
-  /** o que trafega entre Softeum e ERP */
-  wire: string;
-  /** sentido da seta: o ERP busca (←) ou a Softeum envia (→) */
-  dir: "pull" | "push";
-  chips: string[];
-};
-
-const ways: Way[] = [
+const ways = [
   {
-    key: "api",
-    tab: "Busca pela API",
     icon: RefreshCw,
-    title: "O ERP busca os pedidos prontos",
-    text: "O ERP chama a API REST da Softeum de tempos em tempos, lança os pedidos e confirma com o número dele.",
-    when: "ERP dentro da rede da empresa, sem endereço público.",
-    wire: "GET /v1/pedidos",
-    dir: "pull",
-    chips: ["API REST", "Chave de acesso", "OpenAPI 3.1"],
+    label: "API",
+    title: "O ERP busca",
+    text: "O ERP consulta a API da Softeum e pega os pedidos prontos.",
+    from: "#6BB8FF",
+    to: "#2F7DE1",
+    path: "M 0 90 C 90 10, 230 10, 320 90",
+    dur: "2.6s",
   },
   {
-    key: "webhook",
-    tab: "Aviso no ERP",
     icon: BellRing,
-    title: "A Softeum avisa o ERP na hora",
-    text: "Assim que o pedido fica pronto, a Softeum envia um POST assinado para o endereço do ERP, que lança e responde com o número.",
-    when: "ERP ou ferramenta de integração com endereço HTTPS.",
-    wire: "POST pedido.aprovado",
-    dir: "push",
-    chips: ["Webhook", "Assinatura", "Sem duplicar"],
+    label: "Aviso",
+    title: "A Softeum avisa",
+    text: "Assim que o pedido fica pronto, a Softeum envia para o ERP.",
+    from: "#FF8FA0",
+    to: "#F0485E",
+    path: "M 0 90 L 320 90",
+    dur: "2s",
   },
   {
-    key: "sftp",
-    tab: "Arquivo por SFTP",
     icon: FolderInput,
-    title: "O pedido vira um arquivo na pasta do ERP",
-    text: "A Softeum grava o arquivo no layout do seu ERP, numa pasta que ele já importa. A TI não precisa programar.",
-    when: "ERP que já importa pedido de uma pasta.",
-    wire: "pedido_4521.xml",
-    dir: "push",
-    chips: ["XML", "CSV", "TXT", "SAP IDoc", "Protheus"],
+    label: "Arquivo",
+    title: "Arquivo na pasta",
+    text: "O pedido vira um arquivo no layout que o ERP já importa.",
+    from: "#4BE08C",
+    to: "#16A35A",
+    path: "M 0 90 C 90 170, 230 170, 320 90",
+    dur: "3s",
   },
 ];
 
 const syncs = ["Produtos", "Compradores", "Vendedores", "Tabelas de preço"];
 
-/** Diagrama: Softeum ⇄ ERP com o pedido trafegando na linha. */
-const Flow = ({ way }: { way: Way }) => (
-  <div className="relative flex items-center justify-between gap-3 rounded-2xl bg-[#0b1626] px-4 py-5 text-white">
-    <div className="flex flex-col items-center gap-1.5">
-      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10">
-        <img src={logo} alt="" className="h-7 w-7" />
-      </span>
-      <span className="text-[11px] text-white/60">Softeum</span>
+export const IntegrationWays = () => (
+  <div className="mt-8">
+    {/* cena: Softeum ⇄ ERP */}
+    <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#e8f2ff] via-white to-[#ffecef] px-4 py-6 sm:px-6">
+      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2">
+        <div className="flex flex-col items-center gap-2 [perspective:600px]">
+          <div className="animate-[bob_5s_ease-in-out_infinite] [transform-style:preserve-3d]" style={{ transform: "rotateY(14deg)" }}>
+            <ClayLogo src={logo} alt="Softeum" size={64} dark />
+          </div>
+          <span className="text-xs font-semibold">Softeum</span>
+        </div>
+
+        <svg viewBox="0 0 320 180" className="h-auto w-full overflow-visible" aria-hidden>
+          {ways.map((w, i) => (
+            <g key={w.label}>
+              <path id={`way-${i}`} d={w.path} fill="none" stroke={w.to} strokeOpacity=".35" strokeWidth="3" strokeDasharray="2 7" strokeLinecap="round" />
+              <circle r="7" fill={w.to}>
+                <animateMotion dur={w.dur} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+                  <mpath href={`#way-${i}`} />
+                </animateMotion>
+              </circle>
+              <circle r="12" fill={w.to} opacity=".18">
+                <animateMotion dur={w.dur} repeatCount="indefinite">
+                  <mpath href={`#way-${i}`} />
+                </animateMotion>
+              </circle>
+            </g>
+          ))}
+          {/* rótulos no meio de cada caminho */}
+          {ways.map((w, i) => (
+            <foreignObject key={w.label} x="120" y={[18, 76, 134][i]} width="80" height="28">
+              <div className="flex h-full items-center justify-center">
+                <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-bold shadow-card" style={{ color: w.to }}>
+                  {w.label}
+                </span>
+              </div>
+            </foreignObject>
+          ))}
+        </svg>
+
+        <div className="flex flex-col items-center gap-2 [perspective:600px]">
+          <div className="animate-[bob_5s_ease-in-out_infinite] [animation-delay:1.2s] [transform-style:preserve-3d]" style={{ transform: "rotateY(-14deg)" }}>
+            <ClayIcon icon={Database} from="#2E4A72" to="#0F2240" size={64} />
+          </div>
+          <span className="text-xs font-semibold">Seu ERP</span>
+        </div>
+      </div>
     </div>
 
-    <div className="relative mx-1 h-12 flex-1">
-      <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 border-t border-dashed border-white/25" />
-      {/* pacote andando na linha */}
-      <span
-        className={cn(
-          "absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-[#6BB8FF] shadow-[0_0_12px_#6BB8FF]",
-          way.dir === "push" ? "animate-[wire_1.8s_ease-in-out_infinite]" : "animate-[wire-back_1.8s_ease-in-out_infinite]"
-        )}
-      />
-      <span className="absolute inset-x-0 -top-0.5 truncate text-center font-mono text-[11px] text-[#9ccaff]">
-        {way.dir === "pull" ? "← " : ""}
-        {way.wire}
-        {way.dir === "push" ? " →" : ""}
-      </span>
-    </div>
+    {/* as 3 formas */}
+    <Stagger className="mt-6 grid gap-5 sm:grid-cols-3" gap={0.1}>
+      {ways.map((w) => (
+        <RevealItem key={w.title}>
+          <div className="[perspective:400px]">
+            <div className="w-fit [transform-style:preserve-3d]" style={{ transform: "rotateX(12deg) rotateY(-14deg)" }}>
+              <ClayIcon icon={w.icon} from={w.from} to={w.to} size={42} />
+            </div>
+          </div>
+          <p className="mt-3 font-display font-bold">{w.title}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{w.text}</p>
+        </RevealItem>
+      ))}
+    </Stagger>
 
-    <div className="flex flex-col items-center gap-1.5">
-      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10">
-        <Database className="h-5 w-5 text-[#6BB8FF]" />
-      </span>
-      <span className="text-[11px] text-white/60">Seu ERP</span>
+    <div className="mt-7 flex flex-col gap-4 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-sm text-muted-foreground">
+        O ERP também envia os cadastros: <span className="font-medium text-foreground">{syncs.join(", ").toLowerCase()}</span>.
+      </p>
+      <a
+        href={DOCS_URL}
+        target="_blank"
+        rel="noreferrer"
+        className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold underline decoration-accent decoration-2 underline-offset-4"
+      >
+        Documentação para a TI
+        <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+      </a>
     </div>
   </div>
 );
-
-export const IntegrationWays = () => {
-  const reduce = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.4 });
-  const [i, setI] = useState(0);
-  const [touched, setTouched] = useState(false);
-
-  // troca de aba sozinha até a pessoa clicar em uma
-  useEffect(() => {
-    if (reduce || !inView || touched) return;
-    const id = window.setInterval(() => setI((v) => (v + 1) % ways.length), 5000);
-    return () => window.clearInterval(id);
-  }, [inView, touched, reduce]);
-
-  const w = ways[i];
-
-  return (
-    <div ref={ref} className="mt-8">
-      <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">3 jeitos de o ERP receber o pedido</p>
-
-      <div role="tablist" className="mt-3 grid grid-cols-3 gap-1 rounded-2xl bg-muted p-1">
-        {ways.map((x, k) => (
-          <button
-            key={x.key}
-            role="tab"
-            aria-selected={k === i}
-            onClick={() => {
-              setI(k);
-              setTouched(true);
-            }}
-            className={cn(
-              "flex items-center justify-center gap-1.5 rounded-xl px-2 py-2 text-xs font-semibold transition-all sm:text-sm",
-              k === i ? "bg-background text-foreground shadow-card" : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            <x.icon className="hidden h-4 w-4 sm:block" />
-            {x.tab}
-          </button>
-        ))}
-      </div>
-
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={w.key}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.25 }}
-          className="mt-5"
-        >
-          <p className="font-display text-xl font-bold">{w.title}</p>
-          <p className="mt-1.5 text-[15px] text-muted-foreground">{w.text}</p>
-          <div className="mt-4">
-            <Flow way={w} />
-          </div>
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-            {w.chips.map((c) => (
-              <span key={c} className="rounded-full border border-border bg-background px-2.5 py-1 font-mono text-[11px] font-medium">
-                {c}
-              </span>
-            ))}
-          </div>
-          <p className="mt-3 text-sm">
-            <span className="font-semibold">Quando usar:</span> <span className="text-muted-foreground">{w.when}</span>
-          </p>
-        </motion.div>
-      </AnimatePresence>
-
-      <div className="mt-6 flex flex-col gap-4 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm font-semibold">O ERP também envia os cadastros</p>
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            {syncs.map((s) => (
-              <span key={s} className="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
-        <a
-          href={DOCS_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="group inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors hover:bg-muted"
-        >
-          Documentação para a TI
-          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-        </a>
-      </div>
-    </div>
-  );
-};

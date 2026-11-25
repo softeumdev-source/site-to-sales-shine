@@ -2,34 +2,41 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, Database, Sparkles } from "lucide-react";
 import logo from "@/assets/logocerta.png";
+import gmail from "@/assets/brands/gmail.svg";
+import outlook from "@/assets/brands/outlook.svg";
+import whatsapp from "@/assets/brands/whatsapp.svg";
 import { useFitScale } from "@/hooks/use-fit-scale";
 import { cn } from "@/lib/utils";
+import { ClayLogo } from "./Clay";
 import { Doc3D, docMeta, type DocKind } from "./Doc3D";
 
 /**
- * Cena do topo: documentos de vários canais entram na Softeum, passam pelos
- * validadores e saem como pedido no ERP. Tudo em CSS 3D + framer-motion.
+ * Cena do topo: pedidos saem do Gmail, do Outlook e do WhatsApp (blocos 3D com
+ * os logos), voam até a Softeum, passam pelos validadores e entram no ERP.
  * Desenhada em 600x500 e escalada para caber no container.
  */
 
 const W = 600;
 const H = 500;
 
-type Source = { kind: DocKind; x: number; y: number; file: string; origin: string };
+const channels = {
+  gmail: { src: gmail, name: "Gmail", x: 10, y: 40 },
+  outlook: { src: outlook, name: "Outlook", x: 0, y: 200 },
+  whatsapp: { src: whatsapp, name: "WhatsApp", x: 10, y: 360 },
+} as const;
+type Channel = keyof typeof channels;
 
-const sources: Source[] = [
-  { kind: "pdf", x: 40, y: 40, file: "pedido_4521.pdf", origin: "E-mail" },
-  { kind: "whatsapp", x: 0, y: 150, file: "mensagem no WhatsApp", origin: "WhatsApp" },
-  { kind: "audio", x: 36, y: 255, file: "áudio de 0:14", origin: "WhatsApp" },
-  { kind: "xlsx", x: 0, y: 345, file: "reposicao_nov.xlsx", origin: "E-mail" },
-  { kind: "img", x: 96, y: 420, file: "foto_pedido.jpg", origin: "WhatsApp" },
+const flow: { ch: Channel; doc: DocKind; file: string; client: string; total: string }[] = [
+  { ch: "gmail", doc: "pdf", file: "pedido_4521.pdf", client: "Distribuidora Alfa", total: "8.430,00" },
+  { ch: "whatsapp", doc: "audio", file: "áudio de 0:14", client: "Rede Gama", total: "2.115,40" },
+  { ch: "outlook", doc: "xlsx", file: "reposicao_nov.xlsx", client: "Construsul", total: "640,00" },
+  { ch: "whatsapp", doc: "img", file: "foto do pedido", client: "Beta Materiais", total: "12.980,00" },
+  { ch: "outlook", doc: "pdf", file: "PC-88123.pdf", client: "Elétrica Norte", total: "3.302,90" },
 ];
 
-const clients = ["Distribuidora Alfa", "Rede Gama", "Construsul", "Beta Materiais", "Elétrica Norte"];
-const totals = ["8.430,00", "2.115,40", "640,00", "12.980,00", "3.302,90"];
-const validators = ["CNPJ", "Produtos", "Preços", "Duplicidade"];
-
-const CORE = { x: 262, y: 200 };
+const validators = ["CNPJ", "Produtos", "Quantidades", "Duplicidade"];
+const CORE = { x: 250, y: 190 };
+const TILE = 74;
 const CYCLE = 3200;
 
 export const HeroScene = () => {
@@ -37,7 +44,7 @@ export const HeroScene = () => {
   const { ref: fitRef, scale } = useFitScale(W);
   const tiltRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
-  const [phase, setPhase] = useState<"travel" | "read" | "done">("travel");
+  const [phase, setPhase] = useState<"emit" | "travel" | "read" | "done">("emit");
   const [orders, setOrders] = useState<{ id: number; s: number }[]>([]);
   const seq = useRef(0);
 
@@ -47,26 +54,28 @@ export const HeroScene = () => {
       setOrders([2, 1, 0].map((s, id) => ({ id, s })));
       return;
     }
-    let t1: number, t2: number;
+    const timers: number[] = [];
     const run = (i: number) => {
       setStep(i);
-      setPhase("travel");
-      t1 = window.setTimeout(() => setPhase("read"), 800);
-      t2 = window.setTimeout(() => {
-        setPhase("done");
-        setOrders((o) => [{ id: ++seq.current, s: i }, ...o].slice(0, 4));
-      }, 2100);
+      setPhase("emit");
+      timers.push(window.setTimeout(() => setPhase("travel"), 500));
+      timers.push(window.setTimeout(() => setPhase("read"), 1250));
+      timers.push(
+        window.setTimeout(() => {
+          setPhase("done");
+          setOrders((o) => [{ id: ++seq.current, s: i }, ...o].slice(0, 4));
+        }, 2400)
+      );
     };
     run(0);
     let i = 0;
     const id = window.setInterval(() => {
-      i = (i + 1) % sources.length;
+      i = (i + 1) % flow.length;
       run(i);
     }, CYCLE);
     return () => {
       window.clearInterval(id);
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
+      timers.forEach(window.clearTimeout);
     };
   }, [reduce]);
 
@@ -84,14 +93,12 @@ export const HeroScene = () => {
     tiltRef.current?.style.setProperty("--ry", "-10deg");
   };
 
-  const src = sources[step];
+  const cur = flow[step];
+  const src = channels[cur.ch];
 
   return (
     <div ref={fitRef} className="relative w-full" style={{ height: H * scale }} onMouseMove={onMove} onMouseLeave={onLeave}>
-      <div
-        className="absolute left-0 top-0 origin-top-left [perspective:1600px]"
-        style={{ width: W, height: H, transform: `scale(${scale})` }}
-      >
+      <div className="absolute left-0 top-0 origin-top-left [perspective:1600px]" style={{ width: W, height: H, transform: `scale(${scale})` }}>
         <div
           ref={tiltRef}
           className="relative h-full w-full transition-transform duration-500 ease-out [transform-style:preserve-3d]"
@@ -101,23 +108,27 @@ export const HeroScene = () => {
           <svg className="absolute inset-0 overflow-visible" width={W} height={H} aria-hidden>
             <defs>
               <linearGradient id="hs-line" x1="0" x2="1">
-                <stop offset="0" stopColor="hsl(210 100% 60%)" stopOpacity=".15" />
-                <stop offset="1" stopColor="hsl(350 95% 64%)" stopOpacity=".55" />
+                <stop offset="0" stopColor="hsl(210 100% 60%)" stopOpacity=".2" />
+                <stop offset="1" stopColor="hsl(350 95% 64%)" stopOpacity=".6" />
               </linearGradient>
             </defs>
-            {sources.map((s, i) => (
-              <path
-                key={i}
-                d={`M ${s.x + 70} ${s.y + 40} C ${s.x + 170} ${s.y + 40}, ${CORE.x - 60} ${CORE.y + 50}, ${CORE.x} ${CORE.y + 50}`}
-                fill="none"
-                stroke={i === step ? "url(#hs-line)" : "hsl(220 30% 80%)"}
-                strokeWidth={i === step ? 2.5 : 1.5}
-                strokeDasharray="4 6"
-                className={cn(i === step && "animate-[dash_1s_linear_infinite]")}
-              />
-            ))}
+            {(Object.keys(channels) as Channel[]).map((k) => {
+              const c = channels[k];
+              const on = k === cur.ch;
+              return (
+                <path
+                  key={k}
+                  d={`M ${c.x + TILE} ${c.y + TILE / 2} C ${c.x + 170} ${c.y + TILE / 2}, ${CORE.x - 70} ${CORE.y + 60}, ${CORE.x} ${CORE.y + 60}`}
+                  fill="none"
+                  stroke={on ? "url(#hs-line)" : "hsl(220 30% 82%)"}
+                  strokeWidth={on ? 3 : 1.5}
+                  strokeDasharray="4 6"
+                  className={cn(on && "animate-[dash_1s_linear_infinite]")}
+                />
+              );
+            })}
             <path
-              d={`M ${CORE.x + 120} ${CORE.y + 50} C ${CORE.x + 160} ${CORE.y + 50}, 400 ${CORE.y - 40}, 430 ${CORE.y - 40}`}
+              d={`M ${CORE.x + 120} ${CORE.y + 60} C ${CORE.x + 160} ${CORE.y + 60}, 395 ${CORE.y - 30}, 420 ${CORE.y - 30}`}
               fill="none"
               stroke="hsl(350 95% 64% / .5)"
               strokeWidth={2.5}
@@ -125,21 +136,44 @@ export const HeroScene = () => {
             />
           </svg>
 
-          {/* fontes */}
-          {sources.map((s, i) => (
-            <div
-              key={s.kind}
-              className="absolute transition-all duration-500 [transform-style:preserve-3d]"
-              style={{
-                left: s.x,
-                top: s.y,
-                transform: `translateZ(${i === step ? 50 : 20}px) scale(${i === step ? 1.08 : 1})`,
-                filter: i === step ? "none" : "saturate(.75)",
-              }}
-            >
-              <Doc3D kind={s.kind} size={s.kind === "pdf" || s.kind === "xlsx" || s.kind === "img" ? 58 : 70} float delay={i * 0.7} />
-            </div>
-          ))}
+          {/* canais: Gmail, Outlook, WhatsApp */}
+          {(Object.keys(channels) as Channel[]).map((k, i) => {
+            const c = channels[k];
+            const on = k === cur.ch;
+            return (
+              <div
+                key={k}
+                className="absolute transition-all duration-500 [transform-style:preserve-3d]"
+                style={{ left: c.x, top: c.y, transform: `translateZ(${on ? 50 : 20}px) scale(${on ? 1.08 : 1})` }}
+              >
+                <div className="animate-[bob_5s_ease-in-out_infinite] [transform-style:preserve-3d]" style={{ animationDelay: `${i * 0.8}s` }}>
+                  <ClayLogo src={c.src} alt={c.name} size={TILE} />
+                </div>
+                <span
+                  className={cn(
+                    "absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap text-[11px] font-semibold transition-opacity",
+                    on ? "text-foreground opacity-100" : "text-muted-foreground opacity-70"
+                  )}
+                >
+                  {c.name}
+                </span>
+                {/* documento saindo do canal */}
+                <AnimatePresence>
+                  {on && phase === "emit" && !reduce && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.3, x: 30, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, x: 70, y: -16 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 260, damping: 16 }}
+                      className="absolute left-0 top-0"
+                    >
+                      <Doc3D kind={cur.doc} size={40} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
 
           {/* documento viajando até o núcleo */}
           <AnimatePresence>
@@ -147,12 +181,12 @@ export const HeroScene = () => {
               <motion.div
                 key={`t-${step}`}
                 className="absolute"
-                initial={{ left: src.x + 20, top: src.y + 10, opacity: 0, scale: 0.6 }}
-                animate={{ left: CORE.x + 40, top: CORE.y + 20, opacity: 1, scale: 0.8 }}
+                initial={{ left: src.x + 80, top: src.y - 10, opacity: 1, scale: 1 }}
+                animate={{ left: CORE.x + 40, top: CORE.y + 30, opacity: 1, scale: 0.8 }}
                 exit={{ opacity: 0, scale: 0.3 }}
-                transition={{ duration: 0.75, ease: [0.5, 0, 0.2, 1] }}
+                transition={{ duration: 0.7, ease: [0.5, 0, 0.2, 1] }}
               >
-                <Doc3D kind={src.kind} size={44} />
+                <Doc3D kind={cur.doc} size={40} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -165,16 +199,15 @@ export const HeroScene = () => {
               className="relative flex h-[120px] w-[120px] flex-col items-center justify-center rounded-[34px] text-white"
               style={{
                 background: "linear-gradient(160deg,#1d3557 0%,#0f2240 60%,#0a1830 100%)",
-                boxShadow: "inset 0 2px 0 rgba(255,255,255,.18), 0 30px 50px -10px rgba(15,34,64,.55), 0 0 0 1px rgba(255,255,255,.06)",
+                boxShadow: "inset 0 2px 0 rgba(255,255,255,.18), 0 30px 50px -10px rgba(15,34,64,.55)",
               }}
             >
-              <img src={logo} alt="" className="h-12 w-12" style={{ transform: "translateZ(20px)" }} />
+              <img src={logo} alt="" className="h-12 w-12" />
               <span className="mt-1 text-[10px] font-semibold uppercase tracking-widest text-white/70">IA Softeum</span>
             </div>
 
-            {/* status de leitura + validadores */}
             <AnimatePresence mode="wait">
-              {phase !== "travel" && (
+              {(phase === "read" || phase === "done") && (
                 <motion.div
                   key={`r-${step}`}
                   initial={{ opacity: 0, y: 8 }}
@@ -184,7 +217,7 @@ export const HeroScene = () => {
                 >
                   <p className="flex items-center gap-1.5 truncate text-[11px] font-semibold">
                     <Sparkles className="h-3.5 w-3.5 shrink-0 text-secondary" />
-                    Lendo {src.file}
+                    Lendo {cur.file}
                   </p>
                   <div className="mt-2 grid grid-cols-2 gap-1">
                     {validators.map((v, k) => (
@@ -192,13 +225,13 @@ export const HeroScene = () => {
                         key={v}
                         initial={{ opacity: 0.25 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.15 + k * 0.22 }}
+                        transition={{ delay: 0.15 + k * 0.2 }}
                         className="flex items-center gap-1 rounded-md bg-muted px-1.5 py-1 text-[10px] font-medium"
                       >
                         <motion.span
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          transition={{ delay: 0.15 + k * 0.22, type: "spring", stiffness: 400, damping: 15 }}
+                          transition={{ delay: 0.15 + k * 0.2, type: "spring", stiffness: 400, damping: 15 }}
                           className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-emerald-500 text-white"
                         >
                           <Check className="h-2.5 w-2.5" strokeWidth={3} />
@@ -214,13 +247,13 @@ export const HeroScene = () => {
 
           {/* ERP */}
           <div
-            className="absolute right-0 top-[86px] w-[200px] overflow-hidden rounded-2xl border border-border bg-background shadow-elegant"
+            className="absolute right-0 top-[80px] w-[205px] overflow-hidden rounded-2xl border border-border bg-background shadow-elegant"
             style={{ transform: "translateZ(30px)" }}
           >
             <div className="flex items-center gap-1.5 bg-[#0f2a44] px-3 py-2 text-[11px] font-semibold text-white">
               <Database className="h-3.5 w-3.5 text-accent" /> Seu ERP · Pedidos
             </div>
-            <div className="min-h-[188px] divide-y divide-border">
+            <div className="min-h-[196px] divide-y divide-border">
               <AnimatePresence initial={false}>
                 {orders.map(({ id, s: o }) => (
                   <motion.div
@@ -232,13 +265,11 @@ export const HeroScene = () => {
                     transition={{ duration: 0.5, backgroundColor: { duration: 1.6 } }}
                     className="flex items-center gap-2 px-3 py-2"
                   >
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center">
-                      <Doc3D kind={sources[o].kind} size={20} />
-                    </span>
+                    <img src={channels[flow[o].ch].src} alt="" className="h-5 w-5 shrink-0 object-contain" />
                     <div className="min-w-0 flex-1 leading-tight">
-                      <p className="truncate text-[11px] font-semibold">{clients[o]}</p>
+                      <p className="truncate text-[11px] font-semibold">{flow[o].client}</p>
                       <p className="text-[10px] text-muted-foreground">
-                        {docMeta[sources[o].kind].name} · R$ {totals[o]}
+                        {docMeta[flow[o].doc].name} · R$ {flow[o].total}
                       </p>
                     </div>
                     <Check className="h-3.5 w-3.5 shrink-0 text-emerald-600" strokeWidth={3} />
@@ -257,12 +288,12 @@ export const HeroScene = () => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                className="absolute bottom-[34px] right-[10px] flex items-center gap-2 rounded-full bg-primary px-3.5 py-2 text-[12px] font-semibold text-primary-foreground shadow-elegant"
+                className="absolute bottom-[40px] right-[6px] flex items-center gap-2 rounded-full bg-primary px-3.5 py-2 text-[12px] font-semibold text-primary-foreground shadow-elegant"
               >
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500">
                   <Check className="h-3 w-3" strokeWidth={3} />
                 </span>
-                Pedido lançado no ERP · origem {src.origin}
+                Pedido lançado no ERP · via {src.name}
               </motion.div>
             )}
           </AnimatePresence>

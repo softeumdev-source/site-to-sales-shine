@@ -17,3 +17,28 @@ export const ClayIcon = ({ icon: Icon, from, to, size = 96 }: { icon: LucideIcon
   </div>
 );
 
+
+/** Bloco 3D branco "de plástico" com um logo (Gmail, Outlook, WhatsApp, Softeum...). */
+export const ClayLogo = ({ src, alt = "", size = 72, dark }: { src: string; alt?: string; size?: number; dark?: boolean }) => (
+  <div className="relative [transform-style:preserve-3d]" style={{ width: size, height: size }}>
+    <span
+      className="absolute inset-0 rounded-[30%]"
+      style={{ background: dark ? "#07111f" : "#c9d5e6", transform: "translateZ(-12px)" }}
+    />
+    <span
+      className="absolute inset-0 rounded-[30%]"
+      style={{ background: dark ? "#0c1a2e" : "#dfe7f2", transform: "translateZ(-6px)" }}
+    />
+    <div
+      className="relative flex h-full w-full items-center justify-center rounded-[30%]"
+      style={{
+        background: dark ? "linear-gradient(160deg,#1d3557 0%,#0f2240 60%,#0a1830 100%)" : "linear-gradient(160deg,#ffffff 0%,#f3f7fc 60%,#e8eef7 100%)",
+        boxShadow: dark
+          ? "inset 0 2px 0 rgba(255,255,255,.18), 0 24px 34px -14px rgba(15,34,64,.6)"
+          : "inset 0 2px 0 #fff, inset 0 -6px 12px rgba(120,150,200,.18), 0 24px 34px -14px rgba(40,70,120,.35)",
+      }}
+    >
+      <img src={src} alt={alt} className="object-contain" style={{ width: size * 0.56, height: size * 0.56, transform: "translateZ(14px)" }} />
+    </div>
+  </div>
+);

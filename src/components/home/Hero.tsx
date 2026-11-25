@@ -4,6 +4,9 @@ import { MagneticButton } from "@/components/site/MagneticButton";
 import { Reveal, RevealHeading } from "@/components/site/motion";
 import { HeroScene } from "./HeroScene";
 
+import gmail from "@/assets/brands/gmail.svg";
+import outlook from "@/assets/brands/outlook.svg";
+import whatsapp from "@/assets/brands/whatsapp.svg";
 import { erps } from "./erps";
 
 export const Hero = () => {
@@ -32,7 +35,7 @@ export const Hero = () => {
 
           <Reveal delay={0.45}>
             <p className="mx-auto mt-6 max-w-lg text-lg text-muted-foreground lg:mx-0">
-              E-mail, WhatsApp, PDF, planilha ou áudio. A Softeum lê o pedido, confere com validadores inteligentes e
+              Pedido no e-mail ou no WhatsApp, em PDF, planilha ou áudio. A Softeum lê o pedido, confere com validadores inteligentes e
               lança no seu ERP, sem ninguém digitar.
             </p>
           </Reveal>
@@ -53,8 +56,22 @@ export const Hero = () => {
             </MagneticButton>
           </Reveal>
 
-          <Reveal delay={0.75}>
-            <p className="mt-5 text-sm text-muted-foreground">Teste grátis por 5 dias úteis · Sem instalar nada</p>
+          <Reveal delay={0.75} className="mt-7 flex flex-col items-center gap-3 lg:items-start">
+            <div className="flex items-center gap-3 rounded-full border border-border/70 bg-background/80 py-1.5 pl-4 pr-2 backdrop-blur">
+              <span className="text-sm font-medium text-muted-foreground">Pedidos chegam por</span>
+              <span className="flex items-center gap-1">
+                {[
+                  { src: gmail, alt: "Gmail" },
+                  { src: outlook, alt: "Outlook" },
+                  { src: whatsapp, alt: "WhatsApp" },
+                ].map((l) => (
+                  <span key={l.alt} title={l.alt} className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-card transition-transform hover:-translate-y-0.5">
+                    <img src={l.src} alt={l.alt} className="h-5 w-5 object-contain" />
+                  </span>
+                ))}
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground">Teste grátis por 5 dias úteis · Sem instalar nada</p>
           </Reveal>
         </div>
 
