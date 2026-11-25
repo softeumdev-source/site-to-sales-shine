@@ -10,7 +10,7 @@ import { Steps } from "@/components/home/Steps";
 import { Faq } from "@/components/home/Faq";
 import { Demo } from "@/components/home/Demo";
 import { WhyAutomate } from "@/components/home/WhyAutomate";
-import { ChannelsTabs } from "@/components/home/ChannelsTabs";
+import { EmailShowcase, WhatsAppShowcase } from "@/components/home/Channels";
 import { CtaBand } from "@/components/home/CtaBand";
 import { Features } from "@/components/home/Features";
 
@@ -37,10 +37,11 @@ const Index = () => {
       <Hero />
       <WhyAutomate />
       <Steps />
-      <ChannelsTabs />
+      <EmailShowcase />
       <CtaBand />
       <Formats />
       <Validators />
+      <WhatsAppShowcase />
       <Features />
       <Integrations />
       <Segments />

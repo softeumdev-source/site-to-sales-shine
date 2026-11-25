@@ -9,11 +9,11 @@ type NavItem = { label: string; href?: string; to?: string };
 
 const links: NavItem[] = [
   { href: "/#como-funciona", label: "Como funciona" },
-  { href: "/#canais", label: "E-mail e WhatsApp" },
+  { href: "/#email", label: "E-mail" },
+  { href: "/#whatsapp", label: "WhatsApp" },
   { href: "/#recursos", label: "Recursos" },
   { href: "/#integracoes-erp", label: "Integrações" },
   { href: "/#faq", label: "Dúvidas" },
-  { to: "/suporte", label: "Suporte" },
 ];
 
 /** Menu flutuante em formato de pílula, com vidro fosco; encolhe ao rolar. */

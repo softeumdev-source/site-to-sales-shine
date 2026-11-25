@@ -8,7 +8,8 @@ const cols = [
     title: "Produto",
     links: [
       { label: "Como funciona", href: "/#como-funciona" },
-      { label: "E-mail e WhatsApp", href: "/#canais" },
+      { label: "Pedidos por e-mail", href: "/#email" },
+      { label: "IA no WhatsApp", href: "/#whatsapp" },
       { label: "Recursos", href: "/#recursos" },
       { label: "Validadores", href: "/#validadores" },
       { label: "Integrações", href: "/#integracoes-erp" },

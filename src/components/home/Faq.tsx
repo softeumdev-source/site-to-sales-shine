@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Plus } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
+import gmail from "@/assets/brands/gmail.svg";
+import outlook from "@/assets/brands/outlook.svg";
+import whatsappLogo from "@/assets/brands/whatsapp.svg";
 import { Reveal, RevealHeading, RevealItem, Stagger } from "@/components/site/motion";
 import { cn } from "@/lib/utils";
 import { Doc3D } from "./Doc3D";
@@ -52,19 +55,36 @@ export const Faq = () => {
             className="mt-3 font-display text-3xl font-bold tracking-tight md:text-5xl"
           />
           <Reveal delay={0.3}>
-            <p className="mt-4 max-w-sm text-lg text-muted-foreground">
-              Não achou sua resposta?{" "}
-              <a href="#demo" className="font-semibold text-foreground underline decoration-secondary decoration-2 underline-offset-4">
-                Fale com a gente
-              </a>
-              .
-            </p>
+            <p className="mt-4 max-w-sm text-lg text-muted-foreground">O que as empresas mais perguntam antes de começar.</p>
           </Reveal>
-          <div className="mt-10 hidden gap-6 [perspective:800px] lg:flex">
-            <Doc3D kind="pdf" size={64} float />
-            <Doc3D kind="whatsapp" size={70} float delay={1.2} />
-            <Doc3D kind="xlsx" size={64} float delay={2.1} />
-          </div>
+
+          {/* painel de contato com os canais flutuando */}
+          <Reveal delay={0.4} className="mt-8">
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-[#e8f2ff] via-white to-[#ffecef] p-6">
+              <div className="relative h-36 [perspective:800px]">
+                <img src={gmail} alt="Gmail" className="absolute left-[4%] top-[18%] h-10 w-auto animate-[bob_5s_ease-in-out_infinite] drop-shadow-[0_10px_14px_rgba(234,67,53,.25)]" />
+                <img src={outlook} alt="Outlook" className="absolute left-[30%] top-[52%] h-12 w-auto animate-[bob_6s_ease-in-out_infinite] drop-shadow-[0_10px_14px_rgba(0,120,212,.3)] [animation-delay:1s]" />
+                <img src={whatsappLogo} alt="WhatsApp" className="absolute left-[50%] top-[4%] h-12 w-12 animate-[bob_5.5s_ease-in-out_infinite] drop-shadow-[0_10px_14px_rgba(37,211,102,.35)] [animation-delay:.5s]" />
+                <div className="absolute right-[18%] top-[44%]">
+                  <Doc3D kind="pdf" size={40} float />
+                </div>
+                <div className="absolute right-[2%] top-[6%]">
+                  <Doc3D kind="xlsx" size={36} float delay={1.4} />
+                </div>
+              </div>
+              <p className="mt-4 font-display text-xl font-bold">Ainda com dúvida?</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Fale com um especialista e veja a Softeum com os pedidos da sua empresa.
+              </p>
+              <a
+                href="#demo"
+                className="group mt-5 inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03]"
+              >
+                Falar com um especialista
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </div>
+          </Reveal>
         </div>
 
         <Stagger className="divide-y divide-border border-y border-border" gap={0.06}>
