@@ -13,8 +13,8 @@ export const Footer = () => {
               <span className="font-display text-lg font-bold leading-none">Softeum</span>
             </a>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-              Pedidos por e-mail viram pedidos no seu ERP. Sem digitar.
-              IA, validação automática e integração via API ou exportação personalizada.
+              Automação de pedidos com IA. Pedidos do e-mail e do WhatsApp entram validados no seu ERP,
+              sem digitação.
             </p>
           </div>
 
@@ -22,8 +22,8 @@ export const Footer = () => {
             <h4 className="mb-3 font-display text-sm font-bold uppercase tracking-wider">Produto</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="/#como-funciona" className="hover:text-foreground">Como funciona</a></li>
-              <li><a href="/#funcionalidades" className="hover:text-foreground">Funcionalidades</a></li>
-              <li><a href="/#beneficios" className="hover:text-foreground">Benefícios</a></li>
+              <li><a href="/#ia-whatsapp" className="hover:text-foreground">IA no WhatsApp</a></li>
+              <li><a href="/#integracoes-erp" className="hover:text-foreground">Integrações</a></li>
               <li><a href="/#faq" className="hover:text-foreground">FAQ</a></li>
               <li>
                 <a href={PLATFORM_URL} target="_blank" rel="noreferrer" className="hover:text-foreground">

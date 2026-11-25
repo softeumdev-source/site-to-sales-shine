@@ -68,20 +68,19 @@ export const CTA = () => {
             </div>
 
             <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight md:text-5xl">
-              Pare de perder dinheiro digitando.{" "}
+              Veja seus pedidos{" "}
               <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
-                Comece a faturar mais hoje.
+                entrando sozinhos no ERP.
               </span>
             </h2>
 
             <p className="mt-5 text-lg text-white/80">
-              Agende uma demonstração de 30 minutos. Nosso time roda a Softeum com pedidos reais da
-              sua operação e mostra exatamente quanto tempo, quanto dinheiro e quantos erros você
-              vai economizar todo mês.
+              Em 30 minutos, mostramos a Softeum lendo pedidos reais da sua empresa, do e-mail e do
+              WhatsApp até o seu ERP.
             </p>
 
             <ul className="mt-7 space-y-3 text-sm text-white/90">
-              {["Demonstração com pedidos reais da sua empresa", "Cálculo de ROI personalizado para a sua operação", "Integração via API ou exportação no formato do seu ERP", "Sem compromisso, sem instalação, sem cartão de crédito"].map((b) => (
+              {["Demonstração com pedidos reais da sua empresa", "IA vendedora no WhatsApp funcionando ao vivo", "Integração com o seu ERP via API ou arquivo", "Teste grátis por 5 dias úteis, sem instalar nada"].map((b) => (
                 <li key={b} className="flex items-center gap-2.5">
                   <CheckCircle2 className="h-5 w-5 text-secondary" />
                   {b}
@@ -95,7 +94,7 @@ export const CTA = () => {
             id="contato"
             className="rounded-2xl border border-white/10 bg-background p-5 text-foreground shadow-soft sm:p-6 md:p-8"
           >
-            <h3 className="font-display text-xl font-bold">Agende sua demo</h3>
+            <h3 className="font-display text-xl font-bold">Agende sua demonstração</h3>
             <p className="mb-6 mt-1 text-sm text-muted-foreground">Preencha e nosso time entra em contato.</p>
 
             <div className="grid gap-4">

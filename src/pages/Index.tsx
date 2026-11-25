@@ -1,15 +1,17 @@
 import { Navbar } from "@/components/site/Navbar";
-import { Hero } from "@/components/site/Hero";
 import { Problems } from "@/components/site/Problems";
 import { HowItWorks } from "@/components/site/HowItWorks";
-import { Benefits } from "@/components/site/Benefits";
-import { Features } from "@/components/site/Features";
-import { WhatsAppSection } from "@/components/site/WhatsApp";
-
 import { FAQ } from "@/components/site/FAQ";
 import { CTA } from "@/components/site/CTA";
 import { Footer } from "@/components/site/Footer";
 import { ScrollProgress } from "@/components/site/ScrollProgress";
+import { Hero } from "@/components/home/Hero";
+import { Formats } from "@/components/home/Formats";
+import { Validators } from "@/components/home/Validators";
+import { AiSeller } from "@/components/home/AiSeller";
+import { Channels } from "@/components/home/Channels";
+import { Integrations } from "@/components/home/Integrations";
+import { Segments } from "@/components/home/Segments";
 
 const Index = () => {
   const orgJsonLd = {
@@ -19,7 +21,7 @@ const Index = () => {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     description:
-      "O Softeum automatiza o processamento de pedidos recebidos por e-mail. Empresas que recebem pedidos em PDF transformam esses arquivos em pedidos prontos para o ERP em segundos, com IA, validação automática, integração via API e exportação personalizada.",
+      "A Softeum automatiza o recebimento de pedidos por e-mail e WhatsApp: lê PDF, planilha, XML, texto, foto e áudio, valida cada pedido e lança no ERP via API ou arquivo de importação. Inclui uma IA vendedora que atende clientes no WhatsApp.",
     offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", description: "Demo gratuita e sem compromisso" },
   };
 
@@ -33,10 +35,13 @@ const Index = () => {
       <Navbar />
       <Hero />
       <Problems />
+      <Formats />
       <HowItWorks />
-      <WhatsAppSection />
-      <Benefits />
-      <Features />
+      <Validators />
+      <AiSeller />
+      <Channels />
+      <Integrations />
+      <Segments />
       <FAQ />
       <CTA />
       <Footer />

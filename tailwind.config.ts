@@ -114,6 +114,26 @@ export default {
           "0%, 100%": { backgroundPosition: "0% 50%" },
           "50%": { backgroundPosition: "100% 50%" },
         },
+        "doc-float": {
+          "0%, 100%": { transform: "translate3d(0,0,0) rotateX(8deg) rotateY(-14deg)" },
+          "50%": { transform: "translate3d(0,-10px,0) rotateX(4deg) rotateY(-6deg)" },
+        },
+        scan: {
+          "0%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(136px)" },
+          "100%": { transform: "translateY(0)" },
+        },
+        dash: {
+          to: { strokeDashoffset: "-20" },
+        },
+        wave: {
+          "0%, 100%": { transform: "scaleY(0.45)" },
+          "50%": { transform: "scaleY(1)" },
+        },
+        "ping-soft": {
+          "0%": { transform: "scale(1)", opacity: "0.6" },
+          "100%": { transform: "scale(1.9)", opacity: "0" },
+        },
         "marquee-reverse": {
           from: { transform: "translateX(-50%)" },
           to: { transform: "translateX(0)" },
@@ -124,6 +144,9 @@ export default {
         },
       },
       animation: {
+        "doc-float": "doc-float 6s ease-in-out infinite",
+        wave: "wave 1.1s ease-in-out infinite",
+        "ping-soft": "ping-soft 2.4s cubic-bezier(0,0,.2,1) infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out both",

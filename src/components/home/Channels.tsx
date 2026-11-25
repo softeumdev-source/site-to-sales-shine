@@ -7,10 +7,9 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { ArrowRight, Bot, CheckCircle2, FileText, Mail, MessageCircle, Server } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { FileText, Mail, MessageCircle, Server } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Reveal, RevealItem, Stagger } from "./motion";
+import { Reveal } from "@/components/site/motion";
 
 const WHATSAPP_GREEN = "#25D366";
 
@@ -18,31 +17,6 @@ const statement =
   "Seus clientes já mandam pedido pelo WhatsApp e pelo e-mail. Em PDF, em texto, até em foto do papel. A Softeum lê tudo e entrega o pedido pronto no seu ERP.";
 // Palavras que ganham a cor da marca quando acendem.
 const highlight = new Set(["WhatsApp", "e-mail.", "ERP."]);
-
-const flows = [
-  {
-    icon: FileText,
-    title: "O cliente manda o arquivo, a Softeum lança",
-    desc: "PDF, mensagem de texto, imagem ou planilha. A Softeum identifica o formato, extrai os dados, valida os itens e envia para o ERP via API ou exportação.",
-    bullets: [
-      "Lê PDF, texto, imagem e planilha recebidos no WhatsApp",
-      "Valida itens, quantidades e códigos",
-      "Envia para o ERP via API REST ou exportação (CSV, JSON)",
-      "Confirma o recebimento para o cliente no próprio WhatsApp",
-    ],
-  },
-  {
-    icon: Bot,
-    title: "Sem arquivo? A IA fecha o pedido na conversa",
-    desc: "Quando o cliente escreve em vez de anexar, a IA conversa com ele, explica os produtos do catálogo, tira dúvidas e monta o pedido completo.",
-    bullets: [
-      "Entende pedidos como \"quero 10 caixas do produto X\"",
-      "Explica características e aplicações dos produtos",
-      "Confirma o pedido com o cliente antes de enviar",
-      "Atende 24h, mesmo sem vendedor online",
-    ],
-  },
-];
 
 /* ------------------------- Frase que acende palavra a palavra ------------------------ */
 
@@ -189,61 +163,19 @@ const StageChip = ({
 
 /* ------------------------------------- Seção -------------------------------------- */
 
-export const WhatsAppSection = () => {
-  return (
-    <section id="whatsapp" className="relative py-20 md:py-28">
-      <div className="container">
-        <Reveal from="down" className="mb-10 flex justify-center">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-accent">
-            <MessageCircle className="h-4 w-4" style={{ color: WHATSAPP_GREEN }} />
-            Pedidos pelo WhatsApp e e-mail
-          </span>
-        </Reveal>
-
-        <ScrollWords />
-
-      </div>
-
-      <div className="mt-12 md:mt-16">
-        <ScrollVideo />
-      </div>
-
-      <div className="container">
-        <div className="mx-auto mt-16 grid max-w-5xl gap-12 md:mt-20 md:grid-cols-2 md:gap-0 md:divide-x md:divide-border">
-          {flows.map((f, i) => (
-            <Stagger key={f.title} gap={0.08} delay={i * 0.2} className={cn(i === 0 ? "md:pr-12" : "md:pl-12")}>
-              <RevealItem from="pop" className="w-fit">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                  <f.icon className="h-5 w-5" />
-                </span>
-              </RevealItem>
-              <RevealItem>
-                <h3 className="mt-5 text-balance font-display text-2xl font-bold tracking-tight">{f.title}</h3>
-              </RevealItem>
-              <RevealItem>
-                <p className="mt-3 text-muted-foreground">{f.desc}</p>
-              </RevealItem>
-              <ul className="mt-5 space-y-2.5">
-                {f.bullets.map((b) => (
-                  <RevealItem as="li" from={i === 0 ? "left" : "right"} key={b} className="flex items-start gap-2.5 text-sm">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: WHATSAPP_GREEN }} />
-                    <span>{b}</span>
-                  </RevealItem>
-                ))}
-              </ul>
-            </Stagger>
-          ))}
-        </div>
-
-        <Reveal from="scale" className="mt-14 flex justify-center">
-          <Button asChild variant="hero" size="xl" className="h-auto min-h-14 whitespace-normal px-6 text-center">
-            <a href="#demo">
-              Quero receber pedidos pelo WhatsApp
-              <ArrowRight className="ml-1 h-5 w-5" />
-            </a>
-          </Button>
-        </Reveal>
-      </div>
-    </section>
-  );
-};
+export const Channels = () => (
+  <section id="canais" className="relative pt-20 md:pt-28">
+    <div className="container">
+      <Reveal from="down" className="mb-10 flex justify-center">
+        <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-accent">
+          <MessageCircle className="h-4 w-4" style={{ color: WHATSAPP_GREEN }} />
+          E-mail e WhatsApp
+        </span>
+      </Reveal>
+      <ScrollWords />
+    </div>
+    <div className="mt-12 md:mt-16">
+      <ScrollVideo />
+    </div>
+  </section>
+);

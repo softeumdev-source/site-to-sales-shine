@@ -10,8 +10,9 @@ type NavItem = { label: string; href?: string; to?: string };
 
 const links: NavItem[] = [
   { href: "/#como-funciona", label: "Como funciona" },
-  { href: "/#funcionalidades", label: "Funcionalidades" },
-  { href: "/#beneficios", label: "Benefícios" },
+  { href: "/#ia-whatsapp", label: "IA no WhatsApp" },
+  { href: "/#validadores", label: "Validadores" },
+  { href: "/#integracoes-erp", label: "Integrações" },
   { href: "/#faq", label: "FAQ" },
   { to: "/suporte", label: "Suporte" },
 ];
@@ -75,7 +76,7 @@ export const Navbar = () => {
             </a>
           </Button>
           <Button asChild variant="hero" size="sm">
-            <a href="/#demo">Agende uma demo</a>
+            <a href="/#demo">Agendar demonstração</a>
           </Button>
         </div>
 
@@ -115,7 +116,7 @@ export const Navbar = () => {
               </a>
             </Button>
             <Button asChild variant="hero" className="mt-2">
-              <a href="/#demo" onClick={() => setOpen(false)}>Agende uma demo</a>
+              <a href="/#demo" onClick={() => setOpen(false)}>Agendar demonstração</a>
             </Button>
           </div>
         </div>

@@ -8,39 +8,31 @@ import {
 const faqs = [
   {
     q: "Preciso instalar algo?",
-    a: "Não. O Softeum funciona 100% no navegador. Você acessa de qualquer computador, em qualquer lugar, sem instalação e sem manutenção.",
+    a: "Não. A Softeum funciona no navegador. Você acessa de qualquer computador, sem instalação e sem manutenção.",
   },
   {
     q: "Funciona com o meu ERP?",
-    a: "Sim. A Softeum integra com o seu ERP de duas formas: via API (o pedido entra direto, sem nenhum clique) ou por exportação no formato customizado que ele aceita. A própria IA analisa o layout que você já usa e gera CSV, XML, JSON ou XLSX exatamente nesse padrão. Funciona com SAP, TOTVS, Sankhya, Bling, Omie, Senior e ERPs personalizados.",
+    a: "Sim. Integramos via API (o pedido entra direto no ERP) ou geramos o arquivo de importação (CSV, XML, JSON ou XLSX) no layout exato que o seu ERP aceita. Atendemos SAP, TOTVS, Sankhya, Senior, Omie, Bling e outros ERPs de mercado, além de sistemas próprios.",
   },
   {
-    q: "Como o sistema lê o pedido?",
-    a: "Inteligência artificial extrai os dados do PDF anexado no e-mail. Funciona com qualquer formato de pedido. Não é preciso que o seu cliente use um modelo específico.",
+    q: "Que tipos de pedido a Softeum lê?",
+    a: "PDF, planilha, XML, CSV, Word, foto ou print do pedido, mensagem de texto e áudio de WhatsApp. O seu cliente não precisa usar nenhum modelo específico.",
+  },
+  {
+    q: "Como funciona a IA vendedora no WhatsApp?",
+    a: "Ela conversa com o seu cliente como um vendedor: entende texto e áudio, explica os produtos do seu catálogo, monta o pedido, confirma com o cliente e envia para o ERP. Atende 24 horas por dia.",
   },
   {
     q: "E se a IA errar algum dado?",
-    a: "O sistema tem 8 regras de validação. Se houver qualquer inconsistência, o pedido fica pendente para revisão humana. Você sempre tem a palavra final antes de exportar.",
-  },
-  {
-    q: "Quantos usuários posso cadastrar?",
-    a: "Depende do plano contratado. Cada plano define um limite de membros, com 3 níveis de acesso: Administrador, Membro e Dono da Conta.",
-  },
-  {
-    q: "Quantos pedidos posso processar?",
-    a: "Depende do plano. Há opções para diferentes volumes mensais. Fale com nosso comercial para encontrar a faixa ideal para sua operação.",
+    a: "Todo pedido passa pelos validadores antes de ir para o ERP. Se algo estiver diferente do esperado, o pedido fica aguardando a sua revisão. Você sempre tem a palavra final.",
   },
   {
     q: "Meus dados ficam seguros?",
-    a: "Sim. Cada empresa tem seus dados completamente isolados (multi-tenant). Senhas nunca ficam expostas e a conexão com o e-mail da sua empresa é feita via protocolos seguros e padrão de mercado (OAuth quando disponível).",
+    a: "Sim. Os dados de cada empresa ficam isolados, com controle de acesso por usuário e conexão ao e-mail feita por protocolos seguros e padrão de mercado.",
   },
   {
-    q: "Posso testar antes de assinar?",
-    a: "Sim. Você pode testar gratuitamente por 5 dias úteis com acesso completo a todas as funcionalidades.",
-  },
-  {
-    q: "Como começa a operação na minha empresa?",
-    a: "Conectamos o e-mail da sua empresa, configuramos a integração com o ERP (via API ou exportação personalizada) e validamos os primeiros pedidos junto com você. A partir daí, a Softeum passa a processar tudo automaticamente, com o seu time apenas revisando o que precisa de atenção.",
+    q: "Posso testar antes de contratar?",
+    a: "Sim. Você testa grátis por 5 dias úteis, com acesso completo. Agende uma demonstração e a gente configura junto com você.",
   },
 ];
 
