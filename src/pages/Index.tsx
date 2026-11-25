@@ -8,6 +8,7 @@ import { AiSeller } from "@/components/home/AiSeller";
 import { Integrations } from "@/components/home/Integrations";
 import { Segments } from "@/components/home/Segments";
 import { Steps } from "@/components/home/Steps";
+import { EmailFlow } from "@/components/home/EmailFlow";
 import { Faq } from "@/components/home/Faq";
 import { Demo } from "@/components/home/Demo";
 
@@ -35,6 +36,7 @@ const Index = () => {
       <Formats />
       <Steps />
       <Validators />
+      <EmailFlow />
       <AiSeller />
       <Integrations />
       <Segments />
