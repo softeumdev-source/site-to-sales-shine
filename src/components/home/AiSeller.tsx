@@ -1,12 +1,11 @@
-import { useRef, useState, type MouseEvent, type ReactNode } from "react";
-import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
-import { ArrowLeft, Bot, Check, CheckCheck, Database, Ear, MessageCircle, Mic, PackageSearch, Phone, Video } from "lucide-react";
-import { Reveal, RevealHeading } from "@/components/site/motion";
+import { useRef, type ReactNode } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, Bot, Check, CheckCheck, Database, Mic, Phone, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * IA vendedora no WhatsApp: a conversa vai se montando conforme a rolagem.
- * Cada mensagem aparece num ponto da rolagem (at), com "digitando…" antes das da IA.
+ * Conversa do WhatsApp com a IA vendedora (usada em Channels.tsx). Cada mensagem
+ * aparece num ponto do progresso `p` (at), com "digitando…" antes das da IA.
  */
 
 type Msg = { at: number; from: "client" | "ai" | "system"; node: ReactNode; time: string };
@@ -108,14 +107,6 @@ const messages: Msg[] = [
   },
 ];
 
-const skills = [
-  { icon: MessageCircle, title: "Conversa como um vendedor", desc: "Atende com naturalidade, 24 horas por dia." },
-  { icon: Ear, title: "Entende áudio", desc: "O cliente fala, a IA transcreve e anota o pedido." },
-  { icon: PackageSearch, title: "Conhece o seu catálogo", desc: "Explica produtos e sugere o que o cliente costuma comprar." },
-  { icon: Database, title: "Fecha e lança no ERP", desc: "Confirma com o cliente e envia o pedido validado." },
-];
-const skillAt = [0.04, 0.04, 0.3, 0.68];
-
 const Bubble = ({ m }: { m: Msg }) => {
   if (m.from === "system") {
     return (
@@ -209,112 +200,5 @@ export const PhoneChat = ({ p }: { p: number }) => {
         </span>
       </div>
     </div>
-  );
-};
-
-export const AiSeller = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const [p, setP] = useState(reduce ? 1 : 0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => !reduce && setP(v));
-
-  const phoneRef = useRef<HTMLDivElement>(null);
-  const onMove = (e: MouseEvent<HTMLDivElement>) => {
-    const el = phoneRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty("--ry", `${-12 + ((e.clientX - r.left) / r.width - 0.5) * 14}deg`);
-    el.style.setProperty("--rx", `${4 + ((e.clientY - r.top) / r.height - 0.5) * -8}deg`);
-  };
-
-  const activeSkill = skillAt.reduce((acc, at, i) => (p >= at ? i : acc), 0);
-
-  return (
-    <section id="ia-whatsapp" className="relative bg-gradient-to-b from-background via-[#f2fbf5] to-background">
-      <div ref={ref} className={cn("relative", !reduce && "h-[320vh]")}>
-        <div
-          className={cn(
-            "container flex flex-col justify-center gap-6 py-8 lg:grid lg:grid-cols-[1fr_auto] lg:items-center lg:gap-20",
-            !reduce && "sticky top-16 h-[calc(100svh-4rem)]"
-          )}
-        >
-          <div className="lg:max-w-xl">
-            <Reveal>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-[#0a9b52]">
-                <MessageCircle className="h-4 w-4" /> IA vendedora no WhatsApp
-              </span>
-            </Reveal>
-            <RevealHeading
-              text="Um vendedor que atende 24h, ouve áudio e fecha pedido."
-              delay={0.1}
-              className="mt-3 text-balance font-display text-2xl font-bold tracking-tight sm:text-4xl lg:text-5xl"
-            />
-
-            <ul className="mt-8 hidden space-y-2 lg:block">
-              {skills.map((s, i) => (
-                <li
-                  key={s.title}
-                  className={cn(
-                    "flex gap-4 rounded-2xl p-3 transition-all duration-300",
-                    i === activeSkill ? "bg-background shadow-card" : "opacity-45"
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors",
-                      i <= activeSkill ? "bg-[#25D366] text-white" : "bg-muted text-muted-foreground"
-                    )}
-                  >
-                    <s.icon className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <p className="font-display text-lg font-bold">{s.title}</p>
-                    <p className="text-sm text-muted-foreground">{s.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            {/* celular: só o ponto atual */}
-            <div className="mt-3 flex items-center gap-3 lg:hidden">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#25D366] text-white">
-                {(() => {
-                  const I = skills[activeSkill].icon;
-                  return <I className="h-4 w-4" />;
-                })()}
-              </span>
-              <p className="text-sm">
-                <b>{skills[activeSkill].title}.</b> <span className="text-muted-foreground">{skills[activeSkill].desc}</span>
-              </p>
-            </div>
-          </div>
-
-          {/* Celular 3D */}
-          <div className="flex justify-center [perspective:1400px]" onMouseMove={onMove}>
-            <div
-              ref={phoneRef}
-              className="relative transition-transform duration-500 ease-out [transform-style:preserve-3d] max-lg:[--rx:2deg] max-lg:[--ry:-4deg]"
-              style={{ transform: "rotateX(var(--rx,4deg)) rotateY(var(--ry,-12deg))" }}
-            >
-              <span className="absolute inset-0 rounded-[3rem] bg-[#0b1324]" style={{ transform: "translateZ(-16px)" }} />
-              <div
-                className="relative h-[min(600px,50svh)] w-[min(290px,25svh)] overflow-hidden lg:h-[min(640px,70svh)] lg:w-[min(320px,35svh)] rounded-[3rem] border-[10px] border-[#121a2b] shadow-[0_50px_80px_-20px_rgba(10,40,30,.45)]"
-              >
-                <span className="absolute left-1/2 top-2 z-10 h-5 w-24 -translate-x-1/2 rounded-full bg-[#121a2b]" />
-                <PhoneChat p={p} />
-              </div>
-              {/* selo IA flutuando */}
-              <span
-                className="absolute -left-14 top-[58%] hidden items-center gap-1.5 rounded-full bg-background px-3 py-2 text-xs font-semibold shadow-elegant sm:flex"
-                style={{ transform: "translateZ(60px)" }}
-              >
-                <Bot className="h-4 w-4 text-[#0a9b52]" /> Respondido pela IA
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   );
 };

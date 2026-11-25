@@ -1,5 +1,4 @@
-import { useRef, useState, type MouseEvent } from "react";
-import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Archive,
   ArrowLeft,
@@ -18,7 +17,6 @@ import {
   Pencil,
   Printer,
   RefreshCw,
-  ScanText,
   Search,
   Send,
   Settings,
@@ -30,20 +28,16 @@ import {
   X,
 } from "lucide-react";
 import logo from "@/assets/logocerta.png";
-import { Reveal, RevealHeading } from "@/components/site/motion";
-import { useFitScale } from "@/hooks/use-fit-scale";
 import { cn } from "@/lib/utils";
 
 /**
- * Pedido chegando no e-mail, num cliente de e-mail no estilo Gmail/Outlook.
- * A rolagem conduz: chega → abre → anexo aberto e lido pela Softeum →
- * validado → lançado no ERP e e-mail etiquetado.
+ * Janela de e-mail no estilo Gmail/Outlook (usada em Channels.tsx). O progresso
+ * `p` conduz: chega → abre → anexo aberto e lido pela Softeum → validado →
+ * lançado no ERP e e-mail etiquetado.
  */
 
 export const MAIL_W = 820;
-const W = MAIL_W;
 export const MAIL_H = 540;
-const H = MAIL_H;
 
 const mails = [
   { from: "Rede Gama Distribuição", subject: "Pedido 0388", snippet: "Segue pedido de reposição semanal conforme combinado", time: "07:52", clip: true },
@@ -63,14 +57,6 @@ const fields = [
   { label: "Total", value: "R$ 8.430,00" },
 ];
 const validations = ["Cliente cadastrado", "Códigos convertidos (DE-PARA)", "Quantidades e valores", "Sem pedido duplicado"];
-
-const steps = [
-  { icon: Inbox, title: "O pedido chega no e-mail", desc: "A Softeum monitora a caixa comercial o tempo todo." },
-  { icon: Paperclip, title: "Abre o anexo sozinha", desc: "PDF, planilha, imagem ou texto no corpo do e-mail." },
-  { icon: ScanText, title: "Lê e valida cada campo", desc: "Cliente, produtos, quantidades e valores conferidos." },
-  { icon: Database, title: "Lança no ERP", desc: "E marca o e-mail como processado." },
-];
-const stepAt = [0, 0.16, 0.36, 0.8];
 
 /* ------------------------------- Janela de e-mail ------------------------------ */
 
@@ -463,97 +449,3 @@ const Row = ({
     {clip && !attachment && <Paperclip className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#c4c7c5]" />}
   </div>
 );
-
-/* ------------------------------------ Seção ------------------------------------ */
-
-export const EmailFlow = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const [p, setP] = useState(reduce ? 0.7 : 0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => !reduce && setP(v));
-  const { ref: fitRef, scale } = useFitScale(W);
-  // em telas estreitas usa uma janela mais compacta, para o texto ficar legível
-  const compact = scale < 0.72;
-  const dw = compact ? 540 : W;
-  const s = Math.min(1, (scale * W) / dw);
-
-  const tiltRef = useRef<HTMLDivElement>(null);
-  const onMove = (e: MouseEvent<HTMLDivElement>) => {
-    const el = tiltRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty("--ry", `${-6 + ((e.clientX - r.left) / r.width - 0.5) * 8}deg`);
-    el.style.setProperty("--rx", `${3 + ((e.clientY - r.top) / r.height - 0.5) * -6}deg`);
-  };
-
-  const active = stepAt.reduce((acc, at, i) => (p >= at ? i : acc), 0);
-
-  return (
-    <section id="pedidos-email" className="relative bg-gradient-to-b from-background via-[#eef4fd] to-background">
-      <div ref={ref} className={cn("relative", !reduce && "h-[360vh]")}>
-        <div
-          className={cn(
-            "container flex flex-col justify-center gap-6 py-6 lg:grid lg:grid-cols-[0.7fr_1.3fr] lg:items-center lg:gap-12",
-            !reduce && "sticky top-0 h-[100svh] pt-20"
-          )}
-        >
-          <div>
-            <Reveal>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-[#0b57d0]">
-                <Mail className="h-4 w-4" /> Pedidos por e-mail
-              </span>
-            </Reveal>
-            <RevealHeading
-              text="O pedido chega no e-mail e já sai lançado."
-              delay={0.1}
-              className="mt-3 text-balance font-display text-2xl font-bold tracking-tight sm:text-4xl lg:text-[2.6rem] lg:leading-[1.1]"
-            />
-            <ol className="mt-7 hidden space-y-1.5 lg:block">
-              {steps.map((s, i) => (
-                <li
-                  key={s.title}
-                  className={cn("flex gap-3.5 rounded-2xl p-3 transition-all duration-300", i === active ? "bg-background shadow-card" : "opacity-45")}
-                >
-                  <span
-                    className={cn(
-                      "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors",
-                      i <= active ? "bg-[#0b57d0] text-white" : "bg-muted text-muted-foreground"
-                    )}
-                  >
-                    <s.icon className="h-4 w-4" />
-                  </span>
-                  <div>
-                    <p className="font-display font-bold">{s.title}</p>
-                    <p className="text-sm text-muted-foreground">{s.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <div className="mt-3 flex items-center gap-3 lg:hidden">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0b57d0] text-white">
-                {(() => {
-                  const I = steps[active].icon;
-                  return <I className="h-4 w-4" />;
-                })()}
-              </span>
-              <p className="text-sm">
-                <b>{steps[active].title}.</b> <span className="text-muted-foreground">{steps[active].desc}</span>
-              </p>
-            </div>
-          </div>
-
-          <div ref={fitRef} className="w-full [perspective:1600px]" style={{ height: H * s }} onMouseMove={onMove}>
-            <div
-              ref={tiltRef}
-              className="origin-top-left transition-transform duration-500 ease-out"
-              style={{ width: dw, height: H, transform: `scale(${s}) rotateX(var(--rx,3deg)) rotateY(var(--ry,-6deg))` }}
-            >
-              <MailWindow p={p} compact={compact} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
