@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import logo from "@/assets/logocerta.png";
-import { ExternalLink, Menu, X } from "lucide-react";
+import { ArrowRight, ExternalLink, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -10,12 +9,14 @@ type NavItem = { label: string; href?: string; to?: string };
 
 const links: NavItem[] = [
   { href: "/#como-funciona", label: "Como funciona" },
-  { href: "/#funcionalidades", label: "Funcionalidades" },
-  { href: "/#beneficios", label: "Benefícios" },
-  { href: "/#faq", label: "FAQ" },
-  { to: "/suporte", label: "Suporte" },
+  { href: "/#email", label: "E-mail" },
+  { href: "/#whatsapp", label: "WhatsApp" },
+  { href: "/#recursos", label: "Recursos" },
+  { href: "/#integracoes-erp", label: "Integrações" },
+  { href: "/#faq", label: "Dúvidas" },
 ];
 
+/** Menu flutuante em formato de pílula, com vidro fosco; encolhe ao rolar. */
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -27,62 +28,54 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const baseLink =
-    "relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-gradient-brand after:transition-transform after:duration-300 hover:after:scale-x-100";
-
-  const mobileLink =
-    "rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground";
+  const item = "whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-foreground/70 transition-colors hover:bg-foreground/5 hover:text-foreground";
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full border-b transition-all",
-        scrolled
-          ? "border-border/60 bg-background/90 shadow-soft backdrop-blur-xl"
-          : "border-transparent bg-background/40 backdrop-blur-md"
-      )}
-    >
-      <div className="container flex h-16 items-center justify-between">
-        <NavLink to="/" className="group flex items-center gap-2">
-          <img
-            src={logo}
-            alt="Softeum logo"
-            width={36}
-            height={36}
-            className="h-9 w-9 transition-transform group-hover:rotate-6 group-hover:scale-110"
-          />
-          <span className="font-display text-xl font-bold leading-none tracking-tight">Softeum</span>
+    <header className="pointer-events-none sticky top-0 z-50 w-full px-3 pt-3">
+      <div
+        className={cn(
+          "pointer-events-auto mx-auto flex items-center justify-between rounded-full border transition-all duration-300",
+          scrolled
+            ? "h-14 max-w-[70rem] border-border/70 bg-background/80 pl-4 pr-2 shadow-elegant backdrop-blur-xl"
+            : "h-16 max-w-6xl border-transparent bg-background/40 pl-5 pr-2 backdrop-blur-md"
+        )}
+      >
+        <NavLink to="/" className="flex items-center gap-2">
+          <img src={logo} alt="Softeum" width={32} height={32} className="h-8 w-8" />
+          <span className="font-display text-lg font-bold tracking-tight">Softeum</span>
         </NavLink>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center lg:flex">
           {links.map((l) =>
             l.to ? (
-              <Link key={l.to} to={l.to} className={baseLink}>
+              <Link key={l.to} to={l.to} className={item}>
                 {l.label}
               </Link>
             ) : (
-              <a key={l.href} href={l.href} className={baseLink}>
+              <a key={l.href} href={l.href} className={item}>
                 {l.label}
               </a>
             )
           )}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <Button asChild variant="ghost" size="sm">
-            <a href={PLATFORM_URL} target="_blank" rel="noreferrer">
-              Acessar a plataforma
-            </a>
-          </Button>
-          <Button asChild variant="hero" size="sm">
-            <a href="/#demo">Agende uma demo</a>
-          </Button>
+        <div className="hidden items-center gap-1 lg:flex">
+          <a href={PLATFORM_URL} target="_blank" rel="noreferrer" className={item}>
+            Entrar
+          </a>
+          <a
+            href="/#demo"
+            className="group inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03]"
+          >
+            Agendar demonstração
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </a>
         </div>
 
         <button
-          aria-label="Abrir menu"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
-          className="rounded-lg p-2 hover:bg-muted md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-foreground/5 lg:hidden"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -90,33 +83,35 @@ export const Navbar = () => {
       </div>
 
       {open && (
-        <div className="animate-fade-in border-t border-border/40 bg-background/95 shadow-soft backdrop-blur-xl md:hidden">
-          <div className="container flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto py-4">
+        <div className="pointer-events-auto mx-auto mt-2 max-w-6xl animate-fade-in rounded-3xl border border-border bg-background/95 p-3 shadow-elegant backdrop-blur-xl lg:hidden">
+          <div className="flex max-h-[calc(100dvh-6rem)] flex-col gap-1 overflow-y-auto">
             {links.map((l) =>
               l.to ? (
-                <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className={mobileLink}>
+                <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className="rounded-2xl px-4 py-3 font-medium hover:bg-muted">
                   {l.label}
                 </Link>
               ) : (
-                <a key={l.href} href={l.href} onClick={() => setOpen(false)} className={mobileLink}>
+                <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="rounded-2xl px-4 py-3 font-medium hover:bg-muted">
                   {l.label}
                 </a>
               )
             )}
-            <Button asChild variant="outline" className="mt-3 w-full justify-center">
-              <a
-                href={PLATFORM_URL}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setOpen(false)}
-              >
-                Acessar a plataforma
-                <ExternalLink className="h-4 w-4" />
-              </a>
-            </Button>
-            <Button asChild variant="hero" className="mt-2">
-              <a href="/#demo" onClick={() => setOpen(false)}>Agende uma demo</a>
-            </Button>
+            <a
+              href={PLATFORM_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setOpen(false)}
+              className="mt-2 flex items-center justify-center gap-2 rounded-2xl border border-border px-4 py-3 font-medium"
+            >
+              Entrar na plataforma <ExternalLink className="h-4 w-4" />
+            </a>
+            <a
+              href="/#demo"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-3 font-semibold text-primary-foreground"
+            >
+              Agendar demonstração <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
         </div>
       )}

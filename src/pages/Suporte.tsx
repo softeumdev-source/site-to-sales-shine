@@ -14,7 +14,6 @@ import {
   Clock,
   LockKeyhole,
   Mail,
-  MessageSquareText,
   Moon,
   ShieldCheck,
   Ticket,

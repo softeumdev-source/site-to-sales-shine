@@ -91,9 +91,6 @@
   * {
     @apply border-border;
   }
-  html {
-    scroll-behavior: smooth;
-  }
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
@@ -173,4 +170,42 @@
 @keyframes gradient-x {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+}
+
+@keyframes orbit {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [style*="orbit"] { animation: none !important; }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes travel {
+  0%, 8% { left: 0%; opacity: 0; }
+  14% { opacity: 1; }
+  45%, 55% { left: 50%; }
+  86% { opacity: 1; }
+  92%, 100% { left: 100%; opacity: 0; }
+}
+
+@keyframes wire {
+  0% { left: 0%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: calc(100% - 10px); opacity: 0; }
+}
+@keyframes wire-back {
+  0% { left: calc(100% - 10px); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: 0%; opacity: 0; }
+}
+
+@keyframes shadow-bob {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: .9; }
+  50% { transform: translateX(-50%) scale(.8); opacity: .55; }
 }
