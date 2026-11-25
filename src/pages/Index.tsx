@@ -1,17 +1,15 @@
 import { Navbar } from "@/components/site/Navbar";
-import { Problems } from "@/components/site/Problems";
-import { HowItWorks } from "@/components/site/HowItWorks";
-import { FAQ } from "@/components/site/FAQ";
-import { CTA } from "@/components/site/CTA";
 import { Footer } from "@/components/site/Footer";
 import { ScrollProgress } from "@/components/site/ScrollProgress";
 import { Hero } from "@/components/home/Hero";
 import { Formats } from "@/components/home/Formats";
 import { Validators } from "@/components/home/Validators";
 import { AiSeller } from "@/components/home/AiSeller";
-import { Channels } from "@/components/home/Channels";
 import { Integrations } from "@/components/home/Integrations";
 import { Segments } from "@/components/home/Segments";
+import { Steps } from "@/components/home/Steps";
+import { Faq } from "@/components/home/Faq";
+import { Demo } from "@/components/home/Demo";
 
 const Index = () => {
   const orgJsonLd = {
@@ -34,16 +32,14 @@ const Index = () => {
       <ScrollProgress />
       <Navbar />
       <Hero />
-      <Problems />
       <Formats />
-      <HowItWorks />
+      <Steps />
       <Validators />
       <AiSeller />
-      <Channels />
       <Integrations />
       <Segments />
-      <FAQ />
-      <CTA />
+      <Faq />
+      <Demo />
       <Footer />
     </main>
   );

@@ -1,5 +1,6 @@
 import { useRef, type MouseEvent } from "react";
 import { Factory, Store, Truck } from "lucide-react";
+import { ClayIcon } from "./Clay";
 import { Reveal, RevealHeading, RevealItem, Stagger } from "@/components/site/motion";
 
 const segments = [
@@ -25,23 +26,6 @@ const segments = [
     to: "#16A35A",
   },
 ];
-
-/** Ícone "de plástico" em 3D: bloco com espessura, brilho e sombra. */
-const ClayIcon = ({ icon: Icon, from, to }: { icon: typeof Factory; from: string; to: string }) => (
-  <div className="relative h-24 w-24 [transform-style:preserve-3d]">
-    <span className="absolute inset-0 rounded-[28px]" style={{ background: to, filter: "brightness(.7)", transform: "translateZ(-14px)" }} />
-    <span className="absolute inset-0 rounded-[28px]" style={{ background: to, filter: "brightness(.85)", transform: "translateZ(-7px)" }} />
-    <div
-      className="relative flex h-full w-full items-center justify-center rounded-[28px] text-white"
-      style={{
-        background: `linear-gradient(160deg, ${from} 0%, ${to} 100%)`,
-        boxShadow: `inset 0 3px 0 rgba(255,255,255,.4), inset 0 -8px 16px rgba(0,0,0,.15), 0 30px 40px -14px ${to}aa`,
-      }}
-    >
-      <Icon className="h-11 w-11 drop-shadow" strokeWidth={2.2} style={{ transform: "translateZ(20px)" }} />
-    </div>
-  </div>
-);
 
 const SegmentItem = ({ s }: { s: (typeof segments)[number] }) => {
   const ref = useRef<HTMLDivElement>(null);

@@ -1,62 +1,108 @@
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import logo from "@/assets/logocerta.png";
 import { PLATFORM_URL, SUPPORT_EMAIL } from "@/lib/constants";
 
-export const Footer = () => {
-  return (
-    <footer className="border-t border-border bg-background py-12">
-      <div className="container">
-        <div className="grid gap-8 md:grid-cols-4">
-          <div className="md:col-span-2">
-            <a href="#top" className="flex items-center gap-2">
-              <img src={logo} alt="Softeum" width={32} height={32} className="h-8 w-8" />
-              <span className="font-display text-lg font-bold leading-none">Softeum</span>
-            </a>
-            <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-              Automação de pedidos com IA. Pedidos do e-mail e do WhatsApp entram validados no seu ERP,
-              sem digitação.
-            </p>
-          </div>
+const cols = [
+  {
+    title: "Produto",
+    links: [
+      { label: "Como funciona", href: "/#como-funciona" },
+      { label: "IA no WhatsApp", href: "/#ia-whatsapp" },
+      { label: "Validadores", href: "/#validadores" },
+      { label: "Integrações", href: "/#integracoes-erp" },
+    ],
+  },
+  {
+    title: "Empresa",
+    links: [
+      { label: "Agendar demonstração", href: "/#demo" },
+      { label: "Entrar na plataforma", href: PLATFORM_URL, external: true },
+      { label: "Dúvidas frequentes", href: "/#faq" },
+    ],
+  },
+  {
+    title: "Suporte",
+    links: [
+      { label: "Central de suporte", to: "/suporte" },
+      { label: "Abrir chamado", to: "/suporte#abrir-chamado" },
+      { label: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}` },
+    ],
+  },
+] as const;
 
-          <div>
-            <h4 className="mb-3 font-display text-sm font-bold uppercase tracking-wider">Produto</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="/#como-funciona" className="hover:text-foreground">Como funciona</a></li>
-              <li><a href="/#ia-whatsapp" className="hover:text-foreground">IA no WhatsApp</a></li>
-              <li><a href="/#integracoes-erp" className="hover:text-foreground">Integrações</a></li>
-              <li><a href="/#faq" className="hover:text-foreground">FAQ</a></li>
-              <li>
-                <a href={PLATFORM_URL} target="_blank" rel="noreferrer" className="hover:text-foreground">
-                  Acessar a plataforma
-                </a>
-              </li>
-            </ul>
-          </div>
+export const Footer = () => (
+  <footer className="relative overflow-hidden bg-[#0b1626] text-white">
+    <div className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[60rem] -translate-x-1/2 rounded-full bg-[hsl(var(--brand-blue)/0.25)] blur-3xl" />
 
-          <div>
-            <h4 className="mb-3 font-display text-sm font-bold uppercase tracking-wider">Suporte e contato</h4>
-            <ul className="space-y-2 break-words text-sm text-muted-foreground">
-              <li><Link to="/suporte" className="hover:text-foreground">Central de suporte</Link></li>
-              <li><Link to="/suporte#abrir-chamado" className="hover:text-foreground">Abrir chamado</Link></li>
-              <li><a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-foreground">{SUPPORT_EMAIL}</a></li>
-              <li><a href="/#demo" className="hover:text-foreground">Agendar demo</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
-          <p>© {new Date().getFullYear()} Softeum. Todos os direitos reservados.</p>
-          <p>Feito para liberar sua equipe da digitação de pedidos.</p>
-          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-            <Link to="/privacy-policy" className="hover:text-foreground">
-              Política de Privacidade
-            </Link>
-            <Link to="/terms" className="hover:text-foreground">
-              Termos de Uso
-            </Link>
-          </nav>
-        </div>
+    <div className="container relative pt-16">
+      {/* chamada final */}
+      <div className="flex flex-col items-start justify-between gap-6 border-b border-white/10 pb-12 md:flex-row md:items-center">
+        <p className="max-w-xl font-display text-3xl font-bold tracking-tight md:text-4xl">
+          Chega de digitar pedido. Deixe a Softeum fazer isso.
+        </p>
+        <a
+          href="/#demo"
+          className="group inline-flex h-12 shrink-0 items-center gap-2 rounded-full bg-white px-6 font-semibold text-[#0b1626] transition-transform hover:scale-[1.03]"
+        >
+          Agendar demonstração
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </a>
       </div>
-    </footer>
-  );
-};
+
+      <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div>
+          <a href="/#top" className="flex items-center gap-2">
+            <img src={logo} alt="Softeum" width={32} height={32} className="h-8 w-8" />
+            <span className="font-display text-lg font-bold">Softeum</span>
+          </a>
+          <p className="mt-3 max-w-xs text-sm text-white/60">Automação de pedidos com IA para e-mail e WhatsApp, integrada ao seu ERP.</p>
+        </div>
+        {cols.map((c) => (
+          <div key={c.title}>
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/40">{c.title}</p>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              {c.links.map((l) => (
+                <li key={l.label} className="break-words">
+                  {"to" in l ? (
+                    <Link to={l.to} className="text-white/75 transition-colors hover:text-white">
+                      {l.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={l.href}
+                      {...("external" in l ? { target: "_blank", rel: "noreferrer" } : {})}
+                      className="text-white/75 transition-colors hover:text-white"
+                    >
+                      {l.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 text-xs text-white/45 md:flex-row">
+        <p>© {new Date().getFullYear()} Softeum. Todos os direitos reservados.</p>
+        <nav className="flex gap-5">
+          <Link to="/privacy-policy" className="hover:text-white">
+            Política de Privacidade
+          </Link>
+          <Link to="/terms" className="hover:text-white">
+            Termos de Uso
+          </Link>
+        </nav>
+      </div>
+    </div>
+
+    {/* marca grande no fundo */}
+    <p
+      aria-hidden
+      className="pointer-events-none select-none text-center font-display text-[22vw] font-extrabold leading-[0.75] tracking-tighter text-white/[0.04]"
+    >
+      Softeum
+    </p>
+  </footer>
+);

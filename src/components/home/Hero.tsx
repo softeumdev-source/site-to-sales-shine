@@ -8,10 +8,11 @@ import { erps } from "./erps";
 
 export const Hero = () => {
   return (
-    <section id="top" className="relative overflow-hidden bg-gradient-hero">
-      <div className="pointer-events-none absolute inset-0 bg-grid bg-grid-fade opacity-30" />
-      <div className="pointer-events-none absolute -right-32 -top-32 h-[520px] w-[520px] animate-blob rounded-full bg-secondary/20 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 -left-32 h-[520px] w-[520px] animate-blob rounded-full bg-accent/20 blur-3xl [animation-delay:3s]" />
+    <section id="top" className="relative -mt-[76px] overflow-hidden bg-background pt-[76px]">
+      {/* fundo: pontos finos + halos de luz atrás da cena */}
+      <div className="pointer-events-none absolute inset-0 [background-image:radial-gradient(hsl(220_30%_70%/0.35)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(70%_60%_at_60%_40%,black,transparent)]" />
+      <div className="pointer-events-none absolute right-[-10%] top-[-10%] h-[700px] w-[700px] rounded-full bg-[radial-gradient(circle,hsl(var(--brand-sky)/0.45),transparent_65%)]" />
+      <div className="pointer-events-none absolute bottom-[-30%] right-[20%] h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,hsl(var(--brand-pink)/0.35),transparent_65%)]" />
 
       <div className="container relative grid items-center gap-10 pb-10 pt-12 md:pt-20 lg:grid-cols-[1fr_1.05fr] lg:gap-6 lg:pb-16">
         <div className="text-center lg:text-left">
@@ -63,7 +64,7 @@ export const Hero = () => {
       </div>
 
       {/* Faixa de ERPs */}
-      <div className="relative border-t border-border/50 bg-background/50 backdrop-blur" id="integracoes">
+      <div className="relative border-t border-border/60 bg-background" id="integracoes">
         <div className="container flex flex-col items-center gap-4 py-7 md:flex-row md:gap-10">
           <p className="shrink-0 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground md:text-left">
             Integra com o ERP
