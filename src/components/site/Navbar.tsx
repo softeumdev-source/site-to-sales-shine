@@ -41,7 +41,7 @@ export const Navbar = () => {
         )}
       >
         <NavLink to="/" className="flex items-center gap-2">
-          <img src={logo} alt="Softeum" width={32} height={32} className="h-8 w-8" />
+          <img src={logo} alt="" width={32} height={32} className="h-8 w-8" />
           <span className="font-display text-lg font-bold tracking-tight">Softeum</span>
         </NavLink>
 

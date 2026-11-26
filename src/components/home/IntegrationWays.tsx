@@ -43,7 +43,7 @@ export const IntegrationWays = () => (
       href={DOCS_URL}
       target="_blank"
       rel="noreferrer"
-      className="group mt-4 inline-flex items-center gap-1 text-sm font-semibold text-foreground hover:underline hover:underline-offset-4"
+      className="group mt-2 inline-flex min-h-[40px] items-center gap-1 text-sm font-semibold text-foreground hover:underline hover:underline-offset-4"
     >
       Documentação técnica
       <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

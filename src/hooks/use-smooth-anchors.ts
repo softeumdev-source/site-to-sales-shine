@@ -66,11 +66,16 @@ export function useSmoothAnchors() {
   useEffect(() => {
     if (!location.hash) return;
     const id = decodeURIComponent(location.hash.slice(1));
-    const t = window.setTimeout(() => {
+    // a seção pode ainda estar carregando: tenta por até ~4 s
+    let tries = 0;
+    const t = window.setInterval(() => {
       const el = document.getElementById(id);
-      if (el) scrollToElement(el, true);
-    }, 60);
-    return () => window.clearTimeout(t);
+      if (el || ++tries > 40) {
+        window.clearInterval(t);
+        if (el) window.setTimeout(() => scrollToElement(el, true), 80);
+      }
+    }, 100);
+    return () => window.clearInterval(t);
   }, [location.pathname, location.hash]);
 }
 

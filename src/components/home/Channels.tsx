@@ -6,6 +6,7 @@ import outlook from "@/assets/brands/outlook.svg";
 import whatsappLogo from "@/assets/brands/whatsapp.svg";
 import { Reveal, RevealHeading, RevealItem, Stagger } from "@/components/site/motion";
 import { useFitScale } from "@/hooks/use-fit-scale";
+import { useViewportHeight } from "@/hooks/use-viewport-height";
 import { cn } from "@/lib/utils";
 import { MAIL_H, MAIL_W, MailWindow } from "./EmailFlow";
 import { PhoneChat } from "./AiSeller";
@@ -95,7 +96,10 @@ export const EmailShowcase = () => {
   const { ref: fitRef, scale } = useFitScale(MAIL_W);
   const compact = scale < 0.72;
   const dw = compact ? 540 : MAIL_W;
-  const s = Math.min(1, (scale * MAIL_W) / dw);
+  // cabe na largura e também na altura da tela (celular deitado, notebook baixo)
+  const vh = useViewportHeight();
+  const reserved = compact ? 150 : 120; // menu + legenda da etapa + respiro
+  const s = Math.max(0.3, Math.min(1, (scale * MAIL_W) / dw, (vh - reserved) / MAIL_H));
   const active = emailStepAt.reduce((acc, at, i) => (p >= at ? i : acc), 0);
 
   return (
@@ -105,7 +109,7 @@ export const EmailShowcase = () => {
         <EmailText />
       </div>
 
-      <div ref={ref} className={cn("relative", !reduce && "h-[300vh]")}>
+      <div ref={ref} className={cn("relative", !reduce && "h-[230vh] lg:h-[300vh]")}>
         <div className={cn("flex items-center", reduce ? "py-16" : "sticky top-0 h-[100svh] pt-16")}>
           <div className="container grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-14">
             <div className="hidden lg:block">
@@ -119,7 +123,7 @@ export const EmailShowcase = () => {
             </div>
 
             <div ref={fitRef} className="relative w-full [overflow:clip] [overflow-clip-margin:30px]" style={{ height: MAIL_H * s }}>
-              <div className="origin-top-left" style={{ width: dw, height: MAIL_H, transform: `scale(${s})` }}>
+              <div className="origin-top-left" style={{ width: dw, height: MAIL_H, transform: `scale(${s})`, marginLeft: Math.max(0, (scale * MAIL_W - dw * s) / 2) }}>
                 <MailWindow p={p} compact={compact} />
               </div>
             </div>
@@ -190,7 +194,7 @@ export const WhatsAppShowcase = () => {
   const active = p < 0.16 ? 0 : p < 0.3 ? 1 : p < 0.66 ? 2 : 3;
 
   return (
-    <section id="whatsapp" className="relative bg-[#f1fbf5]">
+    <section id="whatsapp" className="relative bg-[#f1fbf5] [overflow-x:clip]">
       <div className="pointer-events-none absolute -left-40 top-10 h-[480px] w-[480px] rounded-full bg-[radial-gradient(circle,rgba(37,211,102,.18),transparent_65%)]" />
 
       {/* celular: texto completo antes da conversa */}
@@ -198,7 +202,7 @@ export const WhatsAppShowcase = () => {
         <WaText active={active} />
       </div>
 
-      <div ref={ref} className={cn("relative", !reduce && "h-[320vh]")}>
+      <div ref={ref} className={cn("relative", !reduce && "h-[250vh] lg:h-[320vh]")}>
         <div className={cn("flex items-center", reduce ? "py-16" : "sticky top-0 h-[100svh] pt-16")}>
           <div className="container relative grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
             {/* celular com a conversa */}
