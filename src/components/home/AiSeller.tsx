@@ -160,10 +160,10 @@ export const PhoneChat = ({ p }: { p: number }) => {
       {/* cabeçalho */}
       <div className="flex items-center gap-2 bg-[#008069] px-3 pb-2 pt-7 text-white">
         <ArrowLeft className="h-4 w-4" />
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-xs font-bold">SF</span>
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#00473b] text-xs font-bold">SF</span>
         <div className="min-w-0 flex-1 leading-tight">
           <p className="truncate text-[13px] font-semibold">Sua Empresa · Vendas</p>
-          <p className="text-[10px] text-white/80">{typing ? "digitando…" : "online"}</p>
+          <p className="text-[10px] text-white">{typing ? "digitando…" : "online"}</p>
         </div>
         <Video className="h-4 w-4" />
         <Phone className="h-4 w-4" />
@@ -194,7 +194,7 @@ export const PhoneChat = ({ p }: { p: number }) => {
 
       {/* campo de digitação */}
       <div className="flex items-center gap-2 px-2 pb-4 pt-1">
-        <span className="flex-1 rounded-full bg-white px-3 py-2 text-[12px] text-[#8696a0]">Mensagem</span>
+        <span className="flex-1 rounded-full bg-white px-3 py-2 text-[12px] text-[#5b6b73]">Mensagem</span>
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#00a884] text-white">
           <Mic className="h-4 w-4" />
         </span>

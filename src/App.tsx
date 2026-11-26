@@ -1,9 +1,6 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MotionConfig } from "framer-motion";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index.tsx";
 import GoogleAnalytics from "./components/GoogleAnalytics.tsx";
@@ -17,14 +14,9 @@ const TermosECondicoes = lazy(() => import("./pages/TermosECondicoes.tsx"));
 const PoliticaDeCookies = lazy(() => import("./pages/PoliticaDeCookies.tsx"));
 const Suporte = lazy(() => import("./pages/Suporte.tsx"));
 
-const queryClient = new QueryClient();
-
 const App = () => (
-  <QueryClientProvider client={queryClient}>
     <MotionConfig reducedMotion="user">
-    <TooltipProvider>
       <Toaster />
-      <Sonner />
       <BrowserRouter>
         <GoogleAnalytics />
         <SmoothAnchors />
@@ -44,9 +36,7 @@ const App = () => (
         </Routes>
         </Suspense>
       </BrowserRouter>
-    </TooltipProvider>
     </MotionConfig>
-  </QueryClientProvider>
 );
 
 export default App;

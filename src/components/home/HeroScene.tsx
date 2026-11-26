@@ -147,7 +147,7 @@ export const HeroScene = () => {
                 style={{ left: c.x, top: c.y, transform: `translateZ(${on ? 50 : 20}px) scale(${on ? 1.08 : 1})` }}
               >
                 <div className="animate-[bob_5s_ease-in-out_infinite] [transform-style:preserve-3d]" style={{ animationDelay: `${i * 0.8}s` }}>
-                  <ClayLogo src={c.src} alt={c.name} size={TILE} />
+                  <ClayLogo src={c.src} alt="" size={TILE} />
                 </div>
                 <span
                   className={cn(
